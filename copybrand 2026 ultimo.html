@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CopyBrand — Impresiones a domicilio</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --surface: #181818;
+    --surface2: #212121;
+    --border: #2c2c2c;
+    --orange: #f97316;
+    --orange-dim: #7c3a0e;
+    --orange-glow: rgba(249,115,22,0.12);
+    --text: #ede9e1;
+    --muted: #777;
+    --success: #22c55e;
+    --green-glow: rgba(34,197,94,0.12);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(15,15,15,0.94);
+    backdrop-filter: blur(14px);
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 3px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .logo-mark {
+    width: 30px; height: 30px;
+    background: var(--orange);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .nav-links { display: flex; gap: 24px; align-items: center; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-pill { background: var(--orange); color: #000; font-weight: 700; padding: 7px 18px; border-radius: 100px; text-decoration: none; font-size: 13px; }
+
+  .hero { max-width: 800px; margin: 0 auto; padding: 72px 24px 52px; text-align: center; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--orange-glow); border: 1px solid var(--orange-dim);
+    color: var(--orange); font-size: 12px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 100px; margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(58px, 11vw, 96px);
+    line-height: .92; letter-spacing: .5px; margin-bottom: 18px;
+  }
+  .hero h1 em { color: var(--orange); font-style: normal; }
+  .hero p { color: var(--muted); font-size: 16px; max-width: 440px; margin: 0 auto 32px; }
+  .hero-chips { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .chip { background: var(--surface); border: 1px solid var(--border); border-radius: 100px; padding: 5px 13px; font-size: 12px; color: var(--muted); font-weight: 500; }
+  .chip.hi { border-color: var(--orange-dim); color: var(--orange); background: var(--orange-glow); }
+
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 28px;
+    background: var(--orange); color: #000;
+    font-weight: 700; font-size: 16px;
+    padding: 14px 36px; border-radius: 100px;
+    text-decoration: none; letter-spacing: .3px;
+    transition: opacity .2s, transform .1s;
+    box-shadow: 0 0 32px rgba(249,115,22,.35);
+  }
+  .hero-cta:hover { opacity: .9; transform: translateY(-1px); }
+  .hero-cta:active { transform: scale(.97); }
+
+  .sec-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .upload-area {
+    border: 2px dashed var(--border); border-radius: 16px;
+    padding: 52px 28px; text-align: center; cursor: pointer;
+    transition: border-color .2s, background .2s;
+    background: var(--surface); position: relative;
+  }
+  .upload-area:hover, .upload-area.drag { border-color: var(--orange); background: var(--orange-glow); }
+  .upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .upload-ico { font-size: 40px; margin-bottom: 12px; }
+  .upload-area h3 { font-size: 17px; font-weight: 600; margin-bottom: 5px; }
+  .upload-area p { color: var(--muted); font-size: 13px; }
+  .btn-fake { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; background: var(--orange); color: #000; font-weight: 700; padding: 11px 26px; border-radius: 8px; font-size: 14px; pointer-events: none; }
+
+  .file-info { display: none; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; align-items: center; gap: 14px; }
+  .file-info.show { display: flex; }
+  .file-ico2 { font-size: 26px; }
+  .file-details { flex: 1; }
+  .file-details strong { display: block; font-size: 13px; word-break: break-all; }
+  .file-details small { color: var(--muted); font-size: 11px; }
+  .page-badge { background: var(--orange); color: #000; font-weight: 700; font-size: 12px; padding: 3px 11px; border-radius: 100px; white-space: nowrap; }
+  .page-badge.det { background: var(--surface); border: 1px solid var(--border); color: var(--muted); font-weight: 400; display: inline-flex; align-items: center; gap: 5px; }
+  .remove-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 17px; padding: 4px; transition: color .15s; flex-shrink: 0; }
+  .remove-btn:hover { color: #ef4444; }
+
+  .drive-note { margin-top: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 36px; }
+  .drive-note strong { color: var(--text); }
+
+  .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  @media(max-width:560px){ .config-grid { grid-template-columns: 1fr; } }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+  .card-title { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .opts { display: flex; flex-direction: column; gap: 7px; }
+  .opt { display: flex; align-items: center; gap: 11px; padding: 10px 13px; border-radius: 9px; border: 1.5px solid transparent; cursor: pointer; background: var(--surface2); transition: all .15s; }
+  .opt:hover { border-color: var(--orange-dim); }
+  .opt.active { border-color: var(--orange); background: var(--orange-glow); }
+  .opt input[type=radio] { display: none; }
+  .rdot { width: 15px; height: 15px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: border-color .15s; }
+  .opt.active .rdot { border-color: var(--orange); }
+  .opt.active .rdot::after { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
+  .opt-main { font-size: 13px; font-weight: 500; }
+  .opt-sub { font-size: 11px; color: var(--muted); }
+
+  .qty-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+  .qty-label { font-size: 14px; font-weight: 600; }
+  .qty-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .qty-controls { display: flex; align-items: center; gap: 10px; }
+  .qty-btn { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--surface2); color: var(--text); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .15s; font-family: inherit; }
+  .qty-btn:hover { border-color: var(--orange); }
+  .qty-input { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 8px; color: var(--text); font-size: 18px; font-weight: 700; padding: 4px 10px; width: 72px; text-align: center; font-family: 'DM Sans', sans-serif; }
+  .qty-input:focus { outline: none; border-color: var(--orange); }
+
+  .delivery-tabs { display: flex; gap: 10px; margin-bottom: 12px; }
+  .dtab { flex: 1; padding: 16px 12px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--surface); cursor: pointer; text-align: center; transition: all .15s; }
+  .dtab:hover { border-color: var(--orange-dim); }
+  .dtab.active { border-color: var(--orange); background: var(--orange-glow); }
+  .dtab-icon { font-size: 24px; margin-bottom: 5px; }
+  .dtab-label { font-size: 13px; font-weight: 600; }
+  .dtab-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .dtab.active .dtab-sub { color: var(--orange); }
+  .delivery-panel { display: none; }
+  .delivery-panel.show { display: block; }
+
+  .banner-free { display: flex; align-items: center; gap: 10px; background: var(--green-glow); border: 1px solid rgba(34,197,94,.3); border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--success); font-weight: 500; margin-bottom: 12px; }
+  .banner-cost { display: flex; align-items: center; gap: 8px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 11px 15px; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media(max-width:560px){ .form-grid { grid-template-columns: 1fr; } }
+  .fg { display: flex; flex-direction: column; gap: 5px; }
+  .fg label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  .fg input, .fg textarea { background: var(--surface); border: 1.5px solid var(--border); border-radius: 9px; color: var(--text); font-size: 14px; padding: 10px 14px; font-family: 'DM Sans', sans-serif; transition: border-color .15s; }
+  .fg input:focus, .fg textarea:focus { outline: none; border-color: var(--orange); }
+  .fg input::placeholder, .fg textarea::placeholder { color: var(--muted); }
+
+  .pago-grid { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .pago-opt { flex: 1; min-width: 130px; padding: 16px 14px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--surface); cursor: pointer; text-align: center; transition: all .15s; }
+  .pago-opt:hover { border-color: var(--orange-dim); }
+  .pago-opt.active { border-color: var(--orange); background: var(--orange-glow); }
+  .pago-ico { font-size: 26px; margin-bottom: 6px; }
+  .pago-name { font-size: 13px; font-weight: 600; }
+  .pago-detail { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  .resumen-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 24px; margin-bottom: 12px; }
+  .resumen-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
+  .resumen-ttl { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 5px; }
+  .price-big { font-family: 'Bebas Neue', sans-serif; font-size: 52px; line-height: 1; color: var(--orange); letter-spacing: 1px; }
+  .price-big small { font-size: 16px; color: var(--muted); font-family: 'DM Sans', sans-serif; font-weight: 400; margin-left: 4px; }
+  .tag-green { display: inline-flex; align-items: center; gap: 5px; background: var(--green-glow); border: 1px solid rgba(34,197,94,.3); border-radius: 6px; padding: 3px 10px; font-size: 11px; color: var(--success); font-weight: 600; margin-top: 5px; }
+  .tag-grey { display: inline-flex; align-items: center; gap: 5px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-size: 11px; color: var(--muted); margin-top: 5px; }
+  .r-rows { display: flex; flex-direction: column; gap: 7px; margin-bottom: 20px; }
+  .r-row { display: flex; justify-content: space-between; font-size: 13px; }
+  .r-label { color: var(--muted); }
+  .r-val { font-weight: 500; }
+  .r-div { height: 1px; background: var(--border); margin: 6px 0; }
+
+  .btn-wsp { width: 100%; display: flex; align-items: center; justify-content: center; gap: 11px; background: #25D366; color: #fff; font-weight: 700; font-size: 16px; padding: 16px; border-radius: 12px; border: none; cursor: pointer; transition: filter .2s, transform .1s; font-family: 'DM Sans', sans-serif; text-decoration: none; }
+  .btn-wsp:hover { filter: brightness(1.08); }
+  .btn-wsp:active { transform: scale(.98); }
+  .btn-wsp svg { width: 20px; height: 20px; fill: #fff; flex-shrink: 0; }
+  .wsp-sub { text-align: center; font-size: 12px; color: var(--muted); margin-top: 10px; }
+
+  .price-table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .price-table-wrap table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .price-table-wrap thead th { padding: 12px 18px; text-align: left; color: var(--muted); font-weight: 600; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+  .price-table-wrap thead th:last-child { text-align: right; }
+  .price-table-wrap tbody tr { border-bottom: 1px solid var(--border); }
+  .price-table-wrap tbody tr:last-child { border-bottom: none; }
+  .price-table-wrap tbody td { padding: 11px 18px; }
+  .price-table-wrap tbody td:last-child { text-align: right; font-weight: 700; color: var(--orange); }
+
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 16px 2px; cursor: pointer; font-size: 14px; font-weight: 500; transition: color .15s; }
+  .faq-q:hover { color: var(--orange); }
+  .faq-arr { color: var(--muted); transition: transform .2s; font-size: 14px; }
+  .faq-item.open .faq-arr { transform: rotate(180deg); }
+  .faq-a { display: none; font-size: 13px; color: var(--muted); padding-bottom: 16px; line-height: 1.75; }
+  .faq-item.open .faq-a { display: block; }
+
+  footer { border-top: 1px solid var(--border); padding: 28px; text-align: center; color: var(--muted); font-size: 12px; margin-top: 60px; }
+  footer a { color: var(--orange); text-decoration: none; }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface2); border: 1px solid var(--border); padding: 11px 22px; border-radius: 10px; font-size: 13px; opacity: 0; transition: all .3s; z-index: 999; white-space: nowrap; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .toast.ok { border-color: var(--success); color: var(--success); }
+  .toast.err { border-color: #ef4444; color: #ef4444; }
+
+  .spinner { display: inline-block; width: 11px; height: 11px; border: 2px solid rgba(255,255,255,.15); border-top-color: var(--muted); border-radius: 50%; animation: spin .6s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .sec-gap { margin-bottom: 36px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <div class="logo-mark">🖨️</div>
+    COPYBRAND
+  </div>
+  <div class="nav-links">
+    <a href="#precios">Precios</a>
+    <a href="#faq">FAQ</a>
+    <a href="#pedido" class="nav-pill">Hacer pedido</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">🚚 Enviamos a domicilio</div>
+  <h1>Imprimí y<br>recibí en <em>casa</em></h1>
+  <p>Subí tu archivo, elegí cómo lo querés y te llega. Cotización al instante.</p>
+  <div class="hero-chips">
+    <span class="chip">📄 A4 · A3 · Oficio</span>
+    <span class="chip">🖤 B&amp;N o Color</span>
+    <span class="chip">🧾 Opalina · Adhesivo</span>
+    <span class="chip hi">📦 Envío gratis en Brandsen +100 páginas</span>
+  </div>
+  <a href="#pedido" class="hero-cta">Hacer pedido</a>
+</div>
+
+<main id="pedido">
+
+  <!-- ① ARCHIVO -->
+  <div class="sec-gap">
+    <div class="sec-label">① Archivo a imprimir</div>
+    <div class="upload-area" id="uploadArea">
+      <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png">
+      <div class="upload-ico">📄</div>
+      <h3>Arrastrá o elegí tu archivo</h3>
+      <p>PDF o imagen · Máx. 50MB</p>
+      <div class="btn-fake">☁️ Elegir archivo</div>
+    </div>
+    <div class="file-info" id="fileInfo">
+      <div class="file-ico2" id="fileIco">📄</div>
+      <div class="file-details">
+        <strong id="fileName">—</strong>
+        <small id="fileSize">—</small>
+      </div>
+      <span id="pageBadge" class="page-badge det" style="display:none"></span>
+      <button class="remove-btn" onclick="removeFile()">✕</button>
+    </div>
+    <div class="drive-note">
+      ✅ <strong>El archivo se sube automáticamente</strong> a nuestro Google Drive cuando enviás el pedido. No tenés que hacer nada más — nosotros lo recibimos listo para imprimir.
+    </div>
+  </div>
+
+  <!-- ② CONFIGURAR -->
+  <div class="sec-gap">
+    <div class="sec-label">② Configurar impresión</div>
+    <div class="config-grid">
+
+      <div class="card">
+        <div class="card-title">📐 Tamaño</div>
+        <div class="opts">
+          <label class="opt active" data-group="size" data-val="a4">
+            <input type="radio" name="size" value="a4" checked>
+            <div class="rdot"></div>
+            <div><div class="opt-main">A4</div><div class="opt-sub">210 × 297 mm</div></div>
+          </label>
+          <label class="opt" data-group="size" data-val="a3">
+            <input type="radio" name="size" value="a3">
+            <div class="rdot"></div>
+            <div><div class="opt-main">A3</div><div class="opt-sub">297 × 420 mm</div></div>
+          </label>
+          <label class="opt" data-group="size" data-val="oficio">
+            <input type="radio" name="size" value="oficio">
+            <div class="rdot"></div>
+            <div><div class="opt-main">Oficio</div><div class="opt-sub">216 × 330 mm</div></div>
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🎨 Color</div>
+        <div class="opts">
+          <label class="opt active" data-group="color" data-val="bn">
+            <input type="radio" name="color" value="bn" checked>
+            <div class="rdot"></div>
+            <div><div class="opt-main">Blanco y Negro</div><div class="opt-sub">Más económico</div></div>
+          </label>
+          <label class="opt" data-group="color" data-val="color">
+            <input type="radio" name="color" value="color">
+            <div class="rdot"></div>
+            <div><div class="opt-main">Color</div><div class="opt-sub">Full color</div></div>
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Papel</div>
+        <div class="opts">
+          <label class="opt active" data-group="paper" data-val="comun">
+            <input type="radio" name="paper" value="comun" checked>
+            <div class="rdot"></div>
+            <div><div class="opt-main">Común</div><div class="opt-sub">75 g/m²</div></div>
+          </label>
+          <label class="opt" data-group="paper" data-val="opalina">
+            <input type="radio" name="paper" value="opalina">
+            <div class="rdot"></div>
+            <div><div class="opt-main">Opalina</div><div class="opt-sub">160 g/m² · Satinado</div></div>
+          </label>
+          <label class="opt" data-group="paper" data-val="ilustracion200">
+            <input type="radio" name="paper" value="ilustracion200">
+            <div class="rdot"></div>
+            <div><div class="opt-main">Ilustración 200g</div><div class="opt-sub">200 g/m² · Mate premium</div></div>
+          </label>
+          <label class="opt" data-group="paper" data-val="ilustracion300">
+            <input type="radio" name="paper" value="ilustracion300">
+            <div class="rdot"></div>
+            <div><div class="opt-main">Ilustración 300g</div><div class="opt-sub">300 g/m² · Tapa / presentación</div></div>
+          </label>
+          <label class="opt" data-group="paper" data-val="adhesivo">
+            <input type="radio" name="paper" value="adhesivo">
+            <div class="rdot"></div>
+            <div><div class="opt-main">Adhesivo</div><div class="opt-sub">Papel autoadhesivo</div></div>
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📑 Caras</div>
+        <div class="opts">
+          <label class="opt active" data-group="sides" data-val="simple">
+            <input type="radio" name="sides" value="simple" checked>
+            <div class="rdot"></div>
+            <div><div class="opt-main">Simple faz</div><div class="opt-sub">Un solo lado</div></div>
+          </label>
+          <label class="opt" data-group="sides" data-val="doble">
+            <input type="radio" name="sides" value="doble">
+            <div class="rdot"></div>
+            <div><div class="opt-main">Doble faz</div><div class="opt-sub">Ambos lados — ahorrás papel</div></div>
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="qty-card">
+      <div>
+        <div class="qty-label">Cantidad de copias</div>
+        <div class="qty-sub" id="qty-sub">1 copia del archivo completo</div>
+      </div>
+      <div class="qty-controls">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <input class="qty-input" id="qtyInput" type="number" value="1" min="1" max="9999" oninput="onQtyInput()">
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ ENTREGA -->
+  <div class="sec-gap">
+    <div class="sec-label">③ Entrega</div>
+    <div class="delivery-tabs">
+      <div class="dtab active" id="dtab-envio" onclick="setDelivery('envio')">
+        <div class="dtab-icon">📦</div>
+        <div class="dtab-label">Envío a domicilio</div>
+        <div class="dtab-sub">Gratis +100 páginas</div>
+      </div>
+      <div class="dtab" id="dtab-retiro" onclick="setDelivery('retiro')">
+        <div class="dtab-icon">🏪</div>
+        <div class="dtab-label">Retiro en local</div>
+        <div class="dtab-sub">Sin costo extra</div>
+      </div>
+    </div>
+
+    <div class="delivery-panel show" id="panel-envio">
+      <div id="envio-banner" class="banner-cost">
+        📦 Enviamos dentro de la zona de <strong style="color:var(--text);">Brandsen</strong>. Costo a confirmar por WhatsApp. <strong style="color:var(--text);margin-left:4px;">Gratis a partir de 100 páginas.</strong>
+      </div>
+      <div class="card">
+        <div class="form-grid">
+          <div class="fg"><label>Calle y número *</label><input type="text" id="addr-street" placeholder="Av. Corrientes 1234"></div>
+          <div class="fg"><label>Piso / Depto</label><input type="text" id="addr-floor" placeholder="3° B (opcional)"></div>
+          <div class="fg"><label>Barrio / Localidad *</label><input type="text" id="addr-city" placeholder="Palermo, CABA"></div>
+          <div class="fg"><label>Código Postal</label><input type="text" id="addr-cp" placeholder="C1414"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="delivery-panel" id="panel-retiro">
+      <div class="card" style="font-size:14px;color:var(--muted);line-height:1.8;">
+        📍 <strong style="color:var(--text);">Retiro sin cargo</strong> en nuestro local. Te avisamos por WhatsApp cuando esté listo.<br>
+        <span style="font-size:12px;">🕐 Lun a Vie 9–19hs · Sáb 9–14hs</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ TUS DATOS -->
+  <div class="sec-gap">
+    <div class="sec-label">④ Tus datos</div>
+    <div class="card">
+      <div class="form-grid">
+        <div class="fg"><label>Tu nombre *</label><input type="text" id="contact-name" placeholder="Nombre y apellido"></div>
+        <div class="fg"><label>Tu WhatsApp *</label><input type="tel" id="contact-phone" placeholder="11 4567-8901"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ PAGO -->
+  <div class="sec-gap">
+    <div class="sec-label">⑤ Forma de pago</div>
+    <div class="pago-grid">
+      <div class="pago-opt active" onclick="setPago(this,'transferencia')">
+        <div class="pago-ico">🏦</div>
+        <div class="pago-name">Transferencia</div>
+        <div class="pago-detail">CBU / Alias</div>
+      </div>
+      <div class="pago-opt" onclick="setPago(this,'mercadopago')">
+        <div class="pago-ico">💙</div>
+        <div class="pago-name">Mercado Pago</div>
+        <div class="pago-detail">Link de pago</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑥ NOTAS -->
+  <div class="sec-gap">
+    <div class="sec-label">⑥ Aclaraciones (opcional)</div>
+    <div class="fg">
+      <textarea id="notes" rows="3" placeholder="Anillado, abrochado, páginas específicas, orientación, páginas en color y otras en B&N..."></textarea>
+    </div>
+  </div>
+
+  <!-- RESUMEN -->
+  <div class="sec-label">Resumen del pedido</div>
+  <div class="resumen-card">
+    <div class="resumen-header">
+      <div>
+        <div class="resumen-ttl">Total estimado</div>
+        <div class="price-big" id="priceTotal">$0<small>ARS</small></div>
+        <div id="envio-tag-wrap"></div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px;letter-spacing:1px;text-transform:uppercase;">Hojas totales</div>
+        <div style="font-size:36px;font-family:'Bebas Neue',sans-serif;letter-spacing:1px;" id="totalSheets">—</div>
+        <div style="font-size:11px;color:var(--muted);" id="sheetBreak">—</div>
+      </div>
+    </div>
+    <div class="r-rows">
+      <div class="r-row"><span class="r-label">Páginas detectadas</span><span class="r-val" id="r-pages">Sin archivo</span></div>
+      <div class="r-row"><span class="r-label">Copias</span><span class="r-val" id="r-copies">1</span></div>
+      <div class="r-div"></div>
+      <div class="r-row"><span class="r-label">Tamaño</span><span class="r-val" id="r-size">A4</span></div>
+      <div class="r-row"><span class="r-label">Color</span><span class="r-val" id="r-color">Blanco y Negro</span></div>
+      <div class="r-row"><span class="r-label">Papel</span><span class="r-val" id="r-paper">Común</span></div>
+      <div class="r-row"><span class="r-label">Caras</span><span class="r-val" id="r-sides">Simple faz</span></div>
+      <div class="r-div"></div>
+      <div class="r-row"><span class="r-label">Precio por hoja</span><span class="r-val" id="r-unit">—</span></div>
+      <div class="r-row"><span class="r-label">Entrega</span><span class="r-val" id="r-delivery">Envío a domicilio</span></div>
+      <div class="r-row"><span class="r-label">Pago</span><span class="r-val" id="r-pago">Transferencia / CBU</span></div>
+    </div>
+    <a href="#" class="btn-wsp" onclick="sendWhatsApp(event)">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Enviar pedido por WhatsApp
+    </a>
+    <p class="wsp-sub">Te confirmamos y enviamos el link de pago + Drive para tu archivo 🙌</p>
+  </div>
+
+  <!-- PRECIOS -->
+  <div style="margin-top:52px;" id="precios">
+    <div class="sec-label">Precios de referencia</div>
+    <div class="price-table-wrap">
+      <table>
+        <thead><tr><th>Tipo de impresión</th><th>Precio / hoja</th></tr></thead>
+        <tbody id="priceTable"></tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;">
+      Precios en ARS · <span id="priceDate"></span> · Sujetos a actualización
+    </p>
+  </div>
+
+  <!-- FAQ -->
+  <div style="margin-top:52px;" id="faq">
+    <div class="sec-label">Preguntas frecuentes</div>
+
+    <div class="faq-item open">
+      <div class="faq-q" onclick="toggleFaq(this)">¿Cómo les llega mi archivo? <span class="faq-arr">▾</span></div>
+      <div class="faq-a">Cuando tocás "Enviar pedido", el archivo se sube automáticamente a nuestro Google Drive con calidad original. Nos llega con tu nombre y la fecha, listo para imprimir. No necesitás hacer nada más — no hay paso doble ni mandarlo por WhatsApp (que comprimiría la calidad).</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">¿El envío es siempre gratis? <span class="faq-arr">▾</span></div>
+      <div class="faq-a">El envío es gratis para pedidos de 100 hojas o más dentro de la zona de Brandsen. Para pedidos menores, el costo es mínimo y lo coordinamos por WhatsApp antes de que confirmes. No te va a sorprender ningún cobro extra.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">¿Cuánto tarda en llegar? <span class="faq-arr">▾</span></div>
+      <div class="faq-a">Pedidos estándar: generalmente en el día o al día siguiente. Pedidos grandes con terminaciones especiales (anillado, plastificado) pueden tardar 24–48hs. Te confirmamos el tiempo exacto al aceptar el pedido.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">¿Puedo pedir sin subir archivo todavía? <span class="faq-arr">▾</span></div>
+      <div class="faq-a">Sí. Completá el formulario sin archivo y coordinamos por WhatsApp. Tené en cuenta que si no sabés la cantidad exacta de páginas, la cotización puede ajustarse un poco. Siempre confirmamos el precio antes de imprimir.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">¿Hacen anillado, abrochado o plastificado? <span class="faq-arr">▾</span></div>
+      <div class="faq-a">¡Sí! Anotalo en el campo de aclaraciones y te cotizamos todo junto. Trabajamos con anillado espiral, encuadernación térmica, plastificado mate/brillo y abrochado.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">¿Qué pasa si mi PDF tiene páginas en color y otras en B&N? <span class="faq-arr">▾</span></div>
+      <div class="faq-a">Perfectamente. Indicalo en las aclaraciones (ej: "páginas 1–5 color, resto B&N") y hacemos la cotización mixta. Es bastante más económico que pedir todo a color.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">¿Cómo pago? <span class="faq-arr">▾</span></div>
+      <div class="faq-a">Aceptamos transferencia bancaria (CBU/Alias) y Mercado Pago. Te enviamos los datos o link de pago por WhatsApp al confirmar el pedido. El pago se realiza antes del envío.</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>© 2025 CopyBrand · Impresiones a domicilio en Brandsen · <a href="https://wa.me/542223500935">Escribinos por WhatsApp</a></p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// =====================================================
+//  ⬇️  EDITÁ SOLO ESTOS VALORES
+// =====================================================
+const WSP_NUMBER            = "542223500935";    // CopyBrand Brandsen
+const DRIVE_LINK            = "https://drive.google.com/drive/folders/1XNepDZzhemgqr15KWMdsGwauxOXOiZpn?usp=sharing";
+const ENVIO_GRATIS_DESDE    = 100;               // hojas mínimas para envío gratis
+
+const PRECIOS = {
+  a4:     { bn: { comun:35, opalina:90, adhesivo:120, ilustracion200:150, ilustracion300:190 }, color: { comun:95, opalina:180, adhesivo:220, ilustracion200:250, ilustracion300:310 } },
+  a3:     { bn: { comun:65, opalina:160, adhesivo:200, ilustracion200:260, ilustracion300:330 }, color: { comun:180, opalina:300, adhesivo:380, ilustracion200:420, ilustracion300:520 } },
+  oficio: { bn: { comun:35, opalina:90, adhesivo:120, ilustracion200:150, ilustracion300:190 }, color: { comun:95, opalina:180, adhesivo:220, ilustracion200:250, ilustracion300:310 } }
+};
+// =====================================================
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+const state = {
+  pages:null, copies:1,
+  size:'a4', color:'bn', paper:'comun', sides:'simple',
+  delivery:'envio', pago:'transferencia',
+  fileName:null, driveUrl:null, rawFile:null
+};
+
+const LBL = {
+  size:  {a4:'A4', a3:'A3', oficio:'Oficio'},
+  color: {bn:'Blanco y Negro', color:'Color'},
+  paper: {comun:'Comun', opalina:'Opalina', adhesivo:'Adhesivo', ilustracion200:'Ilustracion 200g', ilustracion300:'Ilustracion 300g'},
+  sides: {simple:'Simple faz', doble:'Doble faz'},
+  pago:  {transferencia:'Transferencia / CBU', mercadopago:'Mercado Pago'}
+};
+
+// ⬇️ URL del Google Apps Script desplegado (la reemplazás después del paso 2)
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrRZGZJEwrwji_ztxfEE9JHja2rkDeYEd9bTr6_GeVYWkmGghnY5f7OekG4i_8MQ47/exec";
+
+// FILE
+const uploadArea = document.getElementById('uploadArea');
+const fileInput  = document.getElementById('fileInput');
+uploadArea.addEventListener('dragover', e=>{e.preventDefault();uploadArea.classList.add('drag');});
+uploadArea.addEventListener('dragleave', ()=>uploadArea.classList.remove('drag'));
+uploadArea.addEventListener('drop', e=>{e.preventDefault();uploadArea.classList.remove('drag');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0]);});
+fileInput.addEventListener('change', ()=>{if(fileInput.files[0])handleFile(fileInput.files[0]);});
+
+async function handleFile(file) {
+  state.fileName = file.name;
+  state.pages    = null;
+  state.driveUrl = null;
+  state.rawFile  = file; // guardamos el archivo para subirlo al enviar
+
+  document.getElementById('fileName').textContent = file.name;
+  document.getElementById('fileSize').textContent = fmtSz(file.size);
+  document.getElementById('fileIco').textContent  = file.name.toLowerCase().endsWith('.pdf') ? '📄' : '🖼️';
+
+  const badge = document.getElementById('pageBadge');
+  badge.style.display = 'inline-flex';
+  badge.className     = 'page-badge det';
+  badge.innerHTML     = '<span class="spinner"></span>&nbsp;Detectando páginas...';
+
+  document.getElementById('fileInfo').classList.add('show');
+  uploadArea.style.display = 'none';
+
+  // Detectar páginas si es PDF
+  if (file.name.toLowerCase().endsWith('.pdf')) {
+    try {
+      const pdf   = await pdfjsLib.getDocument({data: await file.arrayBuffer()}).promise;
+      state.pages = pdf.numPages;
+      badge.className   = 'page-badge';
+      badge.textContent = pdf.numPages + ' páginas';
+    } catch(e) {
+      badge.className   = 'page-badge det';
+      badge.textContent = 'PDF no legible';
+    }
+  } else {
+    state.pages       = 1;
+    badge.className   = 'page-badge';
+    badge.textContent = '1 imagen';
+  }
+  updateAll();
+}
+
+function removeFile() {
+  state.fileName=null; state.pages=null; state.driveUrl=null; state.rawFile=null;
+  fileInput.value='';
+  document.getElementById('fileInfo').classList.remove('show');
+  uploadArea.style.display='';
+  updateAll();
+}
+function fmtSz(b){return b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB';}
+
+// SUBIR ARCHIVO AL DRIVE vía Apps Script
+async function subirArchivoDrive(file, clienteName) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+      try {
+        // base64 sin el prefijo "data:...;base64,"
+        const base64 = e.target.result.split(',')[1];
+        const payload = {
+          fileName : file.name,
+          mimeType : file.type || 'application/octet-stream',
+          file     : base64,
+          cliente  : clienteName
+        };
+        const res  = await fetch(APPS_SCRIPT_URL, {
+          method : 'POST',
+          body   : JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.ok) resolve(data.fileUrl);
+        else reject(data.error || 'Error desconocido');
+      } catch(err) { reject(err.toString()); }
+    };
+    reader.onerror = () => reject('Error al leer el archivo');
+    reader.readAsDataURL(file);
+  });
+}
+
+// OPTIONS
+document.querySelectorAll('.opt').forEach(o=>{
+  o.addEventListener('click',function(){
+    const g=this.dataset.group,v=this.dataset.val;
+    document.querySelectorAll(`.opt[data-group="${g}"]`).forEach(x=>x.classList.remove('active'));
+    this.classList.add('active'); this.querySelector('input').checked=true;
+    state[g]=v; updateAll();
+  });
+});
+
+// QTY
+function changeQty(d){
+  let v=Math.max(1,parseInt(document.getElementById('qtyInput').value||1)+d);
+  document.getElementById('qtyInput').value=v; state.copies=v; updateAll();
+}
+function onQtyInput(){state.copies=Math.max(1,parseInt(document.getElementById('qtyInput').value)||1);updateAll();}
+
+// DELIVERY
+function setDelivery(t){
+  state.delivery=t;
+  document.getElementById('dtab-envio').classList.toggle('active',t==='envio');
+  document.getElementById('dtab-retiro').classList.toggle('active',t==='retiro');
+  document.getElementById('panel-envio').classList.toggle('show',t==='envio');
+  document.getElementById('panel-retiro').classList.toggle('show',t==='retiro');
+  updateAll();
+}
+
+// PAGO
+function setPago(el,val){
+  document.querySelectorAll('.pago-opt').forEach(o=>o.classList.remove('active'));
+  el.classList.add('active'); state.pago=val; updateAll();
+}
+
+// CALC
+function calc(){
+  const unit = PRECIOS[state.size]?.[state.color]?.[state.paper] || 0;
+  const pages = state.pages || 1;
+  const caras = state.sides==='doble' ? 2 : 1;
+  const sheets = Math.ceil(pages/caras);
+  const totalSheets = sheets * state.copies;
+  const total = unit * totalSheets;
+  const freeShipping = state.delivery==='envio' && totalSheets >= ENVIO_GRATIS_DESDE;
+  return {unit,pages,sheets,totalSheets,total,freeShipping};
+}
+
+// UPDATE
+function updateAll(){
+  const {unit,sheets,totalSheets,total,freeShipping} = calc();
+
+  document.getElementById('priceTotal').innerHTML = `$${total.toLocaleString('es-AR')}<small>ARS</small>`;
+  document.getElementById('totalSheets').textContent = totalSheets;
+  document.getElementById('sheetBreak').textContent = state.pages
+    ? `${sheets} h. × ${state.copies} ${state.copies>1?'copias':'copia'}`
+    : 'Ingresá un archivo';
+  document.getElementById('qty-sub').textContent = state.pages
+    ? `${state.copies} ${state.copies>1?'copias':'copia'} x ${sheets} pagina${sheets!==1?'s':''} = ${totalSheets} total`
+    : `${state.copies} ${state.copies>1?'copias':'copia'}`;
+
+  // envío tag
+  const wrap = document.getElementById('envio-tag-wrap');
+  if(state.delivery==='envio'){
+    if(freeShipping) wrap.innerHTML='<span class="tag-green">Envio gratis incluido</span>';
+    else {
+      const faltan = ENVIO_GRATIS_DESDE - totalSheets;
+      wrap.innerHTML=`<span class="tag-grey">Faltan ${faltan} paginas para envio gratis</span>`;
+    }
+  } else {
+    wrap.innerHTML='<span class="tag-grey">Retiro sin cargo</span>';
+  }
+
+  // banner dentro del panel
+  const banner = document.getElementById('envio-banner');
+  if(freeShipping){
+    banner.className='banner-free';
+    banner.innerHTML=`Envio gratis! Tu pedido supera las ${ENVIO_GRATIS_DESDE} paginas.`;
+  } else {
+    banner.className='banner-cost';
+    banner.innerHTML=`Enviamos dentro de la zona de <strong style="color:var(--text);">Brandsen</strong>. Costo a confirmar por WhatsApp. <strong style="color:var(--text);margin-left:4px;">Gratis a partir de ${ENVIO_GRATIS_DESDE} paginas.</strong>`;
+  }
+
+  // resumen rows
+  document.getElementById('r-pages').textContent   = state.pages ? `${state.pages} págs.` : 'Sin archivo';
+  document.getElementById('r-copies').textContent  = state.copies;
+  document.getElementById('r-size').textContent    = LBL.size[state.size];
+  document.getElementById('r-color').textContent   = LBL.color[state.color];
+  document.getElementById('r-paper').textContent   = LBL.paper[state.paper];
+  document.getElementById('r-sides').textContent   = LBL.sides[state.sides];
+  document.getElementById('r-unit').textContent    = `$${unit.toLocaleString('es-AR')}/hoja`;
+  document.getElementById('r-pago').textContent    = LBL.pago[state.pago];
+  document.getElementById('r-delivery').textContent = state.delivery==='envio'
+    ? (freeShipping ? 'Envío a domicilio (gratis ✅)' : 'Envío a domicilio (costo a confirmar)')
+    : 'Retiro en local';
+}
+
+// WHATSAPP — sube archivo primero, luego abre WhatsApp
+async function sendWhatsApp(e){
+  e.preventDefault();
+  const name  = document.getElementById('contact-name').value.trim();
+  const phone = document.getElementById('contact-phone').value.trim();
+  const notes = document.getElementById('notes').value.trim();
+
+  if(!name||!phone){showToast('Completa tu nombre y WhatsApp','err');return;}
+  if(state.delivery==='envio'){
+    if(!document.getElementById('addr-street').value.trim()||!document.getElementById('addr-city').value.trim()){
+      showToast('Completa la direccion de envio','err');return;
+    }
+  }
+
+  const {unit,totalSheets,total,freeShipping}=calc();
+  let direccion='';
+  if(state.delivery==='envio'){
+    const s=document.getElementById('addr-street').value.trim();
+    const f=document.getElementById('addr-floor').value.trim();
+    const c=document.getElementById('addr-city').value.trim();
+    const p=document.getElementById('addr-cp').value.trim();
+    direccion=[s,f,c,p].filter(Boolean).join(', ');
+  }
+
+  // --- SUBIDA AL DRIVE ---
+  let archivoTxt = 'Archivo: Sin archivo adjunto - coordinamos por aca';
+
+  if (state.rawFile) {
+    const btn = document.querySelector('.btn-wsp');
+    btn.innerHTML = '<span class="spinner" style="border-top-color:#fff"></span> Subiendo archivo...';
+    btn.style.pointerEvents = 'none';
+
+    try {
+      const driveUrl  = await subirArchivoDrive(state.rawFile, name);
+      state.driveUrl  = driveUrl;
+      archivoTxt = 'Archivo: ' + state.fileName + ' (' + (state.pages ? state.pages+' paginas' : 'imagen') + ')\nLink Drive: ' + driveUrl;
+      showToast('Archivo subido al Drive!','ok');
+    } catch(err) {
+      archivoTxt = 'Archivo: ' + state.fileName + ' - No se pudo subir automaticamente, lo coordinamos por WhatsApp';
+      showToast('El archivo no se pudo subir, igual enviamos el pedido','err');
+    }
+
+    btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#fff;flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Enviar pedido por WhatsApp';
+    btn.style.pointerEvents = 'auto';
+  }
+
+  const entregaTxt = state.delivery==='retiro'
+    ? 'Retiro en local (sin costo)'
+    : freeShipping
+      ? 'Envio a domicilio - GRATIS (mas de '+ENVIO_GRATIS_DESDE+' paginas)\nDireccion: '+direccion
+      : 'Envio a domicilio en Brandsen - costo a confirmar\nDireccion: '+direccion;
+
+  const pagoTxt = LBL.pago[state.pago];
+  const notasTxt = notes ? '\nAclaraciones: ' + notes : '';
+
+  const lineas = [
+    'NUEVO PEDIDO - COPYBRAND',
+    '',
+    'Cliente: ' + name,
+    'WhatsApp: ' + phone,
+    '',
+    archivoTxt,
+    '',
+    'CONFIGURACION:',
+    'Tamanio: '   + LBL.size[state.size],
+    'Color: '     + LBL.color[state.color],
+    'Papel: '     + LBL.paper[state.paper],
+    'Caras: '     + LBL.sides[state.sides],
+    'Copias: '    + state.copies,
+    'Total paginas: ' + totalSheets,
+    '',
+    entregaTxt,
+    '',
+    'Pago: ' + pagoTxt,
+    '',
+    'COTIZACION:',
+    'Precio por pagina: $' + unit.toLocaleString('es-AR'),
+    'Total (' + totalSheets + ' pag.): $' + total.toLocaleString('es-AR') + ' ARS' + (state.delivery==='envio'&&!freeShipping ? ' + envio a confirmar' : ''),
+    notasTxt,
+    '',
+    'Pedido desde copybrand.com'
+  ];
+
+  const msg = lineas.join('\n');
+  const url  = 'https://wa.me/' + WSP_NUMBER + '?text=' + encodeURIComponent(msg);
+
+  // Funciona en celular Y escritorio
+  window.location.href = url;
+}
+
+// PRICE TABLE
+function buildPriceTable(){
+  const rows=[
+    ['A4 · Blanco y Negro · Comun',        PRECIOS.a4.bn.comun],
+    ['A4 · Color · Comun',                  PRECIOS.a4.color.comun],
+    ['A4 · B&N · Opalina',                  PRECIOS.a4.bn.opalina],
+    ['A4 · Color · Opalina',                PRECIOS.a4.color.opalina],
+    ['A4 · B&N · Ilustracion 200g',         PRECIOS.a4.bn.ilustracion200],
+    ['A4 · Color · Ilustracion 200g',       PRECIOS.a4.color.ilustracion200],
+    ['A4 · B&N · Ilustracion 300g',         PRECIOS.a4.bn.ilustracion300],
+    ['A4 · Color · Ilustracion 300g',       PRECIOS.a4.color.ilustracion300],
+    ['A4 · B&N · Adhesivo',                 PRECIOS.a4.bn.adhesivo],
+    ['A4 · Color · Adhesivo',               PRECIOS.a4.color.adhesivo],
+    ['A3 · Blanco y Negro · Comun',         PRECIOS.a3.bn.comun],
+    ['A3 · Color · Comun',                  PRECIOS.a3.color.comun],
+  ];
+  document.getElementById('priceTable').innerHTML=rows.map(([l,p])=>
+    `<tr><td>${l}</td><td>$${p.toLocaleString('es-AR')}</td></tr>`
+  ).join('');
+  document.getElementById('priceDate').textContent=new Date().toLocaleDateString('es-AR',{month:'long',year:'numeric'});
+}
+
+function toggleFaq(el){el.parentElement.classList.toggle('open');}
+
+function showToast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className=`toast ${type} show`;
+  setTimeout(()=>t.className='toast',3000);
+}
+
+buildPriceTable();
+updateAll();
+</script>
+</body>
+</html>
