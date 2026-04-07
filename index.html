@@ -62,9 +62,8 @@
     font-size: 16px;
   }
   .nav-links { display: flex; gap: 24px; align-items: center; }
-  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: color .2s; }
-  .nav-links a:hover { color: var(--text); }
-  .nav-pill { background: var(--orange); color: #000; font-weight: 700; padding: 7px 18px; border-radius: 100px; text-decoration: none; font-size: 13px; }
+  .nav-links a { color: var(--text); text-decoration: none; font-size: 13px; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover { color: var(--orange); }
 
   .hero { max-width: 800px; margin: 0 auto; padding: 72px 24px 52px; text-align: center; }
   .hero-badge {
@@ -246,7 +245,6 @@
   <div class="nav-links">
     <a href="#precios">Precios</a>
     <a href="#faq">FAQ</a>
-    <a href="#pedido" class="nav-pill">Hacer pedido</a>
   </div>
 </nav>
 
@@ -254,12 +252,6 @@
   <div class="hero-badge">🚚 Enviamos a domicilio</div>
   <h1>Imprimí y<br>recibí en <em>casa</em></h1>
   <p>Subí tu archivo, elegí cómo lo querés y te llega. Cotización al instante.</p>
-  <div class="hero-chips">
-    <span class="chip">📄 A4 · A3 · Oficio</span>
-    <span class="chip">🖤 B&amp;N o Color</span>
-    <span class="chip">🧾 Opalina · Adhesivo</span>
-    <span class="chip hi">📦 Envío gratis en Brandsen +100 páginas</span>
-  </div>
   <a href="#pedido" class="hero-cta">Hacer pedido</a>
 </div>
 
@@ -267,25 +259,17 @@
 
   <!-- ① ARCHIVO -->
   <div class="sec-gap">
-    <div class="sec-label">① Archivo a imprimir</div>
+    <div class="sec-label">① Archivos a imprimir</div>
     <div class="upload-area" id="uploadArea">
-      <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png">
+      <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" multiple>
       <div class="upload-ico">📄</div>
-      <h3>Arrastrá o elegí tu archivo</h3>
-      <p>PDF o imagen · Máx. 50MB</p>
-      <div class="btn-fake">☁️ Elegir archivo</div>
+      <h3>Arrastrá o elegí tus archivos</h3>
+      <p>PDF o imagen · Varios archivos · Máx. 50MB c/u</p>
+      <div class="btn-fake">☁️ Elegir archivos</div>
     </div>
-    <div class="file-info" id="fileInfo">
-      <div class="file-ico2" id="fileIco">📄</div>
-      <div class="file-details">
-        <strong id="fileName">—</strong>
-        <small id="fileSize">—</small>
-      </div>
-      <span id="pageBadge" class="page-badge det" style="display:none"></span>
-      <button class="remove-btn" onclick="removeFile()">✕</button>
-    </div>
+    <div id="fileList"></div>
     <div class="drive-note">
-      ✅ <strong>El archivo se sube automáticamente</strong> a nuestro Google Drive cuando enviás el pedido. No tenés que hacer nada más — nosotros lo recibimos listo para imprimir.
+      ✅ <strong>Los archivos se suben automáticamente</strong> a nuestro Google Drive cuando enviás el pedido. No tenés que hacer nada más — nosotros los recibimos listos para imprimir.
     </div>
   </div>
 
@@ -477,7 +461,7 @@
         <div id="envio-tag-wrap"></div>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:11px;color:var(--muted);margin-bottom:4px;letter-spacing:1px;text-transform:uppercase;">Hojas totales</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px;letter-spacing:1px;text-transform:uppercase;">Paginas totales</div>
         <div style="font-size:36px;font-family:'Bebas Neue',sans-serif;letter-spacing:1px;" id="totalSheets">—</div>
         <div style="font-size:11px;color:var(--muted);" id="sheetBreak">—</div>
       </div>
@@ -491,7 +475,7 @@
       <div class="r-row"><span class="r-label">Papel</span><span class="r-val" id="r-paper">Común</span></div>
       <div class="r-row"><span class="r-label">Caras</span><span class="r-val" id="r-sides">Simple faz</span></div>
       <div class="r-div"></div>
-      <div class="r-row"><span class="r-label">Precio por hoja</span><span class="r-val" id="r-unit">—</span></div>
+      <div class="r-row"><span class="r-label">Precio por pagina</span><span class="r-val" id="r-unit">—</span></div>
       <div class="r-row"><span class="r-label">Entrega</span><span class="r-val" id="r-delivery">Envío a domicilio</span></div>
       <div class="r-row"><span class="r-label">Pago</span><span class="r-val" id="r-pago">Transferencia / CBU</span></div>
     </div>
@@ -507,7 +491,7 @@
     <div class="sec-label">Precios de referencia</div>
     <div class="price-table-wrap">
       <table>
-        <thead><tr><th>Tipo de impresión</th><th>Precio / hoja</th></tr></thead>
+        <thead><tr><th>Tipo de impresion</th><th>Precio / pagina</th></tr></thead>
         <tbody id="priceTable"></tbody>
       </table>
     </div>
@@ -576,10 +560,9 @@ const PRECIOS = {
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 const state = {
-  pages:null, copies:1,
+  files:[], pages:null, copies:1,
   size:'a4', color:'bn', paper:'comun', sides:'simple',
-  delivery:'envio', pago:'transferencia',
-  fileName:null, driveUrl:null, rawFile:null
+  delivery:'envio', pago:'transferencia'
 };
 
 const LBL = {
@@ -593,58 +576,72 @@ const LBL = {
 // ⬇️ URL del Google Apps Script desplegado (la reemplazás después del paso 2)
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrRZGZJEwrwji_ztxfEE9JHja2rkDeYEd9bTr6_GeVYWkmGghnY5f7OekG4i_8MQ47/exec";
 
-// FILE
+// MULTI-FILE
 const uploadArea = document.getElementById('uploadArea');
 const fileInput  = document.getElementById('fileInput');
 uploadArea.addEventListener('dragover', e=>{e.preventDefault();uploadArea.classList.add('drag');});
 uploadArea.addEventListener('dragleave', ()=>uploadArea.classList.remove('drag'));
-uploadArea.addEventListener('drop', e=>{e.preventDefault();uploadArea.classList.remove('drag');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0]);});
-fileInput.addEventListener('change', ()=>{if(fileInput.files[0])handleFile(fileInput.files[0]);});
-
-async function handleFile(file) {
-  state.fileName = file.name;
-  state.pages    = null;
-  state.driveUrl = null;
-  state.rawFile  = file; // guardamos el archivo para subirlo al enviar
-
-  document.getElementById('fileName').textContent = file.name;
-  document.getElementById('fileSize').textContent = fmtSz(file.size);
-  document.getElementById('fileIco').textContent  = file.name.toLowerCase().endsWith('.pdf') ? '📄' : '🖼️';
-
-  const badge = document.getElementById('pageBadge');
-  badge.style.display = 'inline-flex';
-  badge.className     = 'page-badge det';
-  badge.innerHTML     = '<span class="spinner"></span>&nbsp;Detectando páginas...';
-
-  document.getElementById('fileInfo').classList.add('show');
-  uploadArea.style.display = 'none';
-
-  // Detectar páginas si es PDF
-  if (file.name.toLowerCase().endsWith('.pdf')) {
-    try {
-      const pdf   = await pdfjsLib.getDocument({data: await file.arrayBuffer()}).promise;
-      state.pages = pdf.numPages;
-      badge.className   = 'page-badge';
-      badge.textContent = pdf.numPages + ' páginas';
-    } catch(e) {
-      badge.className   = 'page-badge det';
-      badge.textContent = 'PDF no legible';
-    }
-  } else {
-    state.pages       = 1;
-    badge.className   = 'page-badge';
-    badge.textContent = '1 imagen';
-  }
-  updateAll();
-}
-
-function removeFile() {
-  state.fileName=null; state.pages=null; state.driveUrl=null; state.rawFile=null;
+uploadArea.addEventListener('drop', e=>{
+  e.preventDefault(); uploadArea.classList.remove('drag');
+  if(e.dataTransfer.files.length) addFiles(Array.from(e.dataTransfer.files));
+});
+fileInput.addEventListener('change', ()=>{
+  if(fileInput.files.length) addFiles(Array.from(fileInput.files));
   fileInput.value='';
-  document.getElementById('fileInfo').classList.remove('show');
-  uploadArea.style.display='';
+});
+
+async function addFiles(newFiles) {
+  for (const file of newFiles) {
+    // evitar duplicados por nombre
+    if (state.files.find(f=>f.name===file.name)) continue;
+    const entry = { name: file.name, size: file.size, pages: null, raw: file };
+    state.files.push(entry);
+    renderFileList();
+    // detectar páginas
+    if (file.name.toLowerCase().endsWith('.pdf')) {
+      try {
+        const pdf = await pdfjsLib.getDocument({data: await file.arrayBuffer()}).promise;
+        entry.pages = pdf.numPages;
+      } catch(e) { entry.pages = 1; }
+    } else {
+      entry.pages = 1;
+    }
+    state.pages = state.files.reduce((sum,f)=>sum+(f.pages||1),0);
+    renderFileList();
+    updateAll();
+  }
+}
+
+function removeFile(name) {
+  state.files = state.files.filter(f=>f.name!==name);
+  state.pages = state.files.reduce((sum,f)=>sum+(f.pages||1),0) || null;
+  renderFileList();
   updateAll();
 }
+
+function renderFileList() {
+  const container = document.getElementById('fileList');
+  if (!state.files.length) { container.innerHTML=''; return; }
+  container.innerHTML = state.files.map(f=>`
+    <div class="file-info show" style="margin-bottom:6px;">
+      <div class="file-ico2">${f.name.toLowerCase().endsWith('.pdf')?'📄':'🖼️'}</div>
+      <div class="file-details">
+        <strong style="font-size:13px;word-break:break-all;">${f.name}</strong>
+        <small style="color:var(--muted);font-size:11px;">${fmtSz(f.size)}</small>
+      </div>
+      ${f.pages!==null
+        ? `<span class="page-badge">${f.pages} pag.</span>`
+        : `<span class="page-badge det"><span class="spinner"></span></span>`}
+      <button class="remove-btn" onclick="removeFile('${f.name.replace(/'/g,"\\'")}')">✕</button>
+    </div>
+  `).join('');
+  // Total badge
+  const total = state.files.reduce((s,f)=>s+(f.pages||0),0);
+  if (state.files.length > 1 && total > 0) {
+    container.innerHTML += `<div style="font-size:12px;color:var(--orange);font-weight:600;padding:6px 4px;">Total: ${total} paginas en ${state.files.length} archivos</div>`;
+  }
+}
+
 function fmtSz(b){return b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB';}
 
 // SUBIR ARCHIVO AL DRIVE vía Apps Script
@@ -762,7 +759,7 @@ function updateAll(){
   document.getElementById('r-color').textContent   = LBL.color[state.color];
   document.getElementById('r-paper').textContent   = LBL.paper[state.paper];
   document.getElementById('r-sides').textContent   = LBL.sides[state.sides];
-  document.getElementById('r-unit').textContent    = `$${unit.toLocaleString('es-AR')}/hoja`;
+  document.getElementById('r-unit').textContent    = `$${unit.toLocaleString('es-AR')}/pagina`;
   document.getElementById('r-pago').textContent    = LBL.pago[state.pago];
   document.getElementById('r-delivery').textContent = state.delivery==='envio'
     ? (freeShipping ? 'Envío a domicilio (gratis ✅)' : 'Envío a domicilio (costo a confirmar)')
@@ -796,20 +793,22 @@ async function sendWhatsApp(e){
   // --- SUBIDA AL DRIVE ---
   let archivoTxt = 'Archivo: Sin archivo adjunto - coordinamos por aca';
 
-  if (state.rawFile) {
+  if (state.files.length > 0) {
     const btn = document.querySelector('.btn-wsp');
-    btn.innerHTML = '<span class="spinner" style="border-top-color:#fff"></span> Subiendo archivo...';
+    btn.innerHTML = '<span class="spinner" style="border-top-color:#fff"></span> Subiendo archivos...';
     btn.style.pointerEvents = 'none';
 
-    try {
-      const driveUrl  = await subirArchivoDrive(state.rawFile, name);
-      state.driveUrl  = driveUrl;
-      archivoTxt = 'Archivo: ' + state.fileName + ' (' + (state.pages ? state.pages+' paginas' : 'imagen') + ')\nLink Drive: ' + driveUrl;
-      showToast('Archivo subido al Drive!','ok');
-    } catch(err) {
-      archivoTxt = 'Archivo: ' + state.fileName + ' - No se pudo subir automaticamente, lo coordinamos por WhatsApp';
-      showToast('El archivo no se pudo subir, igual enviamos el pedido','err');
+    const links = [];
+    for (const f of state.files) {
+      try {
+        const url = await subirArchivoDrive(f.raw, name);
+        links.push(f.name + ' (' + (f.pages||1) + ' pag.): ' + url);
+      } catch(err) {
+        links.push(f.name + ': No se pudo subir - coordinamos por WhatsApp');
+      }
     }
+    archivoTxt = 'Archivos (' + state.files.length + '):\n' + links.join('\n');
+    showToast('Archivos subidos al Drive!','ok');
 
     btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#fff;flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Enviar pedido por WhatsApp';
     btn.style.pointerEvents = 'auto';
@@ -821,41 +820,72 @@ async function sendWhatsApp(e){
       ? 'Envio a domicilio - GRATIS (mas de '+ENVIO_GRATIS_DESDE+' paginas)\nDireccion: '+direccion
       : 'Envio a domicilio en Brandsen - costo a confirmar\nDireccion: '+direccion;
 
-  const pagoTxt = LBL.pago[state.pago];
-  const notasTxt = notes ? '\nAclaraciones: ' + notes : '';
+  const pagoTxt  = LBL.pago[state.pago];
+  const notasTxt = notes ? 'Aclaraciones: ' + notes : '';
 
-  const lineas = [
-    'NUEVO PEDIDO - COPYBRAND',
+  // Armar lista de archivos para el mensaje
+  const archivosLineas = state.files.length > 0
+    ? state.files.map(f => '  - ' + f.name + ' (' + (f.pages||1) + ' pag.)').join('\n')
+    : '  Sin archivo adjunto';
+
+  const msg = [
+    'Hola! Te paso mi pedido desde copybrand.com.ar',
     '',
-    'Cliente: ' + name,
+    '--------------------------------',
+    'CLIENTE',
+    'Nombre: ' + name,
     'WhatsApp: ' + phone,
-    '',
-    archivoTxt,
-    '',
-    'CONFIGURACION:',
-    'Tamanio: '   + LBL.size[state.size],
-    'Color: '     + LBL.color[state.color],
-    'Papel: '     + LBL.paper[state.paper],
-    'Caras: '     + LBL.sides[state.sides],
-    'Copias: '    + state.copies,
+    '--------------------------------',
+    'ARCHIVOS',
+    archivosLineas,
     'Total paginas: ' + totalSheets,
-    '',
+    '--------------------------------',
+    'IMPRESION',
+    'Tamano:  ' + LBL.size[state.size],
+    'Color:   ' + LBL.color[state.color],
+    'Papel:   ' + LBL.paper[state.paper],
+    'Caras:   ' + LBL.sides[state.sides],
+    'Copias:  ' + state.copies,
+    '--------------------------------',
+    'ENTREGA',
     entregaTxt,
-    '',
-    'Pago: ' + pagoTxt,
-    '',
-    'COTIZACION:',
+    '--------------------------------',
+    'PAGO',
+    pagoTxt,
+    '--------------------------------',
+    'COTIZACION',
     'Precio por pagina: $' + unit.toLocaleString('es-AR'),
-    'Total (' + totalSheets + ' pag.): $' + total.toLocaleString('es-AR') + ' ARS' + (state.delivery==='envio'&&!freeShipping ? ' + envio a confirmar' : ''),
+    'Total: $' + total.toLocaleString('es-AR') + ' ARS' + (state.delivery==='envio'&&!freeShipping?' + envio a confirmar':''),
+    '--------------------------------',
     notasTxt,
-    '',
-    'Pedido desde copybrand.com'
-  ];
+    archivoTxt
+  ].filter(Boolean).join('\n');
 
-  const msg = lineas.join('\n');
-  const url  = 'https://wa.me/' + WSP_NUMBER + '?text=' + encodeURIComponent(msg);
+  // --- REGISTRO EN GOOGLE SHEETS ---
+  try {
+    const sheetPayload = {
+      accion    : 'registrar',
+      fecha     : new Date().toLocaleDateString('es-AR'),
+      hora      : new Date().toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'}),
+      cliente   : name,
+      telefono  : phone,
+      archivos  : state.files.map(f=>f.name).join(' | ') || 'sin archivo',
+      paginas   : totalSheets,
+      tamano    : LBL.size[state.size],
+      color     : LBL.color[state.color],
+      papel     : LBL.paper[state.paper],
+      caras     : LBL.sides[state.sides],
+      copias    : state.copies,
+      entrega   : state.delivery==='retiro' ? 'Retiro' : (freeShipping ? 'Envio gratis' : 'Envio pago'),
+      direccion : direccion || '-',
+      pago      : pagoTxt,
+      total     : total,
+      notas     : notes || '-'
+    };
+    await fetch(APPS_SCRIPT_URL, { method:'POST', body: JSON.stringify(sheetPayload) });
+  } catch(e) { /* silencioso, no bloquea el envío */ }
 
-  // Funciona en celular Y escritorio
+  const url = 'https://wa.me/' + WSP_NUMBER + '?text=' + encodeURIComponent(msg);
   window.location.href = url;
 }
 
