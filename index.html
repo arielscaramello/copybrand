@@ -331,7 +331,7 @@ footer a{color:var(--orange);text-decoration:none;}
           <label class="opt" data-group="sides" data-val="doble">
             <input type="radio" name="sides" value="doble">
             <div class="rdot"></div>
-            <div><div class="opt-main">Doble faz</div><div class="opt-sub">Ambos lados — ahorra papel</div></div>
+            <div><div class="opt-main">Doble faz</div><div class="opt-sub">Ambos lados</div></div>
           </label>
         </div>
       </div>
@@ -342,12 +342,12 @@ footer a{color:var(--orange);text-decoration:none;}
           <label class="opt active" data-group="orient" data-val="vertical">
             <input type="radio" name="orient" value="vertical" checked>
             <div class="rdot"></div>
-            <div><div class="opt-main">Vertical</div><div class="opt-sub">Portrait — lo mas comun</div></div>
+            <div><div class="opt-main">Vertical</div><div class="opt-sub">Lo mas comun</div></div>
           </label>
           <label class="opt" data-group="orient" data-val="horizontal">
             <input type="radio" name="orient" value="horizontal">
             <div class="rdot"></div>
-            <div><div class="opt-main">Horizontal</div><div class="opt-sub">Landscape</div></div>
+            <div><div class="opt-main">Horizontal</div></div>
           </label>
         </div>
       </div>
@@ -363,22 +363,17 @@ footer a{color:var(--orange);text-decoration:none;}
           <label class="opt" data-group="finish" data-val="anillado">
             <input type="radio" name="finish" value="anillado">
             <div class="rdot"></div>
-            <div><div class="opt-main">Anillado</div><div class="opt-sub">Espiral plastico o metalico</div></div>
+            <div><div class="opt-main">Anillado</div><div class="opt-sub" id="anillado-precio-sub">Precio segun cantidad de hojas</div></div>
           </label>
           <label class="opt" data-group="finish" data-val="perforado">
             <input type="radio" name="finish" value="perforado">
             <div class="rdot"></div>
-            <div><div class="opt-main">2 agujeros</div><div class="opt-sub">Perforado para carpeta</div></div>
+            <div><div class="opt-main">2 agujeros</div><div class="opt-sub">Gratis</div></div>
           </label>
-          <label class="opt" data-group="finish" data-val="plastificado_mate">
-            <input type="radio" name="finish" value="plastificado_mate">
+          <label class="opt" data-group="finish" data-val="plastificado">
+            <input type="radio" name="finish" value="plastificado">
             <div class="rdot"></div>
-            <div><div class="opt-main">Plastificado mate</div><div class="opt-sub">Acabado sin brillo</div></div>
-          </label>
-          <label class="opt" data-group="finish" data-val="plastificado_brillo">
-            <input type="radio" name="finish" value="plastificado_brillo">
-            <div class="rdot"></div>
-            <div><div class="opt-main">Plastificado brillo</div><div class="opt-sub">Acabado brillante</div></div>
+            <div><div class="opt-main">Plastificado</div><div class="opt-sub">Consultar tipo al confirmar</div></div>
           </label>
         </div>
       </div>
@@ -631,14 +626,25 @@ const EXTRAS_DEF = [
   { id:'folioOf', nombre:'Folio Oficio',                 precio:90  },
 ];
 
-// Precio fijo por terminacion (se suma 1 vez por juego/copia)
-// perforado es gratis, anillado y plastificado tienen costo por copia
+// Anillado: precio por copia segun cantidad de hojas fisicas
+// Tramos: hasta 200 hojas / 201-300 / mas de 300
+const ANILLADO_TRAMOS = [
+  { hasta: 200, precio: 800,  label: 'hasta 200 hojas' },
+  { hasta: 300, precio: 1100, label: '201 a 300 hojas' },
+  { hasta: Infinity, precio: 1500, label: 'mas de 300 hojas' },
+];
+
+function getPrecioAnillado(hojasPorCopia) {
+  const tramo = ANILLADO_TRAMOS.find(t => hojasPorCopia <= t.hasta);
+  return tramo ? tramo.precio : ANILLADO_TRAMOS[ANILLADO_TRAMOS.length-1].precio;
+}
+
+// Precio fijo por terminacion
 const PRECIOS_TERMINACION = {
-  ninguna:            0,
-  anillado:           800,   // por juego
-  perforado:          0,     // gratis (incluido)
-  plastificado_mate:  600,   // por hoja plastificada — ajustar
-  plastificado_brillo:600,
+  ninguna:      0,
+  anillado:     0,     // calculado dinamicamente por getPrecioAnillado()
+  perforado:    0,     // gratis
+  plastificado: 600,   // por hoja fisica — ajustar
 };
 // ====================================================
 
@@ -658,7 +664,7 @@ const LBL = {
   paper:  { comun:'Comun', opalina:'Opalina', adhesivo:'Adhesivo', ilustracion200:'Ilustracion 200g', ilustracion300:'Ilustracion 300g' },
   sides:  { simple:'Simple faz', doble:'Doble faz' },
   orient: { vertical:'Vertical', horizontal:'Horizontal' },
-  finish: { ninguna:'Sin terminacion', anillado:'Anillado espiral', perforado:'2 agujeros (perforado)', plastificado_mate:'Plastificado mate', plastificado_brillo:'Plastificado brillo' },
+  finish: { ninguna:'Sin terminacion', anillado:'Anillado', perforado:'2 agujeros (perforado)', plastificado:'Plastificado' },
   layout: { '1x1':'Normal (1 pagina/cara)', '2x1':'2 paginas por cara', '2diapo':'2 diapositivas/cara', '4diapo':'4 diapositivas/cara' },
   pago:   { transferencia:'Transferencia / CBU', mercadopago:'Mercado Pago' }
 };
@@ -807,13 +813,16 @@ function calc(){
   const subtotalImpresion = unit * totalPages;
 
   // Precio terminacion
-  const precioTerminacion = PRECIOS_TERMINACION[state.finish] || 0;
-  // plastificado: precio por hoja fisica; anillado: precio por copia
   let subtotalTerminacion = 0;
+  const hojasPorCopia = Math.ceil(pagesRaw / (layoutFactor * (state.sides==='doble'?2:1)));
   if (state.finish === 'anillado') {
-    subtotalTerminacion = precioTerminacion * state.copies;
-  } else if (state.finish === 'plastificado_mate' || state.finish === 'plastificado_brillo') {
-    subtotalTerminacion = precioTerminacion * physicalSheets;
+    const precioAnillado = getPrecioAnillado(hojasPorCopia);
+    subtotalTerminacion = precioAnillado * state.copies;
+    // Actualizar subtitulo del anillado en tiempo real
+    const sub = document.getElementById('anillado-precio-sub');
+    if(sub) sub.textContent = '$' + precioAnillado.toLocaleString('es-AR') + ' por juego (' + hojasPorCopia + ' hojas)';
+  } else if (state.finish === 'plastificado') {
+    subtotalTerminacion = PRECIOS_TERMINACION.plastificado * physicalSheets;
   }
 
   // Extras
@@ -989,10 +998,18 @@ async function sendWhatsApp(e){
   window.location.href = 'https://wa.me/' + WSP_NUMBER + '?text=' + encodeURIComponent(msg);
 
   // Subir archivos y registrar en Sheets en segundo plano
+  // Cuando termina, abre un segundo WhatsApp con los links del Drive
   setTimeout(async()=>{
+    const links = [];
     for(const f of state.files){
-      try{ await subirArchivoDrive(f.raw, name); }catch(e){}
+      try{
+        const url = await subirArchivoDrive(f.raw, name);
+        links.push(f.name + ': ' + url);
+      }catch(e){
+        links.push(f.name + ': (no se pudo subir)');
+      }
     }
+    // Registrar en Sheets
     try{
       await fetch(APPS_SCRIPT_URL,{
         method:'POST',
@@ -1012,6 +1029,14 @@ async function sendWhatsApp(e){
         })
       });
     }catch(e){}
+    // Segundo mensaje con links de Drive (se abre automaticamente cuando termina la subida)
+    if(links.length > 0){
+      const linkMsg = [
+        'Links de los archivos en Drive:',
+        ...links
+      ].join('\n');
+      window.open('https://wa.me/' + WSP_NUMBER + '?text=' + encodeURIComponent(linkMsg), '_blank');
+    }
   }, 1500);
 }
 
@@ -1034,8 +1059,10 @@ function buildPriceTable(){
     ['A3 · Color · Comun', PRECIOS.a3.color.comun],
     ['seccion', 'Terminaciones'],
     ['Perforado 2 agujeros', 'Gratis'],
-    ['Anillado espiral (por copia)', PRECIOS_TERMINACION.anillado],
-    ['Plastificado mate/brillo (por hoja)', PRECIOS_TERMINACION.plastificado_mate],
+    ['Anillado hasta 200 hojas', ANILLADO_TRAMOS[0].precio],
+    ['Anillado 201 a 300 hojas', ANILLADO_TRAMOS[1].precio],
+    ['Anillado mas de 300 hojas', ANILLADO_TRAMOS[2].precio],
+    ['Plastificado (por hoja)', PRECIOS_TERMINACION.plastificado],
     ['seccion', 'Extras'],
     ...EXTRAS_DEF.map(e=>[e.nombre, e.precio])
   ];
