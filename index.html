@@ -497,6 +497,9 @@ footer a{color:var(--orange);text-decoration:none;}
     </div>
   </div>
 
+  <!-- BANNER DRIVE LISTO — aparece cuando termina la subida -->
+  <div id="drive-ready-banner" style="display:none;background:var(--green-glow);border:1px solid rgba(34,197,94,.35);border-radius:14px;padding:16px 20px;margin-bottom:16px;"></div>
+
   <!-- RESUMEN -->
   <div class="sec-label">Resumen del pedido</div>
   <div class="resumen-card">
@@ -944,16 +947,84 @@ async function sendWhatsApp(e){
       ? 'Envio a domicilio GRATIS\nDireccion: '+direccion
       : 'Envio a domicilio (costo a confirmar)\nDireccion: '+direccion;
 
-  const archivosLineas = state.files.length>0
-    ? state.files.map(f=>'  - '+f.name+' ('+( f.pages||1)+' pag.)').join('\n')
-    : '  Sin archivo adjunto';
-
   const extrasActivos = Object.entries(state.extras).filter(([,q])=>q>0);
   const extrasDef = EXTRAS_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
   const extrasLineas = extrasActivos.length
     ? extrasActivos.map(([id,q])=>`  - ${extrasDef[id]?.nombre} x${q}: $${(extrasDef[id]?.precio*q).toLocaleString('es-AR')}`).join('\n')
     : '  Ninguno';
 
+  // --- BARRA DE PROGRESO ---
+  const btn = document.querySelector('.btn-wsp');
+  const floatBtn = document.querySelector('.float-bar-btn');
+
+  function setLoading(pct, txt){
+    const html = `
+      <div style="width:100%;text-align:center;padding:2px 0;">
+        <div style="font-size:14px;font-weight:600;margin-bottom:8px;">${txt}</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:100px;height:6px;overflow:hidden;">
+          <div style="background:#fff;height:6px;border-radius:100px;transition:width .4s;width:${pct}%"></div>
+        </div>
+      </div>`;
+    if(btn){ btn.innerHTML = html; btn.style.pointerEvents='none'; }
+    if(floatBtn){ floatBtn.innerHTML = html; floatBtn.style.pointerEvents='none'; }
+  }
+
+  function resetBtn(){
+    const wspIcon = `<svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#fff;flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+    if(btn){ btn.innerHTML = wspIcon + ' Enviar pedido por WhatsApp'; btn.style.pointerEvents='auto'; }
+    if(floatBtn){ floatBtn.innerHTML = wspIcon + ' Enviar pedido'; floatBtn.style.pointerEvents='auto'; }
+  }
+
+  // --- SUBIR ARCHIVOS CON PROGRESO ---
+  let archivosLineas = '  Sin archivo adjunto';
+  let linksSubidos = [];
+
+  if(state.files.length > 0){
+    setLoading(10, 'Preparando archivos...');
+    const total_files = state.files.length;
+
+    for(let i=0; i<total_files; i++){
+      const f = state.files[i];
+      const pct = 10 + Math.round(((i) / total_files) * 80);
+      setLoading(pct, `Subiendo ${i+1} de ${total_files}... (${f.name.substring(0,20)})`);
+      try{
+        const url = await subirArchivoDrive(f.raw, name);
+        linksSubidos.push({ name: f.name, pages: f.pages||1, url });
+      } catch(err){
+        linksSubidos.push({ name: f.name, pages: f.pages||1, url: null });
+      }
+    }
+
+    setLoading(95, 'Preparando mensaje...');
+
+    archivosLineas = linksSubidos.map(f =>
+      '  - ' + f.name + ' (' + f.pages + ' pag.)' + (f.url ? '\n    Drive: ' + f.url : '')
+    ).join('\n');
+
+  } else {
+    archivosLineas = '  Sin archivo adjunto';
+  }
+
+  // --- REGISTRAR EN SHEETS (sin await, no bloquea) ---
+  fetch(APPS_SCRIPT_URL, {
+    method:'POST',
+    body:JSON.stringify({
+      accion:'registrar',
+      fecha:new Date().toLocaleDateString('es-AR'),
+      hora:new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}),
+      cliente:name, telefono:phone,
+      paginas:totalPages,
+      tamano:LBL.size[state.size], color:LBL.color[state.color],
+      papel:LBL.paper[state.paper], caras:LBL.sides[state.sides],
+      copias:state.copies,
+      entrega:state.delivery==='retiro'?'Retiro en local':(freeShipping?'Envio gratis':'Envio pago'),
+      direccion:direccion||'-',
+      pago:LBL.pago[state.pago],
+      total:total, notas:notes||'-'
+    })
+  }).catch(()=>{});
+
+  // --- ARMAR MENSAJE ---
   const msg = [
     'Hola! Te paso mi pedido:',
     '',
@@ -992,52 +1063,14 @@ async function sendWhatsApp(e){
     subtotalExtras > 0 ? 'Subtotal extras: $' + subtotalExtras.toLocaleString('es-AR') : '',
     'TOTAL: $' + total.toLocaleString('es-AR') + ' ARS' + (state.delivery==='envio'&&!freeShipping?' (+ envio)':''),
     notes ? '\nNOTAS: '+notes : ''
-  ].filter(s=>s!==undefined&&s!==null).join('\n');
+  ].filter(s=>s!==undefined&&s!==null&&s!=='').join('\n');
 
-  // Abrir WhatsApp al instante
-  window.location.href = 'https://wa.me/' + WSP_NUMBER + '?text=' + encodeURIComponent(msg);
+  setLoading(100, 'Abriendo WhatsApp...');
 
-  // Subir archivos y registrar en Sheets en segundo plano
-  // Cuando termina, abre un segundo WhatsApp con los links del Drive
-  setTimeout(async()=>{
-    const links = [];
-    for(const f of state.files){
-      try{
-        const url = await subirArchivoDrive(f.raw, name);
-        links.push(f.name + ': ' + url);
-      }catch(e){
-        links.push(f.name + ': (no se pudo subir)');
-      }
-    }
-    // Registrar en Sheets
-    try{
-      await fetch(APPS_SCRIPT_URL,{
-        method:'POST',
-        body:JSON.stringify({
-          accion:'registrar',
-          fecha:new Date().toLocaleDateString('es-AR'),
-          hora:new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}),
-          cliente:name, telefono:phone,
-          paginas:totalPages,
-          tamano:LBL.size[state.size], color:LBL.color[state.color],
-          papel:LBL.paper[state.paper], caras:LBL.sides[state.sides],
-          copias:state.copies,
-          entrega:state.delivery==='retiro'?'Retiro en local':(freeShipping?'Envio gratis':'Envio pago'),
-          direccion:direccion||'-',
-          pago:LBL.pago[state.pago],
-          total:total, notas:notes||'-'
-        })
-      });
-    }catch(e){}
-    // Segundo mensaje con links de Drive (se abre automaticamente cuando termina la subida)
-    if(links.length > 0){
-      const linkMsg = [
-        'Links de los archivos en Drive:',
-        ...links
-      ].join('\n');
-      window.open('https://wa.me/' + WSP_NUMBER + '?text=' + encodeURIComponent(linkMsg), '_blank');
-    }
-  }, 1500);
+  setTimeout(()=>{
+    resetBtn();
+    window.location.href = 'https://wa.me/' + WSP_NUMBER + '?text=' + encodeURIComponent(msg);
+  }, 600);
 }
 
 // ---- TABLA DE PRECIOS ----
@@ -1084,6 +1117,10 @@ function showToast(msg,type='ok'){
 
 buildExtras();
 buildPriceTable();
+updateAll();
+</script>
+</body>
+</html>
 updateAll();
 </script>
 </body>
