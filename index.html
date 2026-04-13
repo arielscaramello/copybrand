@@ -238,7 +238,7 @@ footer a{color:var(--orange);text-decoration:none;}
       <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" multiple>
       <div class="upload-ico">📄</div>
       <h3>Arrastra o elegí tus archivos</h3>
-      <p>PDF o imagen · Varios archivos · Max. 50MB c/u</p>
+      <p>PDF o imagen · Varios archivos · Max. 100MB c/u</p>
       <div class="btn-fake">☁️ Elegir archivos</div>
     </div>
     <div id="fileList" style="margin-top:8px;"></div>
@@ -607,7 +607,7 @@ footer a{color:var(--orange);text-decoration:none;}
 // ====================================================
 const WSP_NUMBER         = "542223500935";
 const ENVIO_GRATIS_DESDE = 100;
-const APPS_SCRIPT_URL    = "https://script.google.com/macros/s/AKfycbyNdEFbmcNUzxEyaG3b4BLHeY8W43-8dLrqZjoSRMmov-NyHZEULBoz1JW7qJ3LHm_9/exec";
+const APPS_SCRIPT_URL    = "https://script.google.com/macros/s/AKfycbznIxPGgb2P1VE8i2w1PXdvtfsplQKPSS6DVLVR3GvqSzeTBotQjBRl0IOlNzVz0P9F/exec";
 
 // Precio por PAGINA segun combinacion [tamaño][color][papel]
 // Doble faz NO cambia el precio por pagina, solo reduce la cantidad de hojas fisicas
@@ -712,6 +712,10 @@ fileInput.addEventListener('change', ()=>{if(fileInput.files.length)addFiles(Arr
 async function addFiles(newFiles) {
   for (const file of newFiles) {
     if (state.files.find(f=>f.name===file.name)) continue;
+    if (file.size > 100 * 1024 * 1024) {
+      showToast(file.name.substring(0,20) + '... supera 100MB. Mandalo por WhatsApp o pegá el link en aclaraciones.', 'err');
+      continue;
+    }
     const entry = { name:file.name, size:file.size, pages:null, raw:file };
     state.files.push(entry);
     renderFileList();
@@ -1118,10 +1122,66 @@ function showToast(msg,type='ok'){
 buildExtras();
 buildPriceTable();
 updateAll();
-</script>
-</body>
-</html>
-updateAll();
+
+// Cargar precios desde Google Sheets en segundo plano
+// Si llegan bien, reemplaza los hardcodeados silenciosamente
+(async function cargarPreciosDinamicos() {
+  try {
+    const res  = await fetch(APPS_SCRIPT_URL);
+    const data = await res.json();
+    if (!data.ok || !data.precios) return;
+    const p = data.precios;
+
+    // Actualizar PRECIOS
+    if (p.a4_bn_comun)            PRECIOS.a4.bn.comun            = p.a4_bn_comun;
+    if (p.a4_bn_opalina)          PRECIOS.a4.bn.opalina          = p.a4_bn_opalina;
+    if (p.a4_bn_adhesivo)         PRECIOS.a4.bn.adhesivo         = p.a4_bn_adhesivo;
+    if (p.a4_bn_ilustracion200)   PRECIOS.a4.bn.ilustracion200   = p.a4_bn_ilustracion200;
+    if (p.a4_bn_ilustracion300)   PRECIOS.a4.bn.ilustracion300   = p.a4_bn_ilustracion300;
+    if (p.a4_color_comun)         PRECIOS.a4.color.comun         = p.a4_color_comun;
+    if (p.a4_color_opalina)       PRECIOS.a4.color.opalina       = p.a4_color_opalina;
+    if (p.a4_color_adhesivo)      PRECIOS.a4.color.adhesivo      = p.a4_color_adhesivo;
+    if (p.a4_color_ilustracion200)PRECIOS.a4.color.ilustracion200= p.a4_color_ilustracion200;
+    if (p.a4_color_ilustracion300)PRECIOS.a4.color.ilustracion300= p.a4_color_ilustracion300;
+    if (p.a3_bn_comun)            PRECIOS.a3.bn.comun            = p.a3_bn_comun;
+    if (p.a3_bn_opalina)          PRECIOS.a3.bn.opalina          = p.a3_bn_opalina;
+    if (p.a3_bn_adhesivo)         PRECIOS.a3.bn.adhesivo         = p.a3_bn_adhesivo;
+    if (p.a3_bn_ilustracion200)   PRECIOS.a3.bn.ilustracion200   = p.a3_bn_ilustracion200;
+    if (p.a3_bn_ilustracion300)   PRECIOS.a3.bn.ilustracion300   = p.a3_bn_ilustracion300;
+    if (p.a3_color_comun)         PRECIOS.a3.color.comun         = p.a3_color_comun;
+    if (p.a3_color_opalina)       PRECIOS.a3.color.opalina       = p.a3_color_opalina;
+    if (p.a3_color_adhesivo)      PRECIOS.a3.color.adhesivo      = p.a3_color_adhesivo;
+    if (p.a3_color_ilustracion200)PRECIOS.a3.color.ilustracion200= p.a3_color_ilustracion200;
+    if (p.a3_color_ilustracion300)PRECIOS.a3.color.ilustracion300= p.a3_color_ilustracion300;
+    if (p.oficio_bn_comun)        PRECIOS.oficio.bn.comun        = p.oficio_bn_comun;
+    if (p.oficio_color_comun)     PRECIOS.oficio.color.comun     = p.oficio_color_comun;
+
+    // Actualizar tramos de anillado
+    if (p.anillado_hasta200)  ANILLADO_TRAMOS[0].precio = p.anillado_hasta200;
+    if (p.anillado_201_300)   ANILLADO_TRAMOS[1].precio = p.anillado_201_300;
+    if (p.anillado_mas300)    ANILLADO_TRAMOS[2].precio = p.anillado_mas300;
+
+    // Actualizar plastificado
+    if (p.plastificado) PRECIOS_TERMINACION.plastificado = p.plastificado;
+
+    // Actualizar extras
+    const extrasMap = { extra_carp3:'carp3', extra_carpTa4:'carpTa4', extra_carpTof:'carpTof', extra_folioA4:'folioA4', extra_folioOf:'folioOf' };
+    Object.entries(extrasMap).forEach(([key, id]) => {
+      if (p[key]) {
+        const extra = EXTRAS_DEF.find(e => e.id === id);
+        if (extra) extra.precio = p[key];
+      }
+    });
+
+    // Refrescar UI con precios nuevos
+    buildPriceTable();
+    buildExtras();
+    updateAll();
+
+  } catch(e) {
+    // Si falla, la página sigue con los precios hardcodeados — sin problema
+  }
+})();
 </script>
 </body>
 </html>
