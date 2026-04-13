@@ -1029,51 +1029,62 @@ async function sendWhatsApp(e){
   }).catch(()=>{});
 
   // --- ARMAR MENSAJE ---
-  const msg = [
-    'Hola! Te paso mi pedido:',
+  const ahora = new Date().toLocaleDateString('es-AR') + ' ' + new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}) + 'hs.';
+
+  const lineasArchivos = linksSubidos.length > 0
+    ? linksSubidos.map(f => f.name + ' - ' + f.pages + ' pag.' + (f.url ? '\nDrive: ' + f.url : '')).join('\n')
+    : 'Sin archivo adjunto';
+
+  const terminacionLinea = state.finish !== 'ninguna'
+    ? LBL.finish[state.finish] + (subtotalTerminacion > 0 ? ' - $' + subtotalTerminacion.toLocaleString('es-AR') + '.-' : ' (gratis)')
+    : null;
+
+  const extrasLinea = extrasActivos.length > 0
+    ? extrasActivos.map(([id,q]) => extrasDef[id]?.nombre + ' x' + q + ' - $' + (extrasDef[id]?.precio * q).toLocaleString('es-AR') + '.-').join('\n')
+    : null;
+
+  const partes = [
+    '*Nuevo Pedido* - ' + ahora,
     '',
-    'CLIENTE',
-    'Nombre:   ' + name,
-    'Telefono: ' + phone,
+    '*Cliente:* ' + name,
+    '*WhatsApp:* ' + phone,
     '',
-    'ARCHIVOS',
-    archivosLineas,
-    'Paginas del archivo: ' + pagesRaw,
-    'Copias: ' + state.copies,
-    'Total paginas a imprimir: ' + totalPages,
-    '(Hojas fisicas necesarias: ' + physicalSheets + ')',
+    '*Archivos:*',
+    lineasArchivos,
     '',
-    'IMPRESION',
-    'Tamano:      ' + LBL.size[state.size],
-    'Color:       ' + LBL.color[state.color],
-    'Papel:       ' + LBL.paper[state.paper],
-    'Caras:       ' + LBL.sides[state.sides],
+    '*Impresion:*',
+    'Tamano: ' + LBL.size[state.size],
+    'Color: ' + LBL.color[state.color],
+    'Papel: ' + LBL.paper[state.paper],
+    'Caras: ' + LBL.sides[state.sides],
     'Orientacion: ' + LBL.orient[state.orient],
-    'Terminacion: ' + LBL.finish[state.finish],
-    'Layout:      ' + LBL.layout[state.layout],
+    'Layout: ' + LBL.layout[state.layout],
+    terminacionLinea ? 'Terminacion: ' + terminacionLinea : null,
     '',
-    'EXTRAS',
-    extrasLineas,
+    '*Copias:* ' + state.copies,
+    '*Total paginas:* ' + totalPages,
+    '(Hojas fisicas: ' + physicalSheets + ')',
     '',
-    'ENTREGA',
-    entregaTxt,
+    extrasLinea ? '*Extras:*\n' + extrasLinea + '\n' : null,
+    '*Entrega:* ' + (state.delivery==='retiro' ? 'Retiro en local' : freeShipping ? 'Envio a domicilio (GRATIS)' : 'Envio a domicilio'),
+    state.delivery==='envio' && direccion ? '*Direccion:* ' + direccion : null,
     '',
-    'PAGO: ' + LBL.pago[state.pago],
+    '*Pago:* ' + LBL.pago[state.pago],
     '',
-    'COTIZACION',
-    'Precio por pagina: $' + unit.toLocaleString('es-AR'),
-    'Subtotal impresion: $' + subtotalImpresion.toLocaleString('es-AR'),
-    subtotalTerminacion > 0 ? 'Terminacion (' + LBL.finish[state.finish] + '): $' + subtotalTerminacion.toLocaleString('es-AR') : '',
-    subtotalExtras > 0 ? 'Subtotal extras: $' + subtotalExtras.toLocaleString('es-AR') : '',
-    'TOTAL: $' + total.toLocaleString('es-AR') + ' ARS' + (state.delivery==='envio'&&!freeShipping?' (+ envio)':''),
-    notes ? '\nNOTAS: '+notes : ''
-  ].filter(s=>s!==undefined&&s!==null&&s!=='').join('\n');
+    notes ? '*Aclaraciones:* ' + notes + '\n' : '*Aclaraciones:* -',
+    '',
+    '*Subtotal impresion:* $' + subtotalImpresion.toLocaleString('es-AR') + '.-',
+    subtotalTerminacion > 0 ? '*Terminacion:* $' + subtotalTerminacion.toLocaleString('es-AR') + '.-' : null,
+    subtotalExtras > 0 ? '*Extras:* $' + subtotalExtras.toLocaleString('es-AR') + '.-' : null,
+    '',
+    '*TOTAL: $' + total.toLocaleString('es-AR') + '.-*' + (state.delivery==='envio'&&!freeShipping ? ' (+ envio a confirmar)' : ''),
+  ].filter(s => s !== null && s !== undefined).join('\n');
 
   setLoading(100, 'Abriendo WhatsApp...');
 
   setTimeout(()=>{
     resetBtn();
-    window.location.href = 'https://wa.me/' + WSP_NUMBER + '?text=' + encodeURIComponent(msg);
+    window.location.href = 'https://wa.me/' + WSP_NUMBER + '?text=' + encodeURIComponent(partes);
   }, 600);
 }
 
