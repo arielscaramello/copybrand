@@ -250,22 +250,22 @@ footer a{color:var(--orange);text-decoration:none;}
           <label class="opt" data-group="paper" data-val="opalina">
             <input type="radio" name="paper" value="opalina">
             <div class="rdot"></div>
-            <div><div class="opt-main">Opalina</div><div class="opt-sub-wrap"><div class="opt-sub">160 g/m2</div><div class="opt-consultar" id="opalina-sub">A consultar</div></div></div>
+            <div><div class="opt-main">Opalina</div><div class="opt-sub">160 g/m2</div><div class="opt-consultar" id="sub-opalina"></div></div>
           </label>
           <label class="opt" data-group="paper" data-val="adhesivo">
             <input type="radio" name="paper" value="adhesivo">
             <div class="rdot"></div>
-            <div><div class="opt-main">Adhesivo</div><div class="opt-sub-wrap"><div class="opt-sub">Autoadhesivo</div><div class="opt-consultar">A consultar</div></div></div>
+            <div><div class="opt-main">Adhesivo</div><div class="opt-sub">Autoadhesivo</div><div class="opt-consultar" id="sub-adhesivo"></div></div>
           </label>
           <label class="opt" data-group="paper" data-val="ilustracion200">
             <input type="radio" name="paper" value="ilustracion200">
             <div class="rdot"></div>
-            <div><div class="opt-main">Ilustracion 200g</div><div class="opt-sub-wrap"><div class="opt-sub">200 g/m2</div><div class="opt-consultar">A consultar</div></div></div>
+            <div><div class="opt-main">Ilustracion 200g</div><div class="opt-sub">200 g/m2</div><div class="opt-consultar" id="sub-ilustracion200"></div></div>
           </label>
           <label class="opt" data-group="paper" data-val="ilustracion300">
             <input type="radio" name="paper" value="ilustracion300">
             <div class="rdot"></div>
-            <div><div class="opt-main">Ilustracion 300g</div><div class="opt-sub-wrap"><div class="opt-sub">300 g/m2</div><div class="opt-consultar">A consultar</div></div></div>
+            <div><div class="opt-main">Ilustracion 300g</div><div class="opt-sub">300 g/m2</div><div class="opt-consultar" id="sub-ilustracion300"></div></div>
           </label>
         </div>
       </div>
@@ -368,27 +368,27 @@ footer a{color:var(--orange);text-decoration:none;}
       </div>
 
       <div class="card">
-        <div class="card-title">🗂️ Impresiones por cara</div>
+        <div class="card-title">🗂️ Distribucion de paginas por hoja</div>
         <div class="opts">
           <label class="opt active" data-group="layout" data-val="1x1">
             <input type="radio" name="layout" value="1x1" checked>
             <div class="rdot"></div>
-            <div><div class="opt-main">Normal</div><div class="opt-sub">1 pagina por cara</div></div>
+            <div><div class="opt-main">Normal</div><div class="opt-sub">1 pagina por hoja</div></div>
           </label>
           <label class="opt" data-group="layout" data-val="2x1">
             <input type="radio" name="layout" value="2x1">
             <div class="rdot"></div>
-            <div><div class="opt-main">2 paginas por cara</div></div>
+            <div><div class="opt-main">2 paginas por hoja</div><div class="opt-sub">Reduce hojas fisicas a la mitad</div></div>
           </label>
           <label class="opt" data-group="layout" data-val="2diapo">
             <input type="radio" name="layout" value="2diapo">
             <div class="rdot"></div>
-            <div><div class="opt-main">2 diapositivas por cara</div></div>
+            <div><div class="opt-main">2 diapositivas por hoja</div><div class="opt-sub">Formato presentacion</div></div>
           </label>
           <label class="opt" data-group="layout" data-val="4diapo">
             <input type="radio" name="layout" value="4diapo">
             <div class="rdot"></div>
-            <div><div class="opt-main">4 diapositivas por cara</div></div>
+            <div><div class="opt-main">4 diapositivas por hoja</div><div class="opt-sub">Compacto</div></div>
           </label>
         </div>
       </div>
@@ -410,13 +410,19 @@ footer a{color:var(--orange);text-decoration:none;}
 
   <!-- EXTRAS -->
   <div class="sec-gap">
-    <div class="sec-label">③ Extras (opcional)</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:16px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:4px;">📦 Extras</div>
+      <div style="font-size:13px;color:var(--muted);">Accesorios que podés agregar a tu pedido</div>
+    </div>
     <div class="extras-grid" id="extrasGrid"></div>
   </div>
 
   <!-- TRABAJOS DE IMPRENTA -->
   <div class="sec-gap">
-    <div class="sec-label">④ Trabajos de imprenta</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:16px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:4px;">🖨️ Trabajos de imprenta</div>
+      <div style="font-size:13px;color:var(--muted);">Tarjetas, volantes y mas — precio orientativo, requiere confirmar detalles</div>
+    </div>
     <div class="imprenta-notice" id="imprentaNotice">Este producto requiere confirmar detalles con el vendedor.</div>
     <div class="imprenta-grid" id="imprentaGrid"></div>
   </div>
@@ -428,7 +434,7 @@ footer a{color:var(--orange);text-decoration:none;}
       <div class="dtab active" id="dtab-envio" onclick="setDelivery('envio')">
         <div class="dtab-icon">📦</div>
         <div class="dtab-label">Envio a domicilio</div>
-        <div class="dtab-sub">Gratis +100 paginas</div>
+        <div class="dtab-sub">Gratis desde $10.000</div>
       </div>
       <div class="dtab" id="dtab-retiro" onclick="setDelivery('retiro')">
         <div class="dtab-icon">🏪</div>
@@ -448,9 +454,11 @@ footer a{color:var(--orange);text-decoration:none;}
       </div>
     </div>
     <div class="delivery-panel" id="panel-retiro">
-      <div class="card" style="font-size:14px;color:var(--muted);line-height:1.8;">
+      <div class="card" style="font-size:14px;color:var(--muted);line-height:1.9;">
         Retiro sin cargo en nuestro local. Te avisamos por WhatsApp cuando este listo.<br>
-        <span style="font-size:12px;">Lun a Vie 9-19hs · Sab 9-14hs</span>
+        <span style="font-size:12px;">Lun a Vie: 8.30 a 13hs y 16.30 a 19.30hs · Sab: 8.30 a 13hs</span><br>
+        <span style="font-size:12px;color:var(--orange);">Disponible SOLO durante 2026</span><br>
+        <span style="font-size:12px;margin-top:4px;display:block;">📚 <strong style="color:var(--text);">Retiro de libros o fotocopias a domicilio para copiar</strong> — Consulta por WhatsApp</span>
       </div>
     </div>
   </div>
@@ -591,7 +599,8 @@ footer a{color:var(--orange);text-decoration:none;}
 // CONFIGURACION
 // ====================================================
 const WSP_NUMBER         = "542223500935";
-const ENVIO_GRATIS_DESDE = 100;
+const ENVIO_GRATIS_DESDE_PESOS = 10000; // ticket minimo para envio gratis
+const ZONAS_BONIFICADAS = ['jeppener','altamirano','gomez','loma verde','countries ruta 2','country ruta 2']; // para detectar en la localidad
 const APPS_SCRIPT_URL    = "https://script.google.com/macros/s/AKfycbznIxPGgb2P1VE8i2w1PXdvtfsplQKPSS6DVLVR3GvqSzeTBotQjBRl0IOlNzVz0P9F/exec";
 
 // Precio por pagina BN comun segun tramos
@@ -677,7 +686,7 @@ const LBL = {
   sides:  { simple:'Simple faz', doble:'Doble faz' },
   orient: { vertical:'Vertical', horizontal:'Horizontal' },
   finish: { ninguna:'Sin terminacion', anillado:'Anillado', perforado:'2 agujeros (gratis)', plastificado:'Plastificado' },
-  layout: { '1x1':'Normal', '2x1':'2 paginas/cara', '2diapo':'2 diapositivas/cara', '4diapo':'4 diapositivas/cara' },
+  layout: { '1x1':'Normal (1 pagina/hoja)', '2x1':'2 paginas/hoja', '2diapo':'2 diapositivas/hoja', '4diapo':'4 diapositivas/hoja' },
   pago:   { transferencia:'Transferencia / CBU', mercadopago:'Mercado Pago' }
 };
 
@@ -811,8 +820,10 @@ function setPago(el,val){ document.querySelectorAll('.pago-opt').forEach(o=>o.cl
 function calc(){
   const pagesRaw = state.pages||1;
   const layoutFactor = state.layout==='2x1'||state.layout==='2diapo'?2:state.layout==='4diapo'?4:1;
-  const pagesPerSheet = layoutFactor*(state.sides==='doble'?2:1);
-  const physicalSheets = Math.ceil(pagesRaw/pagesPerSheet)*state.copies;
+  const sidesMulti = state.sides==='doble'?2:1;
+  // Hojas fisicas: cuantas hojas se usan fisicamente
+  const physicalSheets = Math.ceil(pagesRaw/(layoutFactor*sidesMulti))*state.copies;
+  // Paginas totales: siempre las paginas originales x copias (el precio es por pagina original)
   const totalPages = pagesRaw*state.copies;
 
   // A4 y Oficio tienen mismo precio, A3 es distinto
@@ -831,7 +842,8 @@ function calc(){
   // Anillado
   let subtotalAnillado = 0;
   if(state.finish==='anillado'){
-    const hojasPorCopia = Math.ceil(pagesRaw/pagesPerSheet);
+    const layoutFactor2 = state.layout==='2x1'||state.layout==='2diapo'?2:state.layout==='4diapo'?4:1;
+    const hojasPorCopia = Math.ceil(pagesRaw/(layoutFactor2*(state.sides==='doble'?2:1)));
     const precioAni = getPrecioAnillado(hojasPorCopia);
     subtotalAnillado = precioAni*state.copies;
     const sub=document.getElementById('anillado-precio-sub');
@@ -858,7 +870,9 @@ function calc(){
   Object.entries(state.imprenta).forEach(([id,q])=>{ if(impMap[id]) subtotalImprenta+=impMap[id].precio*q; });
 
   const total=subtotalImpresion+subtotalAnillado+subtotalPlast+subtotalExtras+subtotalImprenta;
-  const freeShipping=state.delivery==='envio'&&totalPages>=ENVIO_GRATIS_DESDE;
+  const ciudad = (document.getElementById('addr-city')?.value||'').toLowerCase();
+  const esZonaBonificada = ZONAS_BONIFICADAS.some(z=>ciudad.includes(z));
+  const freeShipping = state.delivery==='envio' && (total >= ENVIO_GRATIS_DESDE_PESOS || esZonaBonificada);
 
   return {unit,esConsultar,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping};
 }
@@ -867,8 +881,21 @@ function calc(){
 function updateAll(){
   const {unit,esConsultar,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping}=calc();
 
-  // BN precio sub actualizado
-  if(state.color==='bn'&&state.paper==='comun'){
+  // Actualizar subtítulos de papel segun color
+  const sizeKey2 = state.sizedetail==='a3'?'a3':'a4oficio';
+  ['opalina','adhesivo','ilustracion200','ilustracion300'].forEach(p=>{
+    const el=document.getElementById('sub-'+p);
+    if(!el) return;
+    const precio=PRECIOS[sizeKey2]?.[state.color]?.[p]||0;
+    if(state.color==='bn'||precio===0){
+      el.textContent='A consultar';
+      el.style.display='block';
+    } else {
+      el.textContent='$'+precio.toLocaleString('es-AR')+'/pag';
+      el.style.display='block';
+      el.style.color='var(--success)';
+    }
+  });
     const tramo=BN_TRAMOS.find(t=>totalPages<=t.hasta)||BN_TRAMOS[BN_TRAMOS.length-1];
     const sub=document.getElementById('bn-precio-sub');
     if(sub) sub.textContent='$'+tramo.precio.toLocaleString('es-AR')+'/pag ('+tramo.label+')';
@@ -889,14 +916,22 @@ function updateAll(){
     :`${state.copies} copia${state.copies>1?'s':''}`;
 
   const wrap=document.getElementById('envio-tag-wrap');
+  const ciudad2=(document.getElementById('addr-city')?.value||'').toLowerCase();
+  const esZonaB=ZONAS_BONIFICADAS.some(z=>ciudad2.includes(z));
   if(state.delivery==='envio'){
     if(freeShipping) wrap.innerHTML='<span class="tag-green">Envio gratis incluido</span>';
-    else wrap.innerHTML=`<span class="tag-grey">Faltan ${ENVIO_GRATIS_DESDE-totalPages} paginas para envio gratis</span>`;
+    else if(esZonaB) wrap.innerHTML='<span class="tag-green">Zona bonificada - envio gratis</span>';
+    else { const faltan=ENVIO_GRATIS_DESDE_PESOS-total; wrap.innerHTML=`<span class="tag-grey">Faltan $${Math.max(0,faltan).toLocaleString('es-AR')} para envio gratis</span>`; }
   } else wrap.innerHTML='<span class="tag-grey">Retiro sin cargo</span>';
 
   const banner=document.getElementById('envio-banner');
-  if(freeShipping){banner.className='banner-free';banner.textContent='Envio gratis! Tu pedido supera las '+ENVIO_GRATIS_DESDE+' paginas.';}
-  else{banner.className='banner-cost';banner.textContent='Enviamos dentro de la zona de Brandsen. Gratis a partir de '+ENVIO_GRATIS_DESDE+' paginas.';}
+  if(freeShipping||esZonaB){
+    banner.className='banner-free';
+    banner.textContent= esZonaB && !freeShipping ? 'Zona bonificada: Jeppener, Altamirano, Gomez, Loma Verde, Countries Ruta 2 — envio gratis!' : 'Envio gratis! Tu pedido supera los $'+ENVIO_GRATIS_DESDE_PESOS.toLocaleString('es-AR')+'.';
+  } else {
+    banner.className='banner-cost';
+    banner.textContent='Enviamos a Brandsen y alrededores. Envio gratis con ticket mayor a $'+ENVIO_GRATIS_DESDE_PESOS.toLocaleString('es-AR')+'.';
+  }
 
   // Resumen
   document.getElementById('r-pages').textContent=state.pages?`${state.pages} pag.`:'Sin archivo';
