@@ -205,22 +205,6 @@ footer a{color:var(--orange);text-decoration:none;}
       <div class="card">
         <div class="card-title">📐 Tamaño</div>
         <div class="opts">
-          <label class="opt active" data-group="size" data-val="a4oficio">
-            <input type="radio" name="size" value="a4oficio" checked>
-            <div class="rdot"></div>
-            <div><div class="opt-main">A4 / Oficio</div><div class="opt-sub">Mismo precio</div></div>
-          </label>
-          <label class="opt" data-group="size" data-val="a3">
-            <input type="radio" name="size" value="a3">
-            <div class="rdot"></div>
-            <div><div class="opt-main">A3</div><div class="opt-sub">297 x 420 mm</div></div>
-          </label>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">📋 Tamaño específico</div>
-        <div class="opts" id="size-detail-opts">
           <label class="opt active" data-group="sizedetail" data-val="a4">
             <input type="radio" name="sizedetail" value="a4" checked>
             <div class="rdot"></div>
@@ -230,6 +214,11 @@ footer a{color:var(--orange);text-decoration:none;}
             <input type="radio" name="sizedetail" value="oficio">
             <div class="rdot"></div>
             <div><div class="opt-main">Oficio</div><div class="opt-sub">216 x 330 mm</div></div>
+          </label>
+          <label class="opt" data-group="sizedetail" data-val="a3">
+            <input type="radio" name="sizedetail" value="a3">
+            <div class="rdot"></div>
+            <div><div class="opt-main">A3</div><div class="opt-sub">297 x 420 mm</div></div>
           </label>
         </div>
       </div>
@@ -674,7 +663,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs
 
 const state = {
   files:[], pages:null, copies:1,
-  size:'a4oficio', sizedetail:'a4', color:'bn', paper:'comun',
+  sizedetail:'a4', color:'bn', paper:'comun',
   sides:'simple', orient:'vertical', finish:'ninguna',
   plastsize:'carnet', plastqty:1,
   layout:'1x1', delivery:'envio', pago:'transferencia',
@@ -682,7 +671,7 @@ const state = {
 };
 
 const LBL = {
-  size:   { a4oficio:'A4 / Oficio', a3:'A3' },
+  sizedetail:{ a4:'A4', oficio:'Oficio', a3:'A3' },
   color:  { bn:'Blanco y Negro', color:'Color' },
   paper:  { comun:'Comun', opalina:'Opalina', adhesivo:'Adhesivo', ilustracion200:'Ilustracion 200g', ilustracion300:'Ilustracion 300g' },
   sides:  { simple:'Simple faz', doble:'Doble faz' },
@@ -826,11 +815,12 @@ function calc(){
   const physicalSheets = Math.ceil(pagesRaw/pagesPerSheet)*state.copies;
   const totalPages = pagesRaw*state.copies;
 
-  // Precio por pagina
+  // A4 y Oficio tienen mismo precio, A3 es distinto
   let unit = 0;
-  const paperPrecio = PRECIOS[state.size]?.[state.color]?.[state.paper]||0;
+  const sizeKey = state.sizedetail === 'a3' ? 'a3' : 'a4oficio';
+  const paperPrecio = PRECIOS[sizeKey]?.[state.color]?.[state.paper]||0;
   if(state.color==='bn' && state.paper==='comun'){
-    unit = getPrecioBN(totalPages); // tramos solo BN comun
+    unit = getPrecioBN(totalPages);
   } else {
     unit = paperPrecio;
   }
@@ -911,7 +901,7 @@ function updateAll(){
   // Resumen
   document.getElementById('r-pages').textContent=state.pages?`${state.pages} pag.`:'Sin archivo';
   document.getElementById('r-copies').textContent=state.copies;
-  document.getElementById('r-size').textContent=LBL.size[state.size]+' ('+state.sizedetail.toUpperCase()+')';
+  document.getElementById('r-size').textContent=LBL.sizedetail[state.sizedetail];
   document.getElementById('r-color').textContent=LBL.color[state.color];
   document.getElementById('r-paper').textContent=LBL.paper[state.paper]+(esConsultar?' (a consultar)':'');
   document.getElementById('r-sides').textContent=LBL.sides[state.sides];
@@ -1016,7 +1006,7 @@ async function sendWhatsApp(e){
     accion:'registrar',fecha:new Date().toLocaleDateString('es-AR'),
     hora:new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}),
     cliente:name,telefono:phone,paginas:totalPages,
-    tamano:LBL.size[state.size]+' '+state.sizedetail.toUpperCase(),
+    tamano:LBL.sizedetail[state.sizedetail],
     color:LBL.color[state.color],papel:LBL.paper[state.paper],
     caras:LBL.sides[state.sides],copias:state.copies,
     entrega:state.delivery==='retiro'?'Retiro en local':(freeShipping?'Envio gratis':'Envio pago'),
@@ -1052,7 +1042,7 @@ async function sendWhatsApp(e){
     archivosLineas,
     '',
     '*Impresion:*',
-    'Tamano: '+LBL.size[state.size]+' ('+state.sizedetail.toUpperCase()+')',
+    'Tamano: '+LBL.sizedetail[state.sizedetail],
     'Color: '+LBL.color[state.color],
     'Papel: '+LBL.paper[state.paper]+(esConsultar?' - A CONSULTAR':''),
     'Caras: '+LBL.sides[state.sides],
@@ -1171,7 +1161,20 @@ updateAll();
     const extMatch={Extra_Carpeta_3_solapas:'carp3',Extra_Carpeta_A4_con_vaina:'carpTa4',Extra_Carpeta_A4_Base_Transparente:'carpTof',Extra_Carpeta_Oficio_Con_Elastico:'carpEla',Extra_Folio_A4:'folioA4',Extra_Folio_Oficio:'folioOf',Extra_Folio_A4_Reforzado:'folioA4R'};
     Object.entries(extMatch).forEach(([key,id])=>{ if(p[key]){const ex=EXTRAS_DEF.find(e=>e.id===id);if(ex)ex.precio=p[key];} });
     // Imprenta
-    const impMatch={Tarjetas_Personales_x_100:'tj100',Tarjetas_Personales_Doble_Faz_x_100:'tj100df',Tarjetas_Personales_x_500_+'_50_de_REGALO':'tj500',Tarjetas_Personales_Doble_Faz_x_500_+'_50_de_REGALO':'tj500df',Tarjetas_Personales_x_1000_+'_100_de_REGALO':'tj1000',Tarjetas_Personales_Doble_Faz_x_1000_+'_100_de_REGALO':'tj1000df',Volantes_Papel_Blanco_10X15_500_Unidades:'vol500bco',Volantes_Papel_Blanco_10X15_1000_Unidades:'vol1kbco',Volantes_Papel_Color_11X17_500_Unidades:'vol500col',Volantes_Papel_Color_11X17_1000_Unidades:'vol1kcol',Volantes_Emblocados_Papel_Blanco_10X15__500_Unidades:'vol500emb',Volantes_Emblocados_Papel_Blanco_10X15__1000_Unidades:'vol1kemb'};
+    const impMatch={
+      'Tarjetas_Personales_x_100':'tj100',
+      'Tarjetas_Personales_Doble_Faz_x_100':'tj100df',
+      'Tarjetas_Personales_x_500_+_50_de_REGALO':'tj500',
+      'Tarjetas_Personales_Doble_Faz_x_500_+_50_de_REGALO':'tj500df',
+      'Tarjetas_Personales_x_1000_+_100_de_REGALO':'tj1000',
+      'Tarjetas_Personales_Doble_Faz_x_1000_+_100_de_REGALO':'tj1000df',
+      'Volantes_Papel_Blanco_10X15_500_Unidades':'vol500bco',
+      'Volantes_Papel_Blanco_10X15_1000_Unidades':'vol1kbco',
+      'Volantes_Papel_Color_11X17_500_Unidades':'vol500col',
+      'Volantes_Papel_Color_11X17_1000_Unidades':'vol1kcol',
+      'Volantes_Emblocados_Papel_Blanco_10X15__500_Unidades':'vol500emb',
+      'Volantes_Emblocados_Papel_Blanco_10X15__1000_Unidades':'vol1kemb'
+    };
     Object.entries(impMatch).forEach(([key,id])=>{ if(p[key]){const im=IMPRENTA_DEF.find(e=>e.id===id);if(im)im.precio=p[key];} });
     buildPriceTable(); buildExtras(); buildImprenta(); updateAll();
   }catch(e){}
