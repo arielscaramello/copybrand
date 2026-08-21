@@ -8,22 +8,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#0f0f0f; --surface:#181818; --surface2:#212121; --border:#2c2c2c;
-  --orange:#f97316; --orange-dim:#7c3a0e; --orange-glow:rgba(249,115,22,.12);
-  --text:#ede9e1; --muted:#777; --success:#22c55e; --green-glow:rgba(34,197,94,.12);
-}
+:root{--bg:#0f0f0f;--surface:#181818;--surface2:#212121;--border:#2c2c2c;--orange:#f97316;--orange-dim:#7c3a0e;--orange-glow:rgba(249,115,22,.12);--text:#ede9e1;--muted:#777;--success:#22c55e;--green-glow:rgba(34,197,94,.12);}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;}
-
 nav{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(15,15,15,.94);backdrop-filter:blur(14px);z-index:100;}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:3px;color:var(--text);display:flex;align-items:center;gap:9px;}
 .logo-mark{width:30px;height:30px;background:var(--orange);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;}
 .nav-links{display:flex;gap:24px;align-items:center;}
 .nav-links a{color:var(--text);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s;}
 .nav-links a:hover{color:var(--orange);}
-
 .hero{max-width:800px;margin:0 auto;padding:72px 24px 52px;text-align:center;}
 .hero-badge{display:inline-flex;align-items:center;gap:7px;background:var(--orange-glow);border:1px solid var(--orange-dim);color:var(--orange);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:24px;}
 .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(58px,11vw,96px);line-height:.92;letter-spacing:.5px;margin-bottom:18px;}
@@ -31,13 +25,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 2
 .hero p{color:var(--muted);font-size:16px;max-width:440px;margin:0 auto 32px;}
 .hero-cta{display:inline-flex;align-items:center;gap:8px;margin-top:28px;background:var(--orange);color:#000;font-weight:700;font-size:16px;padding:14px 36px;border-radius:100px;text-decoration:none;letter-spacing:.3px;transition:opacity .2s,transform .1s;box-shadow:0 0 32px rgba(249,115,22,.35);}
 .hero-cta:hover{opacity:.9;transform:translateY(-1px);}
-
 main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .sec-label{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
 .sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
 .sec-gap{margin-bottom:36px;}
-
-/* UPLOAD */
 .upload-area{border:2px dashed var(--border);border-radius:16px;padding:48px 28px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:var(--surface);position:relative;}
 .upload-area:hover,.upload-area.drag{border-color:var(--orange);background:var(--orange-glow);}
 .upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
@@ -55,16 +46,10 @@ main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .page-badge.det{background:var(--surface);border:1px solid var(--border);color:var(--muted);font-weight:400;display:inline-flex;align-items:center;gap:5px;}
 .remove-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px;transition:color .15s;flex-shrink:0;}
 .remove-btn:hover{color:#ef4444;}
-.drive-note{margin-top:8px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:0;}
+.drive-note{margin-top:8px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--muted);line-height:1.6;}
 .drive-note strong{color:var(--text);}
-
-/* CONFIG GRID */
 .config-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
 @media(max-width:580px){.config-grid{grid-template-columns:1fr;}}
-.config-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;}
-@media(max-width:700px){.config-grid-3{grid-template-columns:1fr 1fr;}}
-@media(max-width:460px){.config-grid-3{grid-template-columns:1fr;}}
-
 .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;}
 .card-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
 .opts{display:flex;flex-direction:column;gap:7px;}
@@ -77,8 +62,7 @@ main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .opt.active .rdot::after{content:'';width:7px;height:7px;border-radius:50%;background:var(--orange);}
 .opt-main{font-size:13px;font-weight:500;}
 .opt-sub{font-size:11px;color:var(--muted);}
-
-/* CANTIDAD */
+.opt-consultar{font-size:11px;color:var(--orange);font-style:italic;}
 .qty-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:12px;flex-wrap:wrap;}
 .qty-label{font-size:14px;font-weight:600;}
 .qty-sub{font-size:12px;color:var(--muted);margin-top:2px;}
@@ -87,8 +71,6 @@ main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .qty-btn:hover{border-color:var(--orange);}
 .qty-input{background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:18px;font-weight:700;padding:4px 10px;width:72px;text-align:center;font-family:'DM Sans',sans-serif;}
 .qty-input:focus{outline:none;border-color:var(--orange);}
-
-/* EXTRAS */
 .extras-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
 @media(max-width:580px){.extras-grid{grid-template-columns:1fr;}}
 .extra-item{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:border-color .2s;}
@@ -100,8 +82,10 @@ main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .extra-btn{width:28px;height:28px;border-radius:6px;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s;font-family:inherit;}
 .extra-btn:hover{border-color:var(--orange);}
 .extra-val{font-size:15px;font-weight:700;min-width:24px;text-align:center;}
-
-/* DELIVERY */
+.imprenta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+@media(max-width:580px){.imprenta-grid{grid-template-columns:1fr;}}
+.imprenta-notice{background:var(--orange-glow);border:1px solid var(--orange-dim);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--orange);margin-bottom:14px;display:none;}
+.imprenta-notice.show{display:block;}
 .delivery-tabs{display:flex;gap:10px;margin-bottom:12px;}
 .dtab{flex:1;padding:14px 12px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;text-align:center;transition:all .15s;}
 .dtab:hover{border-color:var(--orange-dim);}
@@ -114,8 +98,6 @@ main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .delivery-panel.show{display:block;}
 .banner-free{display:flex;align-items:center;gap:10px;background:var(--green-glow);border:1px solid rgba(34,197,94,.3);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--success);font-weight:500;margin-bottom:12px;}
 .banner-cost{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 15px;font-size:13px;color:var(--muted);margin-bottom:12px;}
-
-/* FORM */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 @media(max-width:560px){.form-grid{grid-template-columns:1fr;}}
 .fg{display:flex;flex-direction:column;gap:5px;}
@@ -123,8 +105,6 @@ main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .fg input,.fg textarea{background:var(--surface);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:14px;padding:10px 14px;font-family:'DM Sans',sans-serif;transition:border-color .15s;}
 .fg input:focus,.fg textarea:focus{outline:none;border-color:var(--orange);}
 .fg input::placeholder,.fg textarea::placeholder{color:var(--muted);}
-
-/* PAGO */
 .pago-grid{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
 .pago-opt{flex:1;min-width:130px;padding:14px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;text-align:center;transition:all .15s;}
 .pago-opt:hover{border-color:var(--orange-dim);}
@@ -132,8 +112,6 @@ main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .pago-ico{font-size:24px;margin-bottom:5px;}
 .pago-name{font-size:13px;font-weight:600;}
 .pago-detail{font-size:11px;color:var(--muted);margin-top:2px;}
-
-/* RESUMEN */
 .resumen-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px;margin-bottom:12px;}
 .resumen-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:16px;flex-wrap:wrap;}
 .resumen-ttl{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:5px;}
@@ -146,41 +124,18 @@ main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .r-label{color:var(--muted);}
 .r-val{font-weight:500;}
 .r-div{height:1px;background:var(--border);margin:6px 0;}
-
 .btn-wsp{width:100%;display:flex;align-items:center;justify-content:center;gap:11px;background:#25D366;color:#fff;font-weight:700;font-size:16px;padding:16px;border-radius:12px;border:none;cursor:pointer;transition:filter .2s,transform .1s;font-family:'DM Sans',sans-serif;text-decoration:none;}
 .btn-wsp:hover{filter:brightness(1.08);}
 .btn-wsp:active{transform:scale(.98);}
 .btn-wsp svg{width:20px;height:20px;fill:#fff;flex-shrink:0;}
 .wsp-sub{text-align:center;font-size:12px;color:var(--muted);margin-top:10px;}
-
-/* RESUMEN FLOTANTE MOVIL */
-.float-bar{
-  display:none;
-  position:fixed; bottom:0; left:0; right:0;
-  background:rgba(24,24,24,.97);
-  border-top:1px solid var(--border);
-  backdrop-filter:blur(16px);
-  padding:12px 20px;
-  z-index:200;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-.float-bar-left{ display:flex; flex-direction:column; }
-.float-bar-label{ font-size:11px; color:var(--muted); }
-.float-bar-price{ font-family:'Bebas Neue',sans-serif; font-size:26px; color:var(--orange); line-height:1; }
-.float-bar-btn{
-  background:#25D366; color:#fff; font-weight:700;
-  font-size:14px; padding:12px 20px; border-radius:100px;
-  border:none; cursor:pointer; white-space:nowrap;
-  font-family:'DM Sans',sans-serif;
-  display:flex; align-items:center; gap:8px;
-}
-.float-bar-btn svg{ width:18px; height:18px; fill:#fff; }
-@media(max-width:640px){
-  .float-bar{ display:flex; }
-  main{ padding-bottom:100px; }
-}
+.float-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(24,24,24,.97);border-top:1px solid var(--border);backdrop-filter:blur(16px);padding:12px 20px;z-index:200;align-items:center;justify-content:space-between;gap:12px;}
+.float-bar-left{display:flex;flex-direction:column;}
+.float-bar-label{font-size:11px;color:var(--muted);}
+.float-bar-price{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--orange);line-height:1;}
+.float-bar-btn{background:#25D366;color:#fff;font-weight:700;font-size:14px;padding:12px 20px;border-radius:100px;border:none;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:8px;}
+.float-bar-btn svg{width:18px;height:18px;fill:#fff;}
+@media(max-width:640px){.float-bar{display:flex;}main{padding-bottom:100px;}}
 .price-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
 .price-table-wrap table{width:100%;border-collapse:collapse;font-size:13px;}
 .price-table-wrap thead th{padding:12px 18px;text-align:left;color:var(--muted);font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--border);}
@@ -189,9 +144,7 @@ main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .price-table-wrap tbody tr:last-child{border-bottom:none;}
 .price-table-wrap tbody td{padding:11px 18px;}
 .price-table-wrap tbody td:last-child{text-align:right;font-weight:700;color:var(--orange);}
-.price-section-header td{background:var(--surface2);color:var(--muted);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 18px!important;color:var(--muted)!important;font-weight:600!important;}
-
-/* FAQ */
+.price-section-header td{background:var(--surface2);font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:8px 18px!important;color:var(--muted)!important;font-weight:700!important;}
 .faq-item{border-bottom:1px solid var(--border);}
 .faq-q{display:flex;justify-content:space-between;align-items:center;padding:16px 2px;cursor:pointer;font-size:14px;font-weight:500;transition:color .15s;}
 .faq-q:hover{color:var(--orange);}
@@ -199,17 +152,16 @@ main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .faq-item.open .faq-arr{transform:rotate(180deg);}
 .faq-a{display:none;font-size:13px;color:var(--muted);padding-bottom:16px;line-height:1.75;}
 .faq-item.open .faq-a{display:block;}
-
 footer{border-top:1px solid var(--border);padding:28px;text-align:center;color:var(--muted);font-size:12px;margin-top:60px;}
 footer a{color:var(--orange);text-decoration:none;}
-
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface2);border:1px solid var(--border);padding:11px 22px;border-radius:10px;font-size:13px;opacity:0;transition:all .3s;z-index:999;white-space:nowrap;pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 .toast.ok{border-color:var(--success);color:var(--success);}
 .toast.err{border-color:#ef4444;color:#ef4444;}
-
 .spinner{display:inline-block;width:11px;height:11px;border:2px solid rgba(255,255,255,.15);border-top-color:var(--muted);border-radius:50%;animation:spin .6s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
+.plastificado-hojas{display:none;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-top:8px;align-items:center;justify-content:space-between;gap:12px;}
+.plastificado-hojas.show{display:flex;}
 </style>
 </head>
 <body>
@@ -231,7 +183,7 @@ footer a{color:var(--orange);text-decoration:none;}
 
 <main id="pedido">
 
-  <!-- ① ARCHIVO -->
+  <!-- ARCHIVO -->
   <div class="sec-gap">
     <div class="sec-label">① Archivos a imprimir</div>
     <div class="upload-area" id="uploadArea">
@@ -242,12 +194,10 @@ footer a{color:var(--orange);text-decoration:none;}
       <div class="btn-fake">☁️ Elegir archivos</div>
     </div>
     <div id="fileList" style="margin-top:8px;"></div>
-    <div class="drive-note" style="margin-top:8px;">
-      ✅ <strong>Los archivos se suben automaticamente</strong> a nuestro Google Drive cuando enviás el pedido. No tenes que hacer nada mas.
-    </div>
+    <div class="drive-note" style="margin-top:8px;">✅ <strong>Los archivos se suben automaticamente</strong> a nuestro Google Drive cuando enviás el pedido.</div>
   </div>
 
-  <!-- ② CONFIGURAR -->
+  <!-- CONFIGURAR -->
   <div class="sec-gap">
     <div class="sec-label">② Configurar impresion</div>
     <div class="config-grid">
@@ -255,18 +205,29 @@ footer a{color:var(--orange);text-decoration:none;}
       <div class="card">
         <div class="card-title">📐 Tamaño</div>
         <div class="opts">
-          <label class="opt active" data-group="size" data-val="a4">
-            <input type="radio" name="size" value="a4" checked>
+          <label class="opt active" data-group="size" data-val="a4oficio">
+            <input type="radio" name="size" value="a4oficio" checked>
             <div class="rdot"></div>
-            <div><div class="opt-main">A4</div><div class="opt-sub">210 x 297 mm</div></div>
+            <div><div class="opt-main">A4 / Oficio</div><div class="opt-sub">Mismo precio</div></div>
           </label>
           <label class="opt" data-group="size" data-val="a3">
             <input type="radio" name="size" value="a3">
             <div class="rdot"></div>
             <div><div class="opt-main">A3</div><div class="opt-sub">297 x 420 mm</div></div>
           </label>
-          <label class="opt" data-group="size" data-val="oficio">
-            <input type="radio" name="size" value="oficio">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Tamaño específico</div>
+        <div class="opts" id="size-detail-opts">
+          <label class="opt active" data-group="sizedetail" data-val="a4">
+            <input type="radio" name="sizedetail" value="a4" checked>
+            <div class="rdot"></div>
+            <div><div class="opt-main">A4</div><div class="opt-sub">210 x 297 mm</div></div>
+          </label>
+          <label class="opt" data-group="sizedetail" data-val="oficio">
+            <input type="radio" name="sizedetail" value="oficio">
             <div class="rdot"></div>
             <div><div class="opt-main">Oficio</div><div class="opt-sub">216 x 330 mm</div></div>
           </label>
@@ -279,7 +240,7 @@ footer a{color:var(--orange);text-decoration:none;}
           <label class="opt active" data-group="color" data-val="bn">
             <input type="radio" name="color" value="bn" checked>
             <div class="rdot"></div>
-            <div><div class="opt-main">Blanco y Negro</div><div class="opt-sub">Mas economico</div></div>
+            <div><div class="opt-main">Blanco y Negro</div><div class="opt-sub" id="bn-precio-sub">Mas economico</div></div>
           </label>
           <label class="opt" data-group="color" data-val="color">
             <input type="radio" name="color" value="color">
@@ -300,22 +261,22 @@ footer a{color:var(--orange);text-decoration:none;}
           <label class="opt" data-group="paper" data-val="opalina">
             <input type="radio" name="paper" value="opalina">
             <div class="rdot"></div>
-            <div><div class="opt-main">Opalina</div><div class="opt-sub">160 g/m2 · Satinado</div></div>
-          </label>
-          <label class="opt" data-group="paper" data-val="ilustracion200">
-            <input type="radio" name="paper" value="ilustracion200">
-            <div class="rdot"></div>
-            <div><div class="opt-main">Ilustracion 200g</div><div class="opt-sub">200 g/m2 · Mate premium</div></div>
-          </label>
-          <label class="opt" data-group="paper" data-val="ilustracion300">
-            <input type="radio" name="paper" value="ilustracion300">
-            <div class="rdot"></div>
-            <div><div class="opt-main">Ilustracion 300g</div><div class="opt-sub">300 g/m2 · Tapa / presentacion</div></div>
+            <div><div class="opt-main">Opalina</div><div class="opt-sub-wrap"><div class="opt-sub">160 g/m2</div><div class="opt-consultar" id="opalina-sub">A consultar</div></div></div>
           </label>
           <label class="opt" data-group="paper" data-val="adhesivo">
             <input type="radio" name="paper" value="adhesivo">
             <div class="rdot"></div>
-            <div><div class="opt-main">Adhesivo</div><div class="opt-sub">Papel autoadhesivo</div></div>
+            <div><div class="opt-main">Adhesivo</div><div class="opt-sub-wrap"><div class="opt-sub">Autoadhesivo</div><div class="opt-consultar">A consultar</div></div></div>
+          </label>
+          <label class="opt" data-group="paper" data-val="ilustracion200">
+            <input type="radio" name="paper" value="ilustracion200">
+            <div class="rdot"></div>
+            <div><div class="opt-main">Ilustracion 200g</div><div class="opt-sub-wrap"><div class="opt-sub">200 g/m2</div><div class="opt-consultar">A consultar</div></div></div>
+          </label>
+          <label class="opt" data-group="paper" data-val="ilustracion300">
+            <input type="radio" name="paper" value="ilustracion300">
+            <div class="rdot"></div>
+            <div><div class="opt-main">Ilustracion 300g</div><div class="opt-sub-wrap"><div class="opt-sub">300 g/m2</div><div class="opt-consultar">A consultar</div></div></div>
           </label>
         </div>
       </div>
@@ -373,41 +334,78 @@ footer a{color:var(--orange);text-decoration:none;}
           <label class="opt" data-group="finish" data-val="plastificado">
             <input type="radio" name="finish" value="plastificado">
             <div class="rdot"></div>
-            <div><div class="opt-main">Plastificado</div><div class="opt-sub">Consultar tipo al confirmar</div></div>
+            <div><div class="opt-main">Plastificado</div><div class="opt-sub" id="plastificado-precio-sub">Seleccionar tamaño abajo</div></div>
+          </label>
+        </div>
+        <!-- Opciones de plastificado -->
+        <div id="plastificado-opts" style="display:none;margin-top:12px;">
+          <div class="card-title" style="margin-bottom:8px;">Tamaño a plastificar</div>
+          <div class="opts">
+            <label class="opt active" data-group="plastsize" data-val="carnet">
+              <input type="radio" name="plastsize" value="carnet" checked>
+              <div class="rdot"></div>
+              <div><div class="opt-main">Carnet</div><div class="opt-sub">$650 por hoja</div></div>
+            </label>
+            <label class="opt" data-group="plastsize" data-val="medioa4">
+              <input type="radio" name="plastsize" value="medioa4">
+              <div class="rdot"></div>
+              <div><div class="opt-main">Medio A4</div><div class="opt-sub">$900 por hoja</div></div>
+            </label>
+            <label class="opt" data-group="plastsize" data-val="a4">
+              <input type="radio" name="plastsize" value="a4">
+              <div class="rdot"></div>
+              <div><div class="opt-main">A4</div><div class="opt-sub">$1.000 por hoja</div></div>
+            </label>
+            <label class="opt" data-group="plastsize" data-val="oficio">
+              <input type="radio" name="plastsize" value="oficio">
+              <div class="rdot"></div>
+              <div><div class="opt-main">Oficio</div><div class="opt-sub">$2.000 por hoja</div></div>
+            </label>
+            <label class="opt" data-group="plastsize" data-val="a3">
+              <input type="radio" name="plastsize" value="a3">
+              <div class="rdot"></div>
+              <div><div class="opt-main">A3</div><div class="opt-sub">$3.000 por hoja</div></div>
+            </label>
+          </div>
+          <div class="plastificado-hojas show" style="margin-top:10px;">
+            <div><div class="qty-label" style="font-size:13px;">Hojas a plastificar</div><div class="qty-sub">1 hoja por defecto</div></div>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changePlastQty(-1)">−</button>
+              <input class="qty-input" id="plastQty" type="number" value="1" min="1" max="999" oninput="onPlastQtyInput()">
+              <button class="qty-btn" onclick="changePlastQty(1)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🗂️ Impresiones por cara</div>
+        <div class="opts">
+          <label class="opt active" data-group="layout" data-val="1x1">
+            <input type="radio" name="layout" value="1x1" checked>
+            <div class="rdot"></div>
+            <div><div class="opt-main">Normal</div><div class="opt-sub">1 pagina por cara</div></div>
+          </label>
+          <label class="opt" data-group="layout" data-val="2x1">
+            <input type="radio" name="layout" value="2x1">
+            <div class="rdot"></div>
+            <div><div class="opt-main">2 paginas por cara</div></div>
+          </label>
+          <label class="opt" data-group="layout" data-val="2diapo">
+            <input type="radio" name="layout" value="2diapo">
+            <div class="rdot"></div>
+            <div><div class="opt-main">2 diapositivas por cara</div></div>
+          </label>
+          <label class="opt" data-group="layout" data-val="4diapo">
+            <input type="radio" name="layout" value="4diapo">
+            <div class="rdot"></div>
+            <div><div class="opt-main">4 diapositivas por cara</div></div>
           </label>
         </div>
       </div>
 
     </div>
 
-    <!-- IMPRESIONES POR CARA — fila completa -->
-    <div class="card" style="margin-bottom:12px;">
-      <div class="card-title">🗂️ Impresiones por cara</div>
-      <div class="config-grid" style="margin-bottom:0;">
-        <label class="opt active" data-group="layout" data-val="1x1">
-          <input type="radio" name="layout" value="1x1" checked>
-          <div class="rdot"></div>
-          <div><div class="opt-main">Normal</div><div class="opt-sub">1 pagina por cara</div></div>
-        </label>
-        <label class="opt" data-group="layout" data-val="2x1">
-          <input type="radio" name="layout" value="2x1">
-          <div class="rdot"></div>
-          <div><div class="opt-main">2 paginas por cara</div><div class="opt-sub">Ahorra papel</div></div>
-        </label>
-        <label class="opt" data-group="layout" data-val="2diapo">
-          <input type="radio" name="layout" value="2diapo">
-          <div class="rdot"></div>
-          <div><div class="opt-main">2 diapositivas por cara</div><div class="opt-sub">Formato presentacion</div></div>
-        </label>
-        <label class="opt" data-group="layout" data-val="4diapo">
-          <input type="radio" name="layout" value="4diapo">
-          <div class="rdot"></div>
-          <div><div class="opt-main">4 diapositivas por cara</div><div class="opt-sub">Compacto</div></div>
-        </label>
-      </div>
-    </div>
-
-    <!-- CANTIDAD DE COPIAS -->
     <div class="qty-card">
       <div>
         <div class="qty-label">Cantidad de copias</div>
@@ -421,15 +419,22 @@ footer a{color:var(--orange);text-decoration:none;}
     </div>
   </div>
 
-  <!-- ③ EXTRAS -->
+  <!-- EXTRAS -->
   <div class="sec-gap">
     <div class="sec-label">③ Extras (opcional)</div>
     <div class="extras-grid" id="extrasGrid"></div>
   </div>
 
-  <!-- ④ ENTREGA -->
+  <!-- TRABAJOS DE IMPRENTA -->
   <div class="sec-gap">
-    <div class="sec-label">④ Entrega</div>
+    <div class="sec-label">④ Trabajos de imprenta</div>
+    <div class="imprenta-notice" id="imprentaNotice">Este producto requiere confirmar detalles con el vendedor.</div>
+    <div class="imprenta-grid" id="imprentaGrid"></div>
+  </div>
+
+  <!-- ENTREGA -->
+  <div class="sec-gap">
+    <div class="sec-label">⑤ Entrega</div>
     <div class="delivery-tabs">
       <div class="dtab active" id="dtab-envio" onclick="setDelivery('envio')">
         <div class="dtab-icon">📦</div>
@@ -443,7 +448,7 @@ footer a{color:var(--orange);text-decoration:none;}
       </div>
     </div>
     <div class="delivery-panel show" id="panel-envio">
-      <div id="envio-banner" class="banner-cost">Enviamos dentro de la zona de Brandsen. Costo a confirmar por WhatsApp. Gratis a partir de 100 paginas.</div>
+      <div id="envio-banner" class="banner-cost">Enviamos dentro de la zona de Brandsen. Gratis a partir de 100 paginas.</div>
       <div class="card">
         <div class="form-grid">
           <div class="fg"><label>Calle y numero *</label><input type="text" id="addr-street" placeholder="Av. San Martin 1234"></div>
@@ -461,9 +466,9 @@ footer a{color:var(--orange);text-decoration:none;}
     </div>
   </div>
 
-  <!-- ⑤ TUS DATOS -->
+  <!-- DATOS -->
   <div class="sec-gap">
-    <div class="sec-label">⑤ Tus datos</div>
+    <div class="sec-label">⑥ Tus datos</div>
     <div class="card">
       <div class="form-grid">
         <div class="fg"><label>Tu nombre *</label><input type="text" id="contact-name" placeholder="Nombre y apellido"></div>
@@ -472,9 +477,9 @@ footer a{color:var(--orange);text-decoration:none;}
     </div>
   </div>
 
-  <!-- ⑥ PAGO -->
+  <!-- PAGO -->
   <div class="sec-gap">
-    <div class="sec-label">⑥ Forma de pago</div>
+    <div class="sec-label">⑦ Forma de pago</div>
     <div class="pago-grid">
       <div class="pago-opt active" onclick="setPago(this,'transferencia')">
         <div class="pago-ico">🏦</div>
@@ -489,16 +494,11 @@ footer a{color:var(--orange);text-decoration:none;}
     </div>
   </div>
 
-  <!-- ⑦ NOTAS -->
+  <!-- NOTAS -->
   <div class="sec-gap">
-    <div class="sec-label">⑦ Aclaraciones (opcional)</div>
-    <div class="fg">
-      <textarea id="notes" rows="3" placeholder="Anillado en tapa especifica, abrochado, paginas que no imprimir, instrucciones especiales..."></textarea>
-    </div>
+    <div class="sec-label">⑧ Aclaraciones (opcional)</div>
+    <div class="fg"><textarea id="notes" rows="3" placeholder="Anillado en tapa especifica, abrochado, paginas que no imprimir, instrucciones especiales..."></textarea></div>
   </div>
-
-  <!-- BANNER DRIVE LISTO — aparece cuando termina la subida -->
-  <div id="drive-ready-banner" style="display:none;background:var(--green-glow);border:1px solid rgba(34,197,94,.35);border-radius:14px;padding:16px 20px;margin-bottom:16px;"></div>
 
   <!-- RESUMEN -->
   <div class="sec-label">Resumen del pedido</div>
@@ -525,10 +525,11 @@ footer a{color:var(--orange);text-decoration:none;}
       <div class="r-row"><span class="r-label">Caras</span><span class="r-val" id="r-sides">Simple faz</span></div>
       <div class="r-row"><span class="r-label">Orientacion</span><span class="r-val" id="r-orient">Vertical</span></div>
       <div class="r-row"><span class="r-label">Terminacion</span><span class="r-val" id="r-finish">Sin terminacion</span></div>
-      <div class="r-row"><span class="r-label">Layout</span><span class="r-val" id="r-layout">Normal (1x1)</span></div>
+      <div class="r-row"><span class="r-label">Layout</span><span class="r-val" id="r-layout">Normal</span></div>
       <div class="r-div"></div>
       <div class="r-row"><span class="r-label">Precio por pagina</span><span class="r-val" id="r-unit">—</span></div>
       <div class="r-row"><span class="r-label">Extras</span><span class="r-val" id="r-extras">Ninguno</span></div>
+      <div class="r-row"><span class="r-label">Trabajos de imprenta</span><span class="r-val" id="r-imprenta">Ninguno</span></div>
       <div class="r-div"></div>
       <div class="r-row"><span class="r-label">Entrega</span><span class="r-val" id="r-delivery">Envio a domicilio</span></div>
       <div class="r-row"><span class="r-label">Pago</span><span class="r-val" id="r-pago">Transferencia / CBU</span></div>
@@ -545,7 +546,7 @@ footer a{color:var(--orange);text-decoration:none;}
     <div class="sec-label">Precios de referencia</div>
     <div class="price-table-wrap">
       <table>
-        <thead><tr><th>Tipo de impresion</th><th>Precio / pagina</th></tr></thead>
+        <thead><tr><th>Producto</th><th>Precio</th></tr></thead>
         <tbody id="priceTable"></tbody>
       </table>
     </div>
@@ -557,23 +558,19 @@ footer a{color:var(--orange);text-decoration:none;}
     <div class="sec-label">Preguntas frecuentes</div>
     <div class="faq-item open">
       <div class="faq-q" onclick="toggleFaq(this)">Como les llega mi archivo? <span class="faq-arr">▾</span></div>
-      <div class="faq-a">Cuando toces "Enviar pedido", el archivo se sube automaticamente a nuestro Google Drive con calidad original. Nos llega listo para imprimir. No necesitas hacer nada mas.</div>
+      <div class="faq-a">Cuando tocas "Enviar pedido", el archivo se sube automaticamente a nuestro Google Drive con calidad original. No necesitas hacer nada mas.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">El envio es siempre gratis? <span class="faq-arr">▾</span></div>
-      <div class="faq-a">El envio es gratis para pedidos de 100 paginas o mas dentro de la zona de Brandsen. Para pedidos menores, el costo es minimo y lo coordinamos por WhatsApp antes de que confirmes.</div>
+      <div class="faq-a">El envio es gratis para pedidos de 100 paginas o mas dentro de la zona de Brandsen. Para pedidos menores, coordinamos el costo por WhatsApp antes de confirmar.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Cuanto tarda en llegar? <span class="faq-arr">▾</span></div>
-      <div class="faq-a">Pedidos estandar: generalmente en el dia o al dia siguiente. Con terminaciones especiales (anillado, plastificado) pueden tardar 24-48hs. Te confirmamos el tiempo exacto al aceptar el pedido.</div>
+      <div class="faq-a">Pedidos estandar: generalmente en el dia o al dia siguiente. Con terminaciones especiales pueden tardar 24-48hs. Te confirmamos el tiempo exacto al aceptar el pedido.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Puedo pedir sin subir archivo? <span class="faq-arr">▾</span></div>
-      <div class="faq-a">Si. Completa el formulario sin archivo y coordinamos por WhatsApp. Ten en cuenta que si no sabes la cantidad exacta de paginas, la cotizacion puede ajustarse un poco.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Hacen anillado, abrochado o plastificado? <span class="faq-arr">▾</span></div>
-      <div class="faq-a">Si! Anotalo en el campo de aclaraciones y te cotizamos todo junto. Trabajamos con anillado espiral, encuadernacion termica, plastificado mate/brillo y abrochado.</div>
+      <div class="faq-a">Si. Completa el formulario sin archivo y coordinamos por WhatsApp. Ten en cuenta que sin el archivo la cotizacion puede ajustarse.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Como pago? <span class="faq-arr">▾</span></div>
@@ -598,84 +595,106 @@ footer a{color:var(--orange);text-decoration:none;}
 <footer>
   <p>CopyBrand · Impresiones a domicilio en Brandsen · <a href="https://wa.me/542223500935">Escribinos por WhatsApp</a></p>
 </footer>
-
 <div class="toast" id="toast"></div>
 
 <script>
 // ====================================================
-// CONFIGURACION — editar estos valores
+// CONFIGURACION
 // ====================================================
 const WSP_NUMBER         = "542223500935";
 const ENVIO_GRATIS_DESDE = 100;
 const APPS_SCRIPT_URL    = "https://script.google.com/macros/s/AKfycbznIxPGgb2P1VE8i2w1PXdvtfsplQKPSS6DVLVR3GvqSzeTBotQjBRl0IOlNzVz0P9F/exec";
 
-// Precio por PAGINA segun combinacion [tamaño][color][papel]
-// Doble faz NO cambia el precio por pagina, solo reduce la cantidad de hojas fisicas
-const PRECIOS = {
-  a4:     { bn: { comun:35, opalina:90, adhesivo:120, ilustracion200:150, ilustracion300:190 },
-            color: { comun:95, opalina:180, adhesivo:220, ilustracion200:250, ilustracion300:310 } },
-  a3:     { bn: { comun:65, opalina:160, adhesivo:200, ilustracion200:260, ilustracion300:330 },
-            color: { comun:180, opalina:300, adhesivo:380, ilustracion200:420, ilustracion300:520 } },
-  oficio: { bn: { comun:35, opalina:90, adhesivo:120, ilustracion200:150, ilustracion300:190 },
-            color: { comun:95, opalina:180, adhesivo:220, ilustracion200:250, ilustracion300:310 } }
-};
-
-// Extras: id, nombre, precio unitario
-const EXTRAS_DEF = [
-  { id:'carp3',   nombre:'Carpeta 3 solapas',           precio:350 },
-  { id:'carpTa4', nombre:'Carpeta Transparente A4',      precio:280 },
-  { id:'carpTof', nombre:'Carpeta Transparente Oficio',  precio:300 },
-  { id:'folioA4', nombre:'Folio A4',                     precio:80  },
-  { id:'folioOf', nombre:'Folio Oficio',                 precio:90  },
+// Precio por pagina BN comun segun tramos
+const BN_TRAMOS = [
+  { hasta: 25,       precio: 90,  label: '1 a 25 pag.' },
+  { hasta: 50,       precio: 88,  label: '26 a 50 pag.' },
+  { hasta: Infinity, precio: 85,  label: '51 o mas pag.' },
 ];
-
-// Anillado: precio por copia segun cantidad de hojas fisicas
-// Tramos: hasta 200 hojas / 201-300 / mas de 300
-const ANILLADO_TRAMOS = [
-  { hasta: 200, precio: 800,  label: 'hasta 200 hojas' },
-  { hasta: 300, precio: 1100, label: '201 a 300 hojas' },
-  { hasta: Infinity, precio: 1500, label: 'mas de 300 hojas' },
-];
-
-function getPrecioAnillado(hojasPorCopia) {
-  const tramo = ANILLADO_TRAMOS.find(t => hojasPorCopia <= t.hasta);
-  return tramo ? tramo.precio : ANILLADO_TRAMOS[ANILLADO_TRAMOS.length-1].precio;
+function getPrecioBN(totalPags) {
+  return (BN_TRAMOS.find(t => totalPags <= t.hasta) || BN_TRAMOS[BN_TRAMOS.length-1]).precio;
 }
 
-// Precio fijo por terminacion
-const PRECIOS_TERMINACION = {
-  ninguna:      0,
-  anillado:     0,     // calculado dinamicamente por getPrecioAnillado()
-  perforado:    0,     // gratis
-  plastificado: 600,   // por hoja fisica — ajustar
+// Precios A4/Oficio color y otros papeles (precio fijo)
+const PRECIOS = {
+  a4oficio: {
+    bn:    { comun: 90, opalina: 0, adhesivo: 0, ilustracion200: 0, ilustracion300: 0 },
+    color: { comun: 800, opalina: 1300, adhesivo: 1600, ilustracion200: 1000, ilustracion300: 0 }
+  },
+  a3: {
+    bn:    { comun: 250, opalina: 0, adhesivo: 0, ilustracion200: 0, ilustracion300: 0 },
+    color: { comun: 1600, opalina: 2500, adhesivo: 3000, ilustracion200: 2000, ilustracion300: 0 }
+  }
 };
-// ====================================================
 
+// Anillado por tramos de hojas fisicas
+const ANILLADO_TRAMOS = [
+  { hasta: 200,      precio: 2000, label: 'hasta 200 hojas' },
+  { hasta: 300,      precio: 3000, label: '201 a 300 hojas' },
+  { hasta: 400,      precio: 3500, label: '301 a 400 hojas' },
+  { hasta: Infinity, precio: 4000, label: 'mas de 400 hojas' },
+];
+function getPrecioAnillado(hojas) {
+  return (ANILLADO_TRAMOS.find(t => hojas <= t.hasta) || ANILLADO_TRAMOS[ANILLADO_TRAMOS.length-1]).precio;
+}
+
+// Plastificado por tamaño
+const PLAST_PRECIOS = { carnet: 650, medioa4: 900, a4: 1000, oficio: 2000, a3: 3000 };
+const PLAST_LABELS  = { carnet: 'Carnet', medioa4: 'Medio A4', a4: 'A4', oficio: 'Oficio', a3: 'A3' };
+
+// Extras
+const EXTRAS_DEF = [
+  { id:'carp3',   nombre:'Carpeta 3 solapas',          precio:1350 },
+  { id:'carpTa4', nombre:'Carpeta Transparente A4',     precio:2100 },
+  { id:'carpTof', nombre:'Carpeta Transparente Oficio', precio:2100 },
+  { id:'carpEla', nombre:'Carpeta Oficio con Elastico', precio:5100 },
+  { id:'folioA4', nombre:'Folio A4',                    precio:400  },
+  { id:'folioOf', nombre:'Folio Oficio',                precio:500  },
+  { id:'folioA4R',nombre:'Folio A4 Reforzado',          precio:700  },
+];
+
+// Trabajos de imprenta
+const IMPRENTA_DEF = [
+  { id:'tj100',    nombre:'Tarjetas Personales x 100',                     precio:19500  },
+  { id:'tj100df',  nombre:'Tarjetas Personales Doble Faz x 100',           precio:22500  },
+  { id:'tj500',    nombre:'Tarjetas Personales x 500 + 50 regalo',         precio:75000  },
+  { id:'tj500df',  nombre:'Tarjetas Personales Doble Faz x 500 + 50',      precio:112500 },
+  { id:'tj1000',   nombre:'Tarjetas Personales x 1000 + 100 regalo',       precio:150000 },
+  { id:'tj1000df', nombre:'Tarjetas Personales Doble Faz x 1000 + 100',    precio:225000 },
+  { id:'vol500bco',nombre:'Volantes Papel Blanco 10x15 - 500 u.',          precio:18000  },
+  { id:'vol1kbco', nombre:'Volantes Papel Blanco 10x15 - 1000 u.',         precio:23800  },
+  { id:'vol500col',nombre:'Volantes Papel Color 11x17 - 500 u.',           precio:18000  },
+  { id:'vol1kcol', nombre:'Volantes Papel Color 11x17 - 1000 u.',          precio:36000  },
+  { id:'vol500emb',nombre:'Volantes Emblocados 10x15 - 500 u.',            precio:18000  },
+  { id:'vol1kemb', nombre:'Volantes Emblocados 10x15 - 1000 u.',           precio:36000  },
+];
+
+// ====================================================
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 const state = {
   files:[], pages:null, copies:1,
-  size:'a4', color:'bn', paper:'comun', sides:'simple',
-  orient:'vertical', finish:'ninguna', layout:'1x1',
-  delivery:'envio', pago:'transferencia',
-  extras:{} // { id: cantidad }
+  size:'a4oficio', sizedetail:'a4', color:'bn', paper:'comun',
+  sides:'simple', orient:'vertical', finish:'ninguna',
+  plastsize:'carnet', plastqty:1,
+  layout:'1x1', delivery:'envio', pago:'transferencia',
+  extras:{}, imprenta:{}
 };
 
 const LBL = {
-  size:   { a4:'A4', a3:'A3', oficio:'Oficio' },
+  size:   { a4oficio:'A4 / Oficio', a3:'A3' },
   color:  { bn:'Blanco y Negro', color:'Color' },
   paper:  { comun:'Comun', opalina:'Opalina', adhesivo:'Adhesivo', ilustracion200:'Ilustracion 200g', ilustracion300:'Ilustracion 300g' },
   sides:  { simple:'Simple faz', doble:'Doble faz' },
   orient: { vertical:'Vertical', horizontal:'Horizontal' },
-  finish: { ninguna:'Sin terminacion', anillado:'Anillado', perforado:'2 agujeros (perforado)', plastificado:'Plastificado' },
-  layout: { '1x1':'Normal (1 pagina/cara)', '2x1':'2 paginas por cara', '2diapo':'2 diapositivas/cara', '4diapo':'4 diapositivas/cara' },
+  finish: { ninguna:'Sin terminacion', anillado:'Anillado', perforado:'2 agujeros (gratis)', plastificado:'Plastificado' },
+  layout: { '1x1':'Normal', '2x1':'2 paginas/cara', '2diapo':'2 diapositivas/cara', '4diapo':'4 diapositivas/cara' },
   pago:   { transferencia:'Transferencia / CBU', mercadopago:'Mercado Pago' }
 };
 
-// ---- EXTRAS ----
+// ---- BUILD GRIDS ----
 function buildExtras() {
-  const grid = document.getElementById('extrasGrid');
-  grid.innerHTML = EXTRAS_DEF.map(ex => `
+  document.getElementById('extrasGrid').innerHTML = EXTRAS_DEF.map(ex=>`
     <div class="extra-item" id="extra-item-${ex.id}">
       <div class="extra-left">
         <div class="extra-name">${ex.nombre}</div>
@@ -686,18 +705,39 @@ function buildExtras() {
         <div class="extra-val" id="extra-val-${ex.id}">0</div>
         <button class="extra-btn" onclick="changeExtra('${ex.id}',1)">+</button>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
+}
+
+function buildImprenta() {
+  document.getElementById('imprentaGrid').innerHTML = IMPRENTA_DEF.map(im=>`
+    <div class="extra-item" id="imp-item-${im.id}">
+      <div class="extra-left">
+        <div class="extra-name">${im.nombre}</div>
+        <div class="extra-price">$${im.precio.toLocaleString('es-AR')}</div>
+      </div>
+      <div class="extra-qty">
+        <button class="extra-btn" onclick="changeImprenta('${im.id}',-1)">−</button>
+        <div class="extra-val" id="imp-val-${im.id}">0</div>
+        <button class="extra-btn" onclick="changeImprenta('${im.id}',1)">+</button>
+      </div>
+    </div>`).join('');
 }
 
 function changeExtra(id, delta) {
-  const cur = state.extras[id] || 0;
-  const next = Math.max(0, cur + delta);
-  if (next === 0) delete state.extras[id];
-  else state.extras[id] = next;
-  document.getElementById('extra-val-' + id).textContent = next;
-  const item = document.getElementById('extra-item-' + id);
-  item.classList.toggle('has-qty', next > 0);
+  const next = Math.max(0, (state.extras[id]||0) + delta);
+  if(next===0) delete state.extras[id]; else state.extras[id]=next;
+  document.getElementById('extra-val-'+id).textContent = next;
+  document.getElementById('extra-item-'+id).classList.toggle('has-qty', next>0);
+  updateAll();
+}
+
+function changeImprenta(id, delta) {
+  const next = Math.max(0, (state.imprenta[id]||0) + delta);
+  if(next===0) delete state.imprenta[id]; else state.imprenta[id]=next;
+  document.getElementById('imp-val-'+id).textContent = next;
+  document.getElementById('imp-item-'+id).classList.toggle('has-qty', next>0);
+  const hasAny = Object.values(state.imprenta).some(q=>q>0);
+  document.getElementById('imprentaNotice').classList.toggle('show', hasAny);
   updateAll();
 }
 
@@ -710,56 +750,37 @@ uploadArea.addEventListener('drop', e=>{e.preventDefault();uploadArea.classList.
 fileInput.addEventListener('change', ()=>{if(fileInput.files.length)addFiles(Array.from(fileInput.files));fileInput.value='';});
 
 async function addFiles(newFiles) {
-  for (const file of newFiles) {
-    if (state.files.find(f=>f.name===file.name)) continue;
-    if (file.size > 100 * 1024 * 1024) {
-      showToast(file.name.substring(0,20) + '... supera 100MB. Mandalo por WhatsApp o pegá el link en aclaraciones.', 'err');
-      continue;
-    }
-    const entry = { name:file.name, size:file.size, pages:null, raw:file };
-    state.files.push(entry);
-    renderFileList();
-    if (file.name.toLowerCase().endsWith('.pdf')) {
-      try {
-        const pdf = await pdfjsLib.getDocument({data: await file.arrayBuffer()}).promise;
-        entry.pages = pdf.numPages;
-      } catch(e) { entry.pages = 1; }
-    } else { entry.pages = 1; }
-    state.pages = state.files.reduce((s,f)=>s+(f.pages||1),0);
-    renderFileList();
-    updateAll();
+  for(const file of newFiles){
+    if(state.files.find(f=>f.name===file.name)) continue;
+    if(file.size > 100*1024*1024){ showToast(file.name.substring(0,20)+'... supera 100MB. Mandalo por WhatsApp o pega el link en aclaraciones.','err'); continue; }
+    const entry={name:file.name,size:file.size,pages:null,raw:file};
+    state.files.push(entry); renderFileList();
+    if(file.name.toLowerCase().endsWith('.pdf')){
+      try{ const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise; entry.pages=pdf.numPages; }
+      catch(e){ entry.pages=1; }
+    } else { entry.pages=1; }
+    state.pages=state.files.reduce((s,f)=>s+(f.pages||1),0);
+    renderFileList(); updateAll();
   }
 }
-
-function removeFile(name) {
-  state.files = state.files.filter(f=>f.name!==name);
-  state.pages = state.files.reduce((s,f)=>s+(f.pages||1),0) || null;
-  renderFileList();
-  updateAll();
+function removeFile(name){
+  state.files=state.files.filter(f=>f.name!==name);
+  state.pages=state.files.reduce((s,f)=>s+(f.pages||1),0)||null;
+  renderFileList(); updateAll();
 }
-
-function renderFileList() {
-  const c = document.getElementById('fileList');
-  if (!state.files.length) { c.innerHTML=''; return; }
-  c.innerHTML = state.files.map(f=>`
+function renderFileList(){
+  const c=document.getElementById('fileList');
+  if(!state.files.length){c.innerHTML='';return;}
+  c.innerHTML=state.files.map(f=>`
     <div class="file-info show" style="margin-bottom:6px;">
       <div class="file-ico2">${f.name.toLowerCase().endsWith('.pdf')?'📄':'🖼️'}</div>
-      <div class="file-details">
-        <strong style="font-size:13px;word-break:break-all;">${f.name}</strong>
-        <small>${fmtSz(f.size)}</small>
-      </div>
-      ${f.pages!==null
-        ? `<span class="page-badge">${f.pages} pag.</span>`
-        : `<span class="page-badge det"><span class="spinner"></span></span>`}
+      <div class="file-details"><strong style="font-size:13px;word-break:break-all;">${f.name}</strong><small>${fmtSz(f.size)}</small></div>
+      ${f.pages!==null?`<span class="page-badge">${f.pages} pag.</span>`:`<span class="page-badge det"><span class="spinner"></span></span>`}
       <button class="remove-btn" onclick="removeFile('${f.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">✕</button>
-    </div>
-  `).join('');
-  const total = state.files.reduce((s,f)=>s+(f.pages||0),0);
-  if (state.files.length > 1 && total > 0) {
-    c.innerHTML += `<div style="font-size:12px;color:var(--orange);font-weight:600;padding:6px 4px;">Total: ${total} paginas en ${state.files.length} archivos</div>`;
-  }
+    </div>`).join('');
+  const tot=state.files.reduce((s,f)=>s+(f.pages||0),0);
+  if(state.files.length>1&&tot>0) c.innerHTML+=`<div style="font-size:12px;color:var(--orange);font-weight:600;padding:6px 4px;">Total: ${tot} paginas en ${state.files.length} archivos</div>`;
 }
-
 function fmtSz(b){return b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB';}
 
 // ---- OPCIONES ----
@@ -768,16 +789,21 @@ document.querySelectorAll('.opt').forEach(o=>{
     const g=this.dataset.group,v=this.dataset.val;
     document.querySelectorAll(`.opt[data-group="${g}"]`).forEach(x=>x.classList.remove('active'));
     this.classList.add('active');this.querySelector('input').checked=true;
-    state[g]=v; updateAll();
+    state[g]=v;
+    if(g==='finish'){
+      document.getElementById('plastificado-opts').style.display = v==='plastificado'?'block':'none';
+    }
+    updateAll();
   });
 });
 
+// ---- PLASTIFICADO ----
+function changePlastQty(d){ state.plastqty=Math.max(1,state.plastqty+d); document.getElementById('plastQty').value=state.plastqty; updateAll(); }
+function onPlastQtyInput(){ state.plastqty=Math.max(1,parseInt(document.getElementById('plastQty').value)||1); updateAll(); }
+
 // ---- CANTIDAD ----
-function changeQty(d){
-  let v=Math.max(1,parseInt(document.getElementById('qtyInput').value||1)+d);
-  document.getElementById('qtyInput').value=v; state.copies=v; updateAll();
-}
-function onQtyInput(){state.copies=Math.max(1,parseInt(document.getElementById('qtyInput').value)||1);updateAll();}
+function changeQty(d){ let v=Math.max(1,parseInt(document.getElementById('qtyInput').value||1)+d); document.getElementById('qtyInput').value=v; state.copies=v; updateAll(); }
+function onQtyInput(){ state.copies=Math.max(1,parseInt(document.getElementById('qtyInput').value)||1); updateAll(); }
 
 // ---- ENTREGA ----
 function setDelivery(t){
@@ -790,132 +816,142 @@ function setDelivery(t){
 }
 
 // ---- PAGO ----
-function setPago(el,val){
-  document.querySelectorAll('.pago-opt').forEach(o=>o.classList.remove('active'));
-  el.classList.add('active'); state.pago=val; updateAll();
-}
+function setPago(el,val){ document.querySelectorAll('.pago-opt').forEach(o=>o.classList.remove('active')); el.classList.add('active'); state.pago=val; updateAll(); }
 
 // ---- CALCULO ----
-// LOGICA CORRECTA:
-// - Las PAGINAS del archivo siempre son las mismas (ej: 12 paginas)
-// - Simple faz: necesitas 12 hojas fisicas
-// - Doble faz: necesitas 6 hojas fisicas (pero siguen siendo 12 paginas)
-// - El PRECIO es por PAGINA siempre, no por hoja fisica
-// - Layout divide las paginas por cara (2x1 = 2 pag por cara, necesitas la mitad de hojas)
 function calc(){
-  const unit = PRECIOS[state.size]?.[state.color]?.[state.paper] || 0;
-  const pagesRaw = state.pages || 1;
+  const pagesRaw = state.pages||1;
+  const layoutFactor = state.layout==='2x1'||state.layout==='2diapo'?2:state.layout==='4diapo'?4:1;
+  const pagesPerSheet = layoutFactor*(state.sides==='doble'?2:1);
+  const physicalSheets = Math.ceil(pagesRaw/pagesPerSheet)*state.copies;
+  const totalPages = pagesRaw*state.copies;
 
-  // Factor de layout (cuantas paginas entran por cara)
-  const layoutFactor = state.layout==='2x1'||state.layout==='2diapo' ? 2 : state.layout==='4diapo' ? 4 : 1;
+  // Precio por pagina
+  let unit = 0;
+  const paperPrecio = PRECIOS[state.size]?.[state.color]?.[state.paper]||0;
+  if(state.color==='bn' && state.paper==='comun'){
+    unit = getPrecioBN(totalPages); // tramos solo BN comun
+  } else {
+    unit = paperPrecio;
+  }
 
-  // Paginas logicas (precio se cobra por pagina original, no reducida por layout)
-  const totalPages = pagesRaw * state.copies;
+  const esConsultar = unit===0;
+  const subtotalImpresion = esConsultar ? 0 : unit*totalPages;
 
-  // Hojas fisicas (solo informativo)
-  const pagesPerSheet = layoutFactor * (state.sides==='doble' ? 2 : 1);
-  const physicalSheets = Math.ceil(pagesRaw / pagesPerSheet) * state.copies;
+  // Anillado
+  let subtotalAnillado = 0;
+  if(state.finish==='anillado'){
+    const hojasPorCopia = Math.ceil(pagesRaw/pagesPerSheet);
+    const precioAni = getPrecioAnillado(hojasPorCopia);
+    subtotalAnillado = precioAni*state.copies;
+    const sub=document.getElementById('anillado-precio-sub');
+    if(sub) sub.textContent='$'+precioAni.toLocaleString('es-AR')+'/juego ('+hojasPorCopia+' hojas)';
+  }
 
-  // Precio: por pagina original × copias (el layout y doble faz reduce hojas pero no el precio por pagina)
-  const subtotalImpresion = unit * totalPages;
-
-  // Precio terminacion
-  let subtotalTerminacion = 0;
-  const hojasPorCopia = Math.ceil(pagesRaw / (layoutFactor * (state.sides==='doble'?2:1)));
-  if (state.finish === 'anillado') {
-    const precioAnillado = getPrecioAnillado(hojasPorCopia);
-    subtotalTerminacion = precioAnillado * state.copies;
-    // Actualizar subtitulo del anillado en tiempo real
-    const sub = document.getElementById('anillado-precio-sub');
-    if(sub) sub.textContent = '$' + precioAnillado.toLocaleString('es-AR') + ' por juego (' + hojasPorCopia + ' hojas)';
-  } else if (state.finish === 'plastificado') {
-    subtotalTerminacion = PRECIOS_TERMINACION.plastificado * physicalSheets;
+  // Plastificado
+  let subtotalPlast = 0;
+  if(state.finish==='plastificado'){
+    const pPlast = PLAST_PRECIOS[state.plastsize]||0;
+    subtotalPlast = pPlast*state.plastqty;
+    const sub=document.getElementById('plastificado-precio-sub');
+    if(sub) sub.textContent='$'+pPlast.toLocaleString('es-AR')+'/hoja · '+PLAST_LABELS[state.plastsize];
   }
 
   // Extras
-  let subtotalExtras = 0;
-  const extrasDef = EXTRAS_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
-  Object.entries(state.extras).forEach(([id,qty])=>{
-    if(extrasDef[id]) subtotalExtras += extrasDef[id].precio * qty;
-  });
+  let subtotalExtras=0;
+  const extMap=EXTRAS_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
+  Object.entries(state.extras).forEach(([id,q])=>{ if(extMap[id]) subtotalExtras+=extMap[id].precio*q; });
 
-  const total = subtotalImpresion + subtotalTerminacion + subtotalExtras;
-  const freeShipping = state.delivery==='envio' && totalPages >= ENVIO_GRATIS_DESDE;
+  // Imprenta
+  let subtotalImprenta=0;
+  const impMap=IMPRENTA_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
+  Object.entries(state.imprenta).forEach(([id,q])=>{ if(impMap[id]) subtotalImprenta+=impMap[id].precio*q; });
 
-  return {unit, pagesRaw, totalPages, physicalSheets, subtotalImpresion, subtotalTerminacion, subtotalExtras, total, freeShipping};
+  const total=subtotalImpresion+subtotalAnillado+subtotalPlast+subtotalExtras+subtotalImprenta;
+  const freeShipping=state.delivery==='envio'&&totalPages>=ENVIO_GRATIS_DESDE;
+
+  return {unit,esConsultar,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping};
 }
 
-// ---- ACTUALIZAR UI ----
+// ---- UPDATE UI ----
 function updateAll(){
-  const {unit,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalTerminacion,subtotalExtras,total,freeShipping} = calc();
+  const {unit,esConsultar,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping}=calc();
 
-  document.getElementById('priceTotal').innerHTML = `$${total.toLocaleString('es-AR')}<small>ARS</small>`;
-  // Actualizar también el resumen flotante móvil
-  const floatPrice = document.getElementById('float-price');
-  if(floatPrice) floatPrice.textContent = '$' + total.toLocaleString('es-AR');
+  // BN precio sub actualizado
+  if(state.color==='bn'&&state.paper==='comun'){
+    const tramo=BN_TRAMOS.find(t=>totalPages<=t.hasta)||BN_TRAMOS[BN_TRAMOS.length-1];
+    const sub=document.getElementById('bn-precio-sub');
+    if(sub) sub.textContent='$'+tramo.precio.toLocaleString('es-AR')+'/pag ('+tramo.label+')';
+  } else {
+    const sub=document.getElementById('bn-precio-sub');
+    if(sub) sub.textContent='Mas economico';
+  }
 
-  document.getElementById('totalSheets').textContent = totalPages;
-  document.getElementById('sheetBreak').textContent = state.pages
-    ? `${pagesRaw} pag. x ${state.copies} cop. = ${totalPages} pag. (${physicalSheets} hojas fisicas)`
-    : 'Ingresa un archivo';
-  document.getElementById('qty-sub').textContent = state.pages
-    ? `${state.copies} copia${state.copies>1?'s':''} x ${pagesRaw} pag. = ${totalPages} paginas`
-    : `${state.copies} copia${state.copies>1?'s':''}`;
+  document.getElementById('priceTotal').innerHTML=`$${total.toLocaleString('es-AR')}<small>ARS</small>`;
+  const fp=document.getElementById('float-price');
+  if(fp) fp.textContent='$'+total.toLocaleString('es-AR');
+  document.getElementById('totalSheets').textContent=totalPages;
+  document.getElementById('sheetBreak').textContent=state.pages
+    ?`${pagesRaw} pag. x ${state.copies} cop. = ${totalPages} pag. (${physicalSheets} hojas fisicas)`
+    :'Ingresa un archivo';
+  document.getElementById('qty-sub').textContent=state.pages
+    ?`${state.copies} copia${state.copies>1?'s':''} x ${pagesRaw} pag. = ${totalPages} paginas`
+    :`${state.copies} copia${state.copies>1?'s':''}`;
 
-  // envio tag
-  const wrap = document.getElementById('envio-tag-wrap');
+  const wrap=document.getElementById('envio-tag-wrap');
   if(state.delivery==='envio'){
     if(freeShipping) wrap.innerHTML='<span class="tag-green">Envio gratis incluido</span>';
-    else { const f=ENVIO_GRATIS_DESDE-totalPages; wrap.innerHTML=`<span class="tag-grey">Faltan ${f} paginas para envio gratis</span>`; }
-  } else { wrap.innerHTML='<span class="tag-grey">Retiro sin cargo</span>'; }
+    else wrap.innerHTML=`<span class="tag-grey">Faltan ${ENVIO_GRATIS_DESDE-totalPages} paginas para envio gratis</span>`;
+  } else wrap.innerHTML='<span class="tag-grey">Retiro sin cargo</span>';
 
-  const banner = document.getElementById('envio-banner');
-  if(freeShipping){ banner.className='banner-free'; banner.textContent='Envio gratis! Tu pedido supera las '+ENVIO_GRATIS_DESDE+' paginas.'; }
-  else { banner.className='banner-cost'; banner.textContent='Enviamos dentro de la zona de Brandsen. Costo a confirmar por WhatsApp. Gratis a partir de '+ENVIO_GRATIS_DESDE+' paginas.'; }
+  const banner=document.getElementById('envio-banner');
+  if(freeShipping){banner.className='banner-free';banner.textContent='Envio gratis! Tu pedido supera las '+ENVIO_GRATIS_DESDE+' paginas.';}
+  else{banner.className='banner-cost';banner.textContent='Enviamos dentro de la zona de Brandsen. Gratis a partir de '+ENVIO_GRATIS_DESDE+' paginas.';}
 
-  // resumen
-  document.getElementById('r-pages').textContent  = state.pages ? `${state.pages} pag.` : 'Sin archivo';
-  document.getElementById('r-copies').textContent = state.copies;
-  document.getElementById('r-size').textContent   = LBL.size[state.size];
-  document.getElementById('r-color').textContent  = LBL.color[state.color];
-  document.getElementById('r-paper').textContent  = LBL.paper[state.paper];
-  document.getElementById('r-sides').textContent  = LBL.sides[state.sides];
-  document.getElementById('r-orient').textContent = LBL.orient[state.orient];
-  document.getElementById('r-finish').textContent = LBL.finish[state.finish];
-  document.getElementById('r-layout').textContent = LBL.layout[state.layout];
-  document.getElementById('r-unit').textContent   = `$${unit.toLocaleString('es-AR')}/pagina`;
-  document.getElementById('r-pago').textContent   = LBL.pago[state.pago];
-  document.getElementById('r-delivery').textContent = state.delivery==='envio'
-    ? (freeShipping ? 'Envio a domicilio (gratis)' : 'Envio a domicilio (costo a confirmar)')
-    : 'Retiro en local';
+  // Resumen
+  document.getElementById('r-pages').textContent=state.pages?`${state.pages} pag.`:'Sin archivo';
+  document.getElementById('r-copies').textContent=state.copies;
+  document.getElementById('r-size').textContent=LBL.size[state.size]+' ('+state.sizedetail.toUpperCase()+')';
+  document.getElementById('r-color').textContent=LBL.color[state.color];
+  document.getElementById('r-paper').textContent=LBL.paper[state.paper]+(esConsultar?' (a consultar)':'');
+  document.getElementById('r-sides').textContent=LBL.sides[state.sides];
+  document.getElementById('r-orient').textContent=LBL.orient[state.orient];
+  document.getElementById('r-layout').textContent=LBL.layout[state.layout];
+  document.getElementById('r-unit').textContent=esConsultar?'A consultar':'$'+unit.toLocaleString('es-AR')+'/pagina';
 
-  // extras resumen
-  const extrasActivos = Object.entries(state.extras).filter(([,q])=>q>0);
-  const extrasDef = EXTRAS_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
-  document.getElementById('r-finish').textContent = LBL.finish[state.finish] +
-    (subtotalTerminacion > 0 ? ' (+$' + subtotalTerminacion.toLocaleString('es-AR') + ')' : ' (incluido)');
-  document.getElementById('r-extras').textContent = extrasActivos.length
-    ? extrasActivos.map(([id,q])=>`${extrasDef[id]?.nombre} x${q}`).join(', ')
-    : 'Ninguno';
+  // Terminacion
+  let finishLabel=LBL.finish[state.finish];
+  if(state.finish==='anillado') finishLabel+=' ($'+subtotalAnillado.toLocaleString('es-AR')+')';
+  if(state.finish==='plastificado') finishLabel+=' '+PLAST_LABELS[state.plastsize]+' x'+state.plastqty+' ($'+subtotalPlast.toLocaleString('es-AR')+')';
+  document.getElementById('r-finish').textContent=finishLabel;
+
+  // Extras
+  const extMap=EXTRAS_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
+  const extActivos=Object.entries(state.extras).filter(([,q])=>q>0);
+  document.getElementById('r-extras').textContent=extActivos.length?extActivos.map(([id,q])=>extMap[id]?.nombre+' x'+q).join(', '):'Ninguno';
+
+  // Imprenta
+  const impMap=IMPRENTA_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
+  const impActivos=Object.entries(state.imprenta).filter(([,q])=>q>0);
+  document.getElementById('r-imprenta').textContent=impActivos.length?impActivos.map(([id,q])=>impMap[id]?.nombre+' x'+q).join(', '):'Ninguno';
+
+  document.getElementById('r-pago').textContent=LBL.pago[state.pago];
+  document.getElementById('r-delivery').textContent=state.delivery==='envio'?(freeShipping?'Envio a domicilio (gratis)':'Envio a domicilio (costo a confirmar)'):'Retiro en local';
 }
 
-// ---- SUBIDA AL DRIVE ----
-async function subirArchivoDrive(file, clienteName) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = async function(e) {
-      try {
-        const base64 = e.target.result.split(',')[1];
-        const res = await fetch(APPS_SCRIPT_URL, {
-          method:'POST',
-          body: JSON.stringify({ fileName:file.name, mimeType:file.type||'application/octet-stream', file:base64, cliente:clienteName })
-        });
-        const data = await res.json();
-        if(data.ok) resolve(data.fileUrl);
-        else reject(data.error||'Error desconocido');
-      } catch(err) { reject(err.toString()); }
+// ---- DRIVE ----
+async function subirArchivoDrive(file,clienteName){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=async function(e){
+      try{
+        const base64=e.target.result.split(',')[1];
+        const res=await fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({fileName:file.name,mimeType:file.type||'application/octet-stream',file:base64,cliente:clienteName})});
+        const data=await res.json();
+        if(data.ok) resolve(data.fileUrl); else reject(data.error||'Error');
+      }catch(err){reject(err.toString());}
     };
-    reader.onerror = ()=>reject('Error al leer el archivo');
+    reader.onerror=()=>reject('Error al leer');
     reader.readAsDataURL(file);
   });
 }
@@ -923,10 +959,9 @@ async function subirArchivoDrive(file, clienteName) {
 // ---- WHATSAPP ----
 async function sendWhatsApp(e){
   e.preventDefault();
-  const name  = document.getElementById('contact-name').value.trim();
-  const phone = document.getElementById('contact-phone').value.trim();
-  const notes = document.getElementById('notes').value.trim();
-
+  const name=document.getElementById('contact-name').value.trim();
+  const phone=document.getElementById('contact-phone').value.trim();
+  const notes=document.getElementById('notes').value.trim();
   if(!name||!phone){showToast('Completa tu nombre y WhatsApp','err');return;}
   if(state.delivery==='envio'){
     if(!document.getElementById('addr-street').value.trim()||!document.getElementById('addr-city').value.trim()){
@@ -934,8 +969,7 @@ async function sendWhatsApp(e){
     }
   }
 
-  const {unit,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalTerminacion,subtotalExtras,total,freeShipping} = calc();
-
+  const {unit,esConsultar,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping}=calc();
   let direccion='';
   if(state.delivery==='envio'){
     const s=document.getElementById('addr-street').value.trim();
@@ -945,253 +979,202 @@ async function sendWhatsApp(e){
     direccion=[s,f,c,p].filter(Boolean).join(', ');
   }
 
-  const entregaTxt = state.delivery==='retiro'
-    ? 'Retiro en local'
-    : freeShipping
-      ? 'Envio a domicilio GRATIS\nDireccion: '+direccion
-      : 'Envio a domicilio (costo a confirmar)\nDireccion: '+direccion;
+  const extMap=EXTRAS_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
+  const impMap=IMPRENTA_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
+  const extActivos=Object.entries(state.extras).filter(([,q])=>q>0);
+  const impActivos=Object.entries(state.imprenta).filter(([,q])=>q>0);
 
-  const extrasActivos = Object.entries(state.extras).filter(([,q])=>q>0);
-  const extrasDef = EXTRAS_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
-  const extrasLineas = extrasActivos.length
-    ? extrasActivos.map(([id,q])=>`  - ${extrasDef[id]?.nombre} x${q}: $${(extrasDef[id]?.precio*q).toLocaleString('es-AR')}`).join('\n')
-    : '  Ninguno';
-
-  // --- BARRA DE PROGRESO ---
-  const btn = document.querySelector('.btn-wsp');
-  const floatBtn = document.querySelector('.float-bar-btn');
-
-  function setLoading(pct, txt){
-    const html = `
-      <div style="width:100%;text-align:center;padding:2px 0;">
-        <div style="font-size:14px;font-weight:600;margin-bottom:8px;">${txt}</div>
-        <div style="background:rgba(255,255,255,.15);border-radius:100px;height:6px;overflow:hidden;">
-          <div style="background:#fff;height:6px;border-radius:100px;transition:width .4s;width:${pct}%"></div>
-        </div>
-      </div>`;
-    if(btn){ btn.innerHTML = html; btn.style.pointerEvents='none'; }
-    if(floatBtn){ floatBtn.innerHTML = html; floatBtn.style.pointerEvents='none'; }
+  // Barra de progreso
+  const wspIcon=`<svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#fff;flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+  const btn=document.querySelector('.btn-wsp');
+  const floatBtn=document.querySelector('.float-bar-btn');
+  function setLoading(pct,txt){
+    const h=`<div style="width:100%;text-align:center;padding:2px 0;"><div style="font-size:14px;font-weight:600;margin-bottom:8px;">${txt}</div><div style="background:rgba(255,255,255,.15);border-radius:100px;height:6px;overflow:hidden;"><div style="background:#fff;height:6px;border-radius:100px;transition:width .4s;width:${pct}%"></div></div></div>`;
+    if(btn){btn.innerHTML=h;btn.style.pointerEvents='none';}
+    if(floatBtn){floatBtn.innerHTML=h;floatBtn.style.pointerEvents='none';}
   }
-
   function resetBtn(){
-    const wspIcon = `<svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#fff;flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
-    if(btn){ btn.innerHTML = wspIcon + ' Enviar pedido por WhatsApp'; btn.style.pointerEvents='auto'; }
-    if(floatBtn){ floatBtn.innerHTML = wspIcon + ' Enviar pedido'; floatBtn.style.pointerEvents='auto'; }
+    if(btn){btn.innerHTML=wspIcon+' Enviar pedido por WhatsApp';btn.style.pointerEvents='auto';}
+    if(floatBtn){floatBtn.innerHTML=wspIcon+' Enviar pedido';floatBtn.style.pointerEvents='auto';}
   }
 
-  // --- SUBIR ARCHIVOS CON PROGRESO ---
-  let archivosLineas = '  Sin archivo adjunto';
-  let linksSubidos = [];
-
-  if(state.files.length > 0){
-    setLoading(10, 'Preparando archivos...');
-    const total_files = state.files.length;
-
-    for(let i=0; i<total_files; i++){
-      const f = state.files[i];
-      const pct = 10 + Math.round(((i) / total_files) * 80);
-      setLoading(pct, `Subiendo ${i+1} de ${total_files}... (${f.name.substring(0,20)})`);
-      try{
-        const url = await subirArchivoDrive(f.raw, name);
-        linksSubidos.push({ name: f.name, pages: f.pages||1, url });
-      } catch(err){
-        linksSubidos.push({ name: f.name, pages: f.pages||1, url: null });
-      }
+  // Subir archivos
+  let linksSubidos=[];
+  if(state.files.length>0){
+    setLoading(10,'Preparando archivos...');
+    for(let i=0;i<state.files.length;i++){
+      const f=state.files[i];
+      setLoading(10+Math.round((i/state.files.length)*80),'Subiendo '+(i+1)+' de '+state.files.length+'...');
+      try{ const url=await subirArchivoDrive(f.raw,name); linksSubidos.push({name:f.name,pages:f.pages||1,url}); }
+      catch(err){ linksSubidos.push({name:f.name,pages:f.pages||1,url:null}); }
     }
-
-    setLoading(95, 'Preparando mensaje...');
-
-    archivosLineas = linksSubidos.map(f =>
-      '  - ' + f.name + ' (' + f.pages + ' pag.)' + (f.url ? '\n    Drive: ' + f.url : '')
-    ).join('\n');
-
-  } else {
-    archivosLineas = '  Sin archivo adjunto';
+    setLoading(95,'Preparando mensaje...');
   }
 
-  // --- REGISTRAR EN SHEETS (sin await, no bloquea) ---
-  fetch(APPS_SCRIPT_URL, {
-    method:'POST',
-    body:JSON.stringify({
-      accion:'registrar',
-      fecha:new Date().toLocaleDateString('es-AR'),
-      hora:new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}),
-      cliente:name, telefono:phone,
-      paginas:totalPages,
-      tamano:LBL.size[state.size], color:LBL.color[state.color],
-      papel:LBL.paper[state.paper], caras:LBL.sides[state.sides],
-      copias:state.copies,
-      entrega:state.delivery==='retiro'?'Retiro en local':(freeShipping?'Envio gratis':'Envio pago'),
-      direccion:direccion||'-',
-      pago:LBL.pago[state.pago],
-      total:total, notas:notes||'-'
-    })
-  }).catch(()=>{});
+  // Registro en Sheets sin bloquear
+  fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({
+    accion:'registrar',fecha:new Date().toLocaleDateString('es-AR'),
+    hora:new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}),
+    cliente:name,telefono:phone,paginas:totalPages,
+    tamano:LBL.size[state.size]+' '+state.sizedetail.toUpperCase(),
+    color:LBL.color[state.color],papel:LBL.paper[state.paper],
+    caras:LBL.sides[state.sides],copias:state.copies,
+    entrega:state.delivery==='retiro'?'Retiro en local':(freeShipping?'Envio gratis':'Envio pago'),
+    direccion:direccion||'-',pago:LBL.pago[state.pago],total:total,notas:notes||'-'
+  })}).catch(()=>{});
 
-  // --- ARMAR MENSAJE ---
-  const ahora = new Date().toLocaleDateString('es-AR') + ' ' + new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}) + 'hs.';
+  // Armar mensaje
+  const ahora=new Date().toLocaleDateString('es-AR')+' '+new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})+'hs.';
+  const archivosLineas=linksSubidos.length>0
+    ?linksSubidos.map(f=>f.name+' - '+f.pages+' pag.'+(f.url?'\nDrive: '+f.url:'')).join('\n')
+    :'Sin archivo adjunto';
 
-  const lineasArchivos = linksSubidos.length > 0
-    ? linksSubidos.map(f => f.name + ' - ' + f.pages + ' pag.' + (f.url ? '\nDrive: ' + f.url : '')).join('\n')
-    : 'Sin archivo adjunto';
+  let terminacionLinea='Sin terminacion';
+  if(state.finish==='anillado') terminacionLinea='Anillado - $'+subtotalAnillado.toLocaleString('es-AR')+'.-';
+  if(state.finish==='perforado') terminacionLinea='2 agujeros (gratis)';
+  if(state.finish==='plastificado') terminacionLinea='Plastificado '+PLAST_LABELS[state.plastsize]+' x'+state.plastqty+' - $'+subtotalPlast.toLocaleString('es-AR')+'.-';
 
-  const terminacionLinea = state.finish !== 'ninguna'
-    ? LBL.finish[state.finish] + (subtotalTerminacion > 0 ? ' - $' + subtotalTerminacion.toLocaleString('es-AR') + '.-' : ' (gratis)')
-    : null;
+  const extrasLineas=extActivos.length
+    ?extActivos.map(([id,q])=>extMap[id]?.nombre+' x'+q+' - $'+(extMap[id]?.precio*q).toLocaleString('es-AR')+'.-').join('\n')
+    :'Ninguno';
 
-  const extrasLinea = extrasActivos.length > 0
-    ? extrasActivos.map(([id,q]) => extrasDef[id]?.nombre + ' x' + q + ' - $' + (extrasDef[id]?.precio * q).toLocaleString('es-AR') + '.-').join('\n')
-    : null;
+  const imprentaLineas=impActivos.length
+    ?impActivos.map(([id,q])=>impMap[id]?.nombre+' x'+q+' - $'+(impMap[id]?.precio*q).toLocaleString('es-AR')+'.-').join('\n')
+    :'Ninguno';
 
-  const partes = [
-    '*Nuevo Pedido* - ' + ahora,
+  const partes=[
+    '*Nuevo Pedido* - '+ahora,
     '',
-    '*Cliente:* ' + name,
-    '*WhatsApp:* ' + phone,
+    '*Cliente:* '+name,
+    '*WhatsApp:* '+phone,
     '',
     '*Archivos:*',
-    lineasArchivos,
+    archivosLineas,
     '',
     '*Impresion:*',
-    'Tamano: ' + LBL.size[state.size],
-    'Color: ' + LBL.color[state.color],
-    'Papel: ' + LBL.paper[state.paper],
-    'Caras: ' + LBL.sides[state.sides],
-    'Orientacion: ' + LBL.orient[state.orient],
-    'Layout: ' + LBL.layout[state.layout],
-    terminacionLinea ? 'Terminacion: ' + terminacionLinea : null,
+    'Tamano: '+LBL.size[state.size]+' ('+state.sizedetail.toUpperCase()+')',
+    'Color: '+LBL.color[state.color],
+    'Papel: '+LBL.paper[state.paper]+(esConsultar?' - A CONSULTAR':''),
+    'Caras: '+LBL.sides[state.sides],
+    'Orientacion: '+LBL.orient[state.orient],
+    'Layout: '+LBL.layout[state.layout],
+    'Terminacion: '+terminacionLinea,
     '',
-    '*Copias:* ' + state.copies,
-    '*Total paginas:* ' + totalPages,
-    '(Hojas fisicas: ' + physicalSheets + ')',
+    '*Copias:* '+state.copies,
+    '*Total paginas:* '+totalPages,
+    '(Hojas fisicas: '+physicalSheets+')',
     '',
-    extrasLinea ? '*Extras:*\n' + extrasLinea + '\n' : null,
-    '*Entrega:* ' + (state.delivery==='retiro' ? 'Retiro en local' : freeShipping ? 'Envio a domicilio (GRATIS)' : 'Envio a domicilio'),
-    state.delivery==='envio' && direccion ? '*Direccion:* ' + direccion : null,
+    impActivos.length?'*Trabajos de imprenta:*\n'+imprentaLineas+'\n':null,
+    extActivos.length?'*Extras:*\n'+extrasLineas+'\n':null,
+    '*Entrega:* '+(state.delivery==='retiro'?'Retiro en local':freeShipping?'Envio a domicilio (GRATIS)':'Envio a domicilio'),
+    state.delivery==='envio'&&direccion?'*Direccion:* '+direccion:null,
     '',
-    '*Pago:* ' + LBL.pago[state.pago],
+    '*Pago:* '+LBL.pago[state.pago],
     '',
-    notes ? '*Aclaraciones:* ' + notes + '\n' : '*Aclaraciones:* -',
+    '*Aclaraciones:* '+(notes||'-'),
     '',
-    '*Subtotal impresion:* $' + subtotalImpresion.toLocaleString('es-AR') + '.-',
-    subtotalTerminacion > 0 ? '*Terminacion:* $' + subtotalTerminacion.toLocaleString('es-AR') + '.-' : null,
-    subtotalExtras > 0 ? '*Extras:* $' + subtotalExtras.toLocaleString('es-AR') + '.-' : null,
+    esConsultar?'*Precio:* A consultar (papel especial)':'*Subtotal impresion:* $'+subtotalImpresion.toLocaleString('es-AR')+'.-',
+    subtotalAnillado>0?'*Anillado:* $'+subtotalAnillado.toLocaleString('es-AR')+'.-':null,
+    subtotalPlast>0?'*Plastificado:* $'+subtotalPlast.toLocaleString('es-AR')+'.-':null,
+    subtotalExtras>0?'*Extras:* $'+subtotalExtras.toLocaleString('es-AR')+'.-':null,
+    subtotalImprenta>0?'*Trabajos de imprenta:* $'+subtotalImprenta.toLocaleString('es-AR')+'.-':null,
     '',
-    '*TOTAL: $' + total.toLocaleString('es-AR') + '.-*' + (state.delivery==='envio'&&!freeShipping ? ' (+ envio a confirmar)' : ''),
-  ].filter(s => s !== null && s !== undefined).join('\n');
+    '*TOTAL: $'+total.toLocaleString('es-AR')+'.-*'+(state.delivery==='envio'&&!freeShipping?' (+ envio a confirmar)':''),
+  ].filter(s=>s!==null&&s!==undefined).join('\n');
 
-  setLoading(100, 'Abriendo WhatsApp...');
-
-  setTimeout(()=>{
-    resetBtn();
-    window.location.href = 'https://wa.me/' + WSP_NUMBER + '?text=' + encodeURIComponent(partes);
-  }, 600);
+  setLoading(100,'Abriendo WhatsApp...');
+  setTimeout(()=>{ resetBtn(); window.location.href='https://wa.me/'+WSP_NUMBER+'?text='+encodeURIComponent(partes); },600);
 }
 
-// ---- TABLA DE PRECIOS ----
+// ---- TABLA PRECIOS ----
 function buildPriceTable(){
-  const rows = [
-    ['seccion', 'Impresion A4'],
-    ['A4 · Blanco y Negro · Comun', PRECIOS.a4.bn.comun],
-    ['A4 · Color · Comun', PRECIOS.a4.color.comun],
-    ['A4 · B&N · Opalina', PRECIOS.a4.bn.opalina],
-    ['A4 · Color · Opalina', PRECIOS.a4.color.opalina],
-    ['A4 · B&N · Ilustracion 200g', PRECIOS.a4.bn.ilustracion200],
-    ['A4 · Color · Ilustracion 200g', PRECIOS.a4.color.ilustracion200],
-    ['A4 · B&N · Ilustracion 300g', PRECIOS.a4.bn.ilustracion300],
-    ['A4 · Color · Ilustracion 300g', PRECIOS.a4.color.ilustracion300],
-    ['A4 · B&N · Adhesivo', PRECIOS.a4.bn.adhesivo],
-    ['A4 · Color · Adhesivo', PRECIOS.a4.color.adhesivo],
-    ['seccion', 'Impresion A3 y Oficio'],
-    ['A3 · Blanco y Negro · Comun', PRECIOS.a3.bn.comun],
-    ['A3 · Color · Comun', PRECIOS.a3.color.comun],
-    ['seccion', 'Terminaciones'],
-    ['Perforado 2 agujeros', 'Gratis'],
-    ['Anillado hasta 200 hojas', ANILLADO_TRAMOS[0].precio],
-    ['Anillado 201 a 300 hojas', ANILLADO_TRAMOS[1].precio],
-    ['Anillado mas de 300 hojas', ANILLADO_TRAMOS[2].precio],
-    ['Plastificado (por hoja)', PRECIOS_TERMINACION.plastificado],
-    ['seccion', 'Extras'],
-    ...EXTRAS_DEF.map(e=>[e.nombre, e.precio])
+  const rows=[
+    ['seccion','Fotocopias A4 / Oficio - Blanco y Negro'],
+    ['BN Comun - 1 a 25 paginas',90],
+    ['BN Comun - 26 a 50 paginas',88],
+    ['BN Comun - 51 o mas paginas',85],
+    ['seccion','Fotocopias A4 / Oficio - Color'],
+    ['Color Comun',800],
+    ['Color Opalina',1300],
+    ['Color Adhesivo',1600],
+    ['Color Ilustracion 200g',1000],
+    ['seccion','Fotocopias A3'],
+    ['A3 BN Comun',250],
+    ['A3 Color Comun',1600],
+    ['A3 Color Opalina',2500],
+    ['A3 Color Adhesivo',3000],
+    ['A3 Color Ilustracion 200g',2000],
+    ['seccion','Anillado (por juego)'],
+    ['Anillado hasta 200 hojas',2000],
+    ['Anillado 201 a 300 hojas',3000],
+    ['Anillado 301 a 400 hojas',3500],
+    ['Anillado mas de 400 hojas',4000],
+    ['seccion','Plastificado (por hoja)'],
+    ['Plastificado Carnet',650],
+    ['Plastificado Medio A4',900],
+    ['Plastificado A4',1000],
+    ['Plastificado Oficio',2000],
+    ['Plastificado A3',3000],
+    ['seccion','Extras'],
+    ...EXTRAS_DEF.map(e=>[e.nombre,e.precio]),
+    ['seccion','Trabajos de imprenta'],
+    ...IMPRENTA_DEF.map(e=>[e.nombre,e.precio]),
   ];
-  document.getElementById('priceTable').innerHTML = rows.map(([l,p])=>{
+  document.getElementById('priceTable').innerHTML=rows.map(([l,p])=>{
     if(l==='seccion') return `<tr class="price-section-header"><td colspan="2">${p}</td></tr>`;
-    const val = typeof p === 'string' ? p : '$'+(+p).toLocaleString('es-AR');
-    return `<tr><td>${l}</td><td>${val}</td></tr>`;
+    return `<tr><td>${l}</td><td>$${(+p).toLocaleString('es-AR')}</td></tr>`;
   }).join('');
-  document.getElementById('priceDate').textContent = new Date().toLocaleDateString('es-AR',{month:'long',year:'numeric'});
+  document.getElementById('priceDate').textContent=new Date().toLocaleDateString('es-AR',{month:'long',year:'numeric'});
 }
 
 function toggleFaq(el){el.parentElement.classList.toggle('open');}
-
-function showToast(msg,type='ok'){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.className=`toast ${type} show`;
-  setTimeout(()=>t.className='toast',3000);
-}
+function showToast(msg,type='ok'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4000);}
 
 buildExtras();
+buildImprenta();
 buildPriceTable();
 updateAll();
 
-// Cargar precios desde Google Sheets en segundo plano
-// Si llegan bien, reemplaza los hardcodeados silenciosamente
-(async function cargarPreciosDinamicos() {
-  try {
-    const res  = await fetch(APPS_SCRIPT_URL);
-    const data = await res.json();
-    if (!data.ok || !data.precios) return;
-    const p = data.precios;
-
-    // Actualizar PRECIOS
-    if (p.a4_bn_comun)            PRECIOS.a4.bn.comun            = p.a4_bn_comun;
-    if (p.a4_bn_opalina)          PRECIOS.a4.bn.opalina          = p.a4_bn_opalina;
-    if (p.a4_bn_adhesivo)         PRECIOS.a4.bn.adhesivo         = p.a4_bn_adhesivo;
-    if (p.a4_bn_ilustracion200)   PRECIOS.a4.bn.ilustracion200   = p.a4_bn_ilustracion200;
-    if (p.a4_bn_ilustracion300)   PRECIOS.a4.bn.ilustracion300   = p.a4_bn_ilustracion300;
-    if (p.a4_color_comun)         PRECIOS.a4.color.comun         = p.a4_color_comun;
-    if (p.a4_color_opalina)       PRECIOS.a4.color.opalina       = p.a4_color_opalina;
-    if (p.a4_color_adhesivo)      PRECIOS.a4.color.adhesivo      = p.a4_color_adhesivo;
-    if (p.a4_color_ilustracion200)PRECIOS.a4.color.ilustracion200= p.a4_color_ilustracion200;
-    if (p.a4_color_ilustracion300)PRECIOS.a4.color.ilustracion300= p.a4_color_ilustracion300;
-    if (p.a3_bn_comun)            PRECIOS.a3.bn.comun            = p.a3_bn_comun;
-    if (p.a3_bn_opalina)          PRECIOS.a3.bn.opalina          = p.a3_bn_opalina;
-    if (p.a3_bn_adhesivo)         PRECIOS.a3.bn.adhesivo         = p.a3_bn_adhesivo;
-    if (p.a3_bn_ilustracion200)   PRECIOS.a3.bn.ilustracion200   = p.a3_bn_ilustracion200;
-    if (p.a3_bn_ilustracion300)   PRECIOS.a3.bn.ilustracion300   = p.a3_bn_ilustracion300;
-    if (p.a3_color_comun)         PRECIOS.a3.color.comun         = p.a3_color_comun;
-    if (p.a3_color_opalina)       PRECIOS.a3.color.opalina       = p.a3_color_opalina;
-    if (p.a3_color_adhesivo)      PRECIOS.a3.color.adhesivo      = p.a3_color_adhesivo;
-    if (p.a3_color_ilustracion200)PRECIOS.a3.color.ilustracion200= p.a3_color_ilustracion200;
-    if (p.a3_color_ilustracion300)PRECIOS.a3.color.ilustracion300= p.a3_color_ilustracion300;
-    if (p.oficio_bn_comun)        PRECIOS.oficio.bn.comun        = p.oficio_bn_comun;
-    if (p.oficio_color_comun)     PRECIOS.oficio.color.comun     = p.oficio_color_comun;
-
-    // Actualizar tramos de anillado
-    if (p.anillado_hasta200)  ANILLADO_TRAMOS[0].precio = p.anillado_hasta200;
-    if (p.anillado_201_300)   ANILLADO_TRAMOS[1].precio = p.anillado_201_300;
-    if (p.anillado_mas300)    ANILLADO_TRAMOS[2].precio = p.anillado_mas300;
-
-    // Actualizar plastificado
-    if (p.plastificado) PRECIOS_TERMINACION.plastificado = p.plastificado;
-
-    // Actualizar extras
-    const extrasMap = { extra_carp3:'carp3', extra_carpTa4:'carpTa4', extra_carpTof:'carpTof', extra_folioA4:'folioA4', extra_folioOf:'folioOf' };
-    Object.entries(extrasMap).forEach(([key, id]) => {
-      if (p[key]) {
-        const extra = EXTRAS_DEF.find(e => e.id === id);
-        if (extra) extra.precio = p[key];
-      }
-    });
-
-    // Refrescar UI con precios nuevos
-    buildPriceTable();
-    buildExtras();
-    updateAll();
-
-  } catch(e) {
-    // Si falla, la página sigue con los precios hardcodeados — sin problema
-  }
+// Cargar precios dinamicos desde Sheets
+(async function(){
+  try{
+    const res=await fetch(APPS_SCRIPT_URL);
+    const data=await res.json();
+    if(!data.ok||!data.precios) return;
+    const p=data.precios;
+    // BN tramos
+    if(p.Fotocopia_BN_A4_comun) BN_TRAMOS[0].precio=p.Fotocopia_BN_A4_comun;
+    if(p['Fotocopia_BN_A4_comun de 26 a 50']) BN_TRAMOS[1].precio=p['Fotocopia_BN_A4_comun de 26 a 50'];
+    if(p['Fotocopia_BN_A4_comun 51 o mas']) BN_TRAMOS[2].precio=p['Fotocopia_BN_A4_comun 51 o mas'];
+    // Color
+    if(p.Copia_Color_A4_Oficio_Papel_Comun) PRECIOS.a4oficio.color.comun=p.Copia_Color_A4_Oficio_Papel_Comun;
+    if(p.Copia_Color_A4_Oficio_Papel_Opalina) PRECIOS.a4oficio.color.opalina=p.Copia_Color_A4_Oficio_Papel_Opalina;
+    if(p.Copia_Color_A4_Oficio_Papel_Adhesivo) PRECIOS.a4oficio.color.adhesivo=p.Copia_Color_A4_Oficio_Papel_Adhesivo;
+    if(p['Copia_Color_A4_Oficio_Papel_ilustracion200']) PRECIOS.a4oficio.color.ilustracion200=p['Copia_Color_A4_Oficio_Papel_ilustracion200'];
+    if(p.Fotocopia_BN_A3_Comun) PRECIOS.a3.bn.comun=p.Fotocopia_BN_A3_Comun;
+    if(p.Copia_Color_A3_Papel_Comun) PRECIOS.a3.color.comun=p.Copia_Color_A3_Papel_Comun;
+    if(p.Copia_Color_A3_Papel_Opalina) PRECIOS.a3.color.opalina=p.Copia_Color_A3_Papel_Opalina;
+    if(p.Copia_Color_A3_Papel_Adhesivo) PRECIOS.a3.color.adhesivo=p.Copia_Color_A3_Papel_Adhesivo;
+    if(p['Copia_Color_A3_Papel_ilustracion200']) PRECIOS.a3.color.ilustracion200=p['Copia_Color_A3_Papel_ilustracion200'];
+    // Anillado
+    if(p.Anillado_hasta_200_Hojas) ANILLADO_TRAMOS[0].precio=p.Anillado_hasta_200_Hojas;
+    if(p.Anillado_201_300_Hojas) ANILLADO_TRAMOS[1].precio=p.Anillado_201_300_Hojas;
+    if(p.Anillado_301_400_Hojas) ANILLADO_TRAMOS[2].precio=p.Anillado_301_400_Hojas;
+    if(p.Anillado_mas_de_400_Hojas) ANILLADO_TRAMOS[3].precio=p.Anillado_mas_de_400_Hojas;
+    // Plastificado
+    if(p.Plastificado_Tamaño_Carnet) PLAST_PRECIOS.carnet=p.Plastificado_Tamaño_Carnet;
+    if(p.Plastificado_Tamaño_Medio_A4) PLAST_PRECIOS.medioa4=p.Plastificado_Tamaño_Medio_A4;
+    if(p.Plastificado_Tamaño_A4) PLAST_PRECIOS.a4=p.Plastificado_Tamaño_A4;
+    if(p.Plastificado_Tamaño_Oficio) PLAST_PRECIOS.oficio=p.Plastificado_Tamaño_Oficio;
+    if(p.Plastificado_Tamaño_A3) PLAST_PRECIOS.a3=p.Plastificado_Tamaño_A3;
+    // Extras
+    const extMatch={Extra_Carpeta_3_solapas:'carp3',Extra_Carpeta_A4_con_vaina:'carpTa4',Extra_Carpeta_A4_Base_Transparente:'carpTof',Extra_Carpeta_Oficio_Con_Elastico:'carpEla',Extra_Folio_A4:'folioA4',Extra_Folio_Oficio:'folioOf',Extra_Folio_A4_Reforzado:'folioA4R'};
+    Object.entries(extMatch).forEach(([key,id])=>{ if(p[key]){const ex=EXTRAS_DEF.find(e=>e.id===id);if(ex)ex.precio=p[key];} });
+    // Imprenta
+    const impMatch={Tarjetas_Personales_x_100:'tj100',Tarjetas_Personales_Doble_Faz_x_100:'tj100df',Tarjetas_Personales_x_500_+'_50_de_REGALO':'tj500',Tarjetas_Personales_Doble_Faz_x_500_+'_50_de_REGALO':'tj500df',Tarjetas_Personales_x_1000_+'_100_de_REGALO':'tj1000',Tarjetas_Personales_Doble_Faz_x_1000_+'_100_de_REGALO':'tj1000df',Volantes_Papel_Blanco_10X15_500_Unidades:'vol500bco',Volantes_Papel_Blanco_10X15_1000_Unidades:'vol1kbco',Volantes_Papel_Color_11X17_500_Unidades:'vol500col',Volantes_Papel_Color_11X17_1000_Unidades:'vol1kcol',Volantes_Emblocados_Papel_Blanco_10X15__500_Unidades:'vol500emb',Volantes_Emblocados_Papel_Blanco_10X15__1000_Unidades:'vol1kemb'};
+    Object.entries(impMatch).forEach(([key,id])=>{ if(p[key]){const im=IMPRENTA_DEF.find(e=>e.id===id);if(im)im.precio=p[key];} });
+    buildPriceTable(); buildExtras(); buildImprenta(); updateAll();
+  }catch(e){}
 })();
 </script>
 </body>
