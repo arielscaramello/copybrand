@@ -1169,36 +1169,73 @@ updateAll();
     const res=await fetch(APPS_SCRIPT_URL);
     const data=await res.json();
     if(!data.ok||!data.precios) return;
-    const p=data.precios;
-    // BN tramos
-    if(p.Fotocopia_BN_A4_comun) BN_TRAMOS[0].precio=p.Fotocopia_BN_A4_comun;
-    if(p['Fotocopia_BN_A4_comun de 26 a 50']) BN_TRAMOS[1].precio=p['Fotocopia_BN_A4_comun de 26 a 50'];
-    if(p['Fotocopia_BN_A4_comun 51 o mas']) BN_TRAMOS[2].precio=p['Fotocopia_BN_A4_comun 51 o mas'];
-    // Color
-    if(p.Copia_Color_A4_Oficio_Papel_Comun) PRECIOS.a4oficio.color.comun=p.Copia_Color_A4_Oficio_Papel_Comun;
-    if(p.Copia_Color_A4_Oficio_Papel_Opalina) PRECIOS.a4oficio.color.opalina=p.Copia_Color_A4_Oficio_Papel_Opalina;
-    if(p.Copia_Color_A4_Oficio_Papel_Adhesivo) PRECIOS.a4oficio.color.adhesivo=p.Copia_Color_A4_Oficio_Papel_Adhesivo;
-    if(p['Copia_Color_A4_Oficio_Papel_ilustracion200']) PRECIOS.a4oficio.color.ilustracion200=p['Copia_Color_A4_Oficio_Papel_ilustracion200'];
-    if(p.Fotocopia_BN_A3_Comun) PRECIOS.a3.bn.comun=p.Fotocopia_BN_A3_Comun;
-    if(p.Copia_Color_A3_Papel_Comun) PRECIOS.a3.color.comun=p.Copia_Color_A3_Papel_Comun;
-    if(p.Copia_Color_A3_Papel_Opalina) PRECIOS.a3.color.opalina=p.Copia_Color_A3_Papel_Opalina;
-    if(p.Copia_Color_A3_Papel_Adhesivo) PRECIOS.a3.color.adhesivo=p.Copia_Color_A3_Papel_Adhesivo;
-    if(p['Copia_Color_A3_Papel_ilustracion200']) PRECIOS.a3.color.ilustracion200=p['Copia_Color_A3_Papel_ilustracion200'];
-    // Anillado
-    if(p.Anillado_hasta_200_Hojas) ANILLADO_TRAMOS[0].precio=p.Anillado_hasta_200_Hojas;
-    if(p.Anillado_201_300_Hojas) ANILLADO_TRAMOS[1].precio=p.Anillado_201_300_Hojas;
-    if(p.Anillado_301_400_Hojas) ANILLADO_TRAMOS[2].precio=p.Anillado_301_400_Hojas;
-    if(p.Anillado_mas_de_400_Hojas) ANILLADO_TRAMOS[3].precio=p.Anillado_mas_de_400_Hojas;
-    // Plastificado
-    if(p.Plastificado_Tamaño_Carnet) PLAST_PRECIOS.carnet=p.Plastificado_Tamaño_Carnet;
-    if(p.Plastificado_Tamaño_Medio_A4) PLAST_PRECIOS.medioa4=p.Plastificado_Tamaño_Medio_A4;
-    if(p.Plastificado_Tamaño_A4) PLAST_PRECIOS.a4=p.Plastificado_Tamaño_A4;
-    if(p.Plastificado_Tamaño_Oficio) PLAST_PRECIOS.oficio=p.Plastificado_Tamaño_Oficio;
-    if(p.Plastificado_Tamaño_A3) PLAST_PRECIOS.a3=p.Plastificado_Tamaño_A3;
-    // Extras
-    const extMatch={Extra_Carpeta_3_solapas:'carp3',Extra_Carpeta_A4_con_vaina:'carpTa4',Extra_Carpeta_A4_Base_Transparente:'carpTof',Extra_Carpeta_Oficio_Con_Elastico:'carpEla',Extra_Folio_A4:'folioA4',Extra_Folio_Oficio:'folioOf',Extra_Folio_A4_Reforzado:'folioA4R'};
-    Object.entries(extMatch).forEach(([key,id])=>{ if(p[key]){const ex=EXTRAS_DEF.find(e=>e.id===id);if(ex)ex.precio=p[key];} });
-    // Imprenta
+
+    // Normaliza claves: sin tildes, sin mayusculas, solo letras y numeros
+    const norm=s=>String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+    const P={};
+    Object.entries(data.precios).forEach(([k,v])=>{ P[norm(k)]=Number(v); });
+    const get=k=>{ const v=P[norm(k)]; return (v===undefined||isNaN(v))?null:v; };
+    const set=(k,fn)=>{ const v=get(k); if(v!==null) fn(v); };
+
+    // --- Fotocopias BN por tramos ---
+    set('Fotocopia_BN_A4/Oficio_Comun',      v=>BN_TRAMOS[0].precio=v);
+    set('Fotocopia_BN_A4_comun de 26 a 50',  v=>BN_TRAMOS[1].precio=v);
+    set('Fotocopia_BN_A4_comun 51 o mas',    v=>BN_TRAMOS[2].precio=v);
+
+    // --- Color A4/Oficio ---
+    set('Copia_Color_A4/Oficio_Papel_Comun',         v=>PRECIOS.a4oficio.color.comun=v);
+    set('Copia_Color_A4/Oficio_Papel_Opalina',       v=>PRECIOS.a4oficio.color.opalina=v);
+    set('Copia_Color_A4/Oficio_Papel_Adhesivo',      v=>PRECIOS.a4oficio.color.adhesivo=v);
+    set('Copia_Color_A4/Oficio_Papel_ilustracion200',v=>PRECIOS.a4oficio.color.ilustracion200=v);
+    set('a4_color_ilustracion300',                   v=>PRECIOS.a4oficio.color.ilustracion300=v);
+
+    // --- BN papeles especiales A4 ---
+    set('a4_bn_opalina',        v=>PRECIOS.a4oficio.bn.opalina=v);
+    set('a4_bn_adhesivo',       v=>PRECIOS.a4oficio.bn.adhesivo=v);
+    set('a4_bn_ilustracion200', v=>PRECIOS.a4oficio.bn.ilustracion200=v);
+    set('a4_bn_ilustracion300', v=>PRECIOS.a4oficio.bn.ilustracion300=v);
+
+    // --- A3 ---
+    set('Fotocopia_BN_A3_Comun',              v=>PRECIOS.a3.bn.comun=v);
+    set('a3_bn_opalina',                      v=>PRECIOS.a3.bn.opalina=v);
+    set('a3_bn_adhesivo',                     v=>PRECIOS.a3.bn.adhesivo=v);
+    set('a3_bn_ilustracion200',               v=>PRECIOS.a3.bn.ilustracion200=v);
+    set('a3_bn_ilustracion300',               v=>PRECIOS.a3.bn.ilustracion300=v);
+    set('Copia_Color_A3_Papel_Comun',         v=>PRECIOS.a3.color.comun=v);
+    set('Copia_Color_A3_Papel_Opalina',       v=>PRECIOS.a3.color.opalina=v);
+    set('Copia_Color_A3_Papel_Adhesivo',      v=>PRECIOS.a3.color.adhesivo=v);
+    set('Copia_Color_A3_Papel_ilustracion200',v=>PRECIOS.a3.color.ilustracion200=v);
+    set('a3_color_ilustracion300',            v=>PRECIOS.a3.color.ilustracion300=v);
+
+    // --- Anillado ---
+    set('Anillado_hasta_200_Hojas',   v=>ANILLADO_TRAMOS[0].precio=v);
+    set('Anillado_201_300_Hojas',     v=>ANILLADO_TRAMOS[1].precio=v);
+    set('Anillado_301_400_Hojas',     v=>ANILLADO_TRAMOS[2].precio=v);
+    set('Anillado_mas_de_400_Hojas',  v=>ANILLADO_TRAMOS[3].precio=v);
+
+    // --- Plastificado ---
+    set('Plastificado_Tamano_Carnet',   v=>PLAST_PRECIOS.carnet=v);
+    set('Plastificado_Tamano_Medio_A4', v=>PLAST_PRECIOS.medioa4=v);
+    set('Plastificado_Tamano_A4',       v=>PLAST_PRECIOS.a4=v);
+    set('Plastificado_Tamano_Oficio',   v=>PLAST_PRECIOS.oficio=v);
+    set('Plastificado_Tamano_A3',       v=>PLAST_PRECIOS.a3=v);
+
+    // --- Extras ---
+    const extMatch={
+      'Extra_Carpeta_3_solapas':'carp3',
+      'Extra_Carpeta_A4_con_vaina':'carpTa4',
+      'Extra_Carpeta_A4_Base_Transparente':'carpTof',
+      'Extra_Carpeta_Oficio_Con_Elastico':'carpEla',
+      'Extra_Folio_A4':'folioA4',
+      'Extra_Folio_Oficio':'folioOf',
+      'Extra_Folio_A4_Reforzado':'folioA4R'
+    };
+    Object.entries(extMatch).forEach(([k,id])=>{
+      const v=get(k); if(v===null) return;
+      const ex=EXTRAS_DEF.find(e=>e.id===id); if(ex) ex.precio=v;
+    });
+
+    // --- Trabajos de imprenta ---
     const impMatch={
       'Tarjetas_Personales_x_100':'tj100',
       'Tarjetas_Personales_Doble_Faz_x_100':'tj100df',
@@ -1210,12 +1247,16 @@ updateAll();
       'Volantes_Papel_Blanco_10X15_1000_Unidades':'vol1kbco',
       'Volantes_Papel_Color_11X17_500_Unidades':'vol500col',
       'Volantes_Papel_Color_11X17_1000_Unidades':'vol1kcol',
-      'Volantes_Emblocados_Papel_Blanco_10X15__500_Unidades':'vol500emb',
-      'Volantes_Emblocados_Papel_Blanco_10X15__1000_Unidades':'vol1kemb'
+      'Volantes_Emblocados_Papel_Blanco_10X15_ 500_Unidades':'vol500emb',
+      'Volantes_Emblocados_Papel_Blanco_10X15_ 1000_Unidades':'vol1kemb'
     };
-    Object.entries(impMatch).forEach(([key,id])=>{ if(p[key]){const im=IMPRENTA_DEF.find(e=>e.id===id);if(im)im.precio=p[key];} });
+    Object.entries(impMatch).forEach(([k,id])=>{
+      const v=get(k); if(v===null) return;
+      const im=IMPRENTA_DEF.find(e=>e.id===id); if(im) im.precio=v;
+    });
+
     buildPriceTable(); buildExtras(); buildImprenta(); updateAll();
-  }catch(e){}
+  }catch(e){ console.warn('No se pudieron cargar precios del Sheet:', e); }
 })();
 </script>
 </body>
