@@ -825,6 +825,7 @@ function setPago(el,val){ document.querySelectorAll('.pago-opt').forEach(o=>o.cl
 
 // ---- CALCULO ----
 function calc(){
+  const sinArchivo = !state.pages;
   const pagesRaw = state.pages||1;
   const layoutFactor = state.layout==='2x1'||state.layout==='2diapo'?2:state.layout==='4diapo'?4:1;
   const sidesMulti = state.sides==='doble'?2:1;
@@ -848,16 +849,20 @@ function calc(){
   }
 
   const esConsultar = unit===0;
-  const subtotalImpresion = esConsultar ? 0 : unit*totalPages;
+  // Sin archivo: no se cobra impresion
+  const subtotalImpresion = (esConsultar || sinArchivo) ? 0 : unit*totalPages;
 
-  // Anillado
+  // Anillado (solo si hay archivo)
   let subtotalAnillado = 0;
-  if(state.finish==='anillado'){
+  if(state.finish==='anillado' && !sinArchivo){
     const hojasPorCopia = Math.ceil(carasPorCopia/sidesMulti);
     const precioAni = getPrecioAnillado(hojasPorCopia);
     subtotalAnillado = precioAni*state.copies;
     const sub=document.getElementById('anillado-precio-sub');
     if(sub) sub.textContent='$'+precioAni.toLocaleString('es-AR')+'/juego ('+hojasPorCopia+' hojas)';
+  } else if(state.finish==='anillado'){
+    const sub=document.getElementById('anillado-precio-sub');
+    if(sub) sub.textContent='Carga un archivo para cotizar';
   }
 
   // Plastificado
@@ -884,12 +889,12 @@ function calc(){
   const esZonaBonificada = ZONAS_BONIFICADAS.some(z=>ciudad.includes(z));
   const freeShipping = state.delivery==='envio' && (total >= ENVIO_GRATIS_DESDE_PESOS || esZonaBonificada);
 
-  return {unit,esConsultar,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping};
+  return {unit,esConsultar,sinArchivo,pagesRaw,totalPages:sinArchivo?0:totalPages,physicalSheets:sinArchivo?0:physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping};
 }
 
 // ---- UPDATE UI ----
 function updateAll(){
-  const {unit,esConsultar,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping}=calc();
+  const {unit,esConsultar,sinArchivo,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping}=calc();
 
   // Actualizar subtítulos de papel segun color
   const sizeKey2 = state.sizedetail==='a3'?'a3':'a4oficio';
@@ -925,12 +930,12 @@ function updateAll(){
     ? totalPages+' caras · '+LBL.sizedetail[state.sizedetail]+' '+LBL.color[state.color]
     : 'Sin archivo cargado';
   document.getElementById('totalSheets').textContent=totalPages;
-  document.getElementById('sheetBreak').textContent=state.pages
-    ?`${pagesRaw} pag. → ${totalPages} caras impresas (${physicalSheets} hojas)`
-    :'Ingresa un archivo';
-  document.getElementById('qty-sub').textContent=state.pages
-    ?`${state.copies} copia${state.copies>1?'s':''} · ${totalPages} caras a imprimir`
-    :`${state.copies} copia${state.copies>1?'s':''}`;
+  document.getElementById('sheetBreak').textContent = sinArchivo
+    ? 'Carga un archivo para cotizar'
+    : `${pagesRaw} pag. → ${totalPages} caras impresas (${physicalSheets} hojas)`;
+  document.getElementById('qty-sub').textContent = sinArchivo
+    ? `${state.copies} copia${state.copies>1?'s':''}`
+    : `${state.copies} copia${state.copies>1?'s':''} · ${totalPages} caras a imprimir`;
 
   const wrap=document.getElementById('envio-tag-wrap');
   const ciudad2=(document.getElementById('addr-city')?.value||'').toLowerCase();
@@ -959,7 +964,7 @@ function updateAll(){
   document.getElementById('r-sides').textContent=LBL.sides[state.sides];
   document.getElementById('r-orient').textContent=LBL.orient[state.orient];
   document.getElementById('r-layout').textContent=LBL.layout[state.layout];
-  document.getElementById('r-unit').textContent=esConsultar?'A consultar':'$'+unit.toLocaleString('es-AR')+'/pagina';
+  document.getElementById('r-unit').textContent = sinArchivo ? '—' : (esConsultar?'A consultar':'$'+unit.toLocaleString('es-AR')+'/pagina');
 
   // Terminacion
   let finishLabel=LBL.finish[state.finish];
@@ -1011,7 +1016,7 @@ async function sendWhatsApp(e){
     }
   }
 
-  const {unit,esConsultar,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping}=calc();
+  const {unit,esConsultar,sinArchivo,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping}=calc();
   let direccion='';
   if(state.delivery==='envio'){
     const s=document.getElementById('addr-street').value.trim();
