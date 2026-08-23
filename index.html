@@ -605,9 +605,9 @@ const APPS_SCRIPT_URL    = "https://script.google.com/macros/s/AKfycbznIxPGgb2P1
 
 // Precio por pagina BN comun segun tramos
 const BN_TRAMOS = [
-  { hasta: 25,       precio: 90,  label: '1 a 25 pag.' },
-  { hasta: 50,       precio: 88,  label: '26 a 50 pag.' },
-  { hasta: Infinity, precio: 85,  label: '51 o mas pag.' },
+  { hasta: 25,       precio: 100, label: '1 a 25 pag.' },
+  { hasta: 50,       precio: 95,  label: '26 a 50 pag.' },
+  { hasta: Infinity, precio: 90,  label: '51 o mas pag.' },
 ];
 function getPrecioBN(totalPags) {
   return (BN_TRAMOS.find(t => totalPags <= t.hasta) || BN_TRAMOS[BN_TRAMOS.length-1]).precio;
@@ -616,7 +616,7 @@ function getPrecioBN(totalPags) {
 // Precios A4/Oficio color y otros papeles (precio fijo)
 const PRECIOS = {
   a4oficio: {
-    bn:    { comun: 90, opalina: 0, adhesivo: 0, ilustracion200: 0, ilustracion300: 0 },
+    bn:    { comun: 100, opalina: 0, adhesivo: 0, ilustracion200: 0, ilustracion300: 0 },
     color: { comun: 800, opalina: 1300, adhesivo: 1600, ilustracion200: 1000, ilustracion300: 0 }
   },
   a3: {
@@ -1118,31 +1118,31 @@ async function sendWhatsApp(e){
 function buildPriceTable(){
   const rows=[
     ['seccion','Fotocopias A4 / Oficio - Blanco y Negro'],
-    ['BN Comun - 1 a 25 paginas',90],
-    ['BN Comun - 26 a 50 paginas',88],
-    ['BN Comun - 51 o mas paginas',85],
+    ['BN Comun - 1 a 25 paginas',   BN_TRAMOS[0].precio],
+    ['BN Comun - 26 a 50 paginas',  BN_TRAMOS[1].precio],
+    ['BN Comun - 51 o mas paginas', BN_TRAMOS[2].precio],
     ['seccion','Fotocopias A4 / Oficio - Color'],
-    ['Color Comun',800],
-    ['Color Opalina',1300],
-    ['Color Adhesivo',1600],
-    ['Color Ilustracion 200g',1000],
+    ['Color Comun',              PRECIOS.a4oficio.color.comun],
+    ['Color Opalina',            PRECIOS.a4oficio.color.opalina],
+    ['Color Adhesivo',           PRECIOS.a4oficio.color.adhesivo],
+    ['Color Ilustracion 200g',   PRECIOS.a4oficio.color.ilustracion200],
     ['seccion','Fotocopias A3'],
-    ['A3 BN Comun',250],
-    ['A3 Color Comun',1600],
-    ['A3 Color Opalina',2500],
-    ['A3 Color Adhesivo',3000],
-    ['A3 Color Ilustracion 200g',2000],
+    ['A3 BN Comun',                PRECIOS.a3.bn.comun],
+    ['A3 Color Comun',             PRECIOS.a3.color.comun],
+    ['A3 Color Opalina',           PRECIOS.a3.color.opalina],
+    ['A3 Color Adhesivo',          PRECIOS.a3.color.adhesivo],
+    ['A3 Color Ilustracion 200g',  PRECIOS.a3.color.ilustracion200],
     ['seccion','Anillado (por juego)'],
-    ['Anillado hasta 200 hojas',2000],
-    ['Anillado 201 a 300 hojas',3000],
-    ['Anillado 301 a 400 hojas',3500],
-    ['Anillado mas de 400 hojas',4000],
+    ['Anillado hasta 200 hojas',    ANILLADO_TRAMOS[0].precio],
+    ['Anillado 201 a 300 hojas',    ANILLADO_TRAMOS[1].precio],
+    ['Anillado 301 a 400 hojas',    ANILLADO_TRAMOS[2].precio],
+    ['Anillado mas de 400 hojas',   ANILLADO_TRAMOS[3].precio],
     ['seccion','Plastificado (por hoja)'],
-    ['Plastificado Carnet',650],
-    ['Plastificado Medio A4',900],
-    ['Plastificado A4',1000],
-    ['Plastificado Oficio',2000],
-    ['Plastificado A3',3000],
+    ['Plastificado Carnet',    PLAST_PRECIOS.carnet],
+    ['Plastificado Medio A4',  PLAST_PRECIOS.medioa4],
+    ['Plastificado A4',        PLAST_PRECIOS.a4],
+    ['Plastificado Oficio',    PLAST_PRECIOS.oficio],
+    ['Plastificado A3',        PLAST_PRECIOS.a3],
     ['seccion','Extras'],
     ...EXTRAS_DEF.map(e=>[e.nombre,e.precio]),
     ['seccion','Trabajos de imprenta'],
@@ -1150,7 +1150,8 @@ function buildPriceTable(){
   ];
   document.getElementById('priceTable').innerHTML=rows.map(([l,p])=>{
     if(l==='seccion') return `<tr class="price-section-header"><td colspan="2">${p}</td></tr>`;
-    return `<tr><td>${l}</td><td>$${(+p).toLocaleString('es-AR')}</td></tr>`;
+    const val = (!p || p===0) ? 'A consultar' : '$'+(+p).toLocaleString('es-AR');
+    return `<tr><td>${l}</td><td>${val}</td></tr>`;
   }).join('');
   document.getElementById('priceDate').textContent=new Date().toLocaleDateString('es-AR',{month:'long',year:'numeric'});
 }
