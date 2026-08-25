@@ -73,7 +73,9 @@ main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .qty-input:focus{outline:none;border-color:var(--orange);}
 .extras-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
 @media(max-width:580px){.extras-grid{grid-template-columns:1fr;}}
-.extra-item{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:border-color .2s;}
+.extra-item{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:border-color .2s;}
+.extra-thumb{width:52px;height:52px;border-radius:8px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;overflow:hidden;}
+.extra-thumb img{width:100%;height:100%;object-fit:cover;}
 .extra-item.has-qty{border-color:var(--orange);background:var(--orange-glow);}
 .extra-left{flex:1;}
 .extra-name{font-size:13px;font-weight:600;}
@@ -101,9 +103,12 @@ main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 @media(max-width:560px){.form-grid{grid-template-columns:1fr;}}
 .fg{display:flex;flex-direction:column;gap:5px;}
+.fg.full{grid-column:1/-1;}
 .fg label{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;}
-.fg input,.fg textarea{background:var(--surface);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:14px;padding:10px 14px;font-family:'DM Sans',sans-serif;transition:border-color .15s;}
-.fg input:focus,.fg textarea:focus{outline:none;border-color:var(--orange);}
+.fg input,.fg textarea,.fg select{background:var(--surface);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:14px;padding:10px 14px;font-family:'DM Sans',sans-serif;transition:border-color .15s;}
+.fg select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 12px center;background-size:16px;padding-right:38px;}
+.fg select option{background:var(--surface2);color:var(--text);}
+.fg input:focus,.fg textarea:focus,.fg select:focus{outline:none;border-color:var(--orange);}
 .fg input::placeholder,.fg textarea::placeholder{color:var(--muted);}
 .pago-grid{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
 .pago-opt{flex:1;min-width:130px;padding:14px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;text-align:center;transition:all .15s;}
@@ -193,17 +198,17 @@ footer a{color:var(--orange);text-decoration:none;}
     <div class="upload-area" id="uploadArea">
       <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" multiple>
       <div class="upload-ico">📄</div>
-      <h3>Arrastra o elegí tus archivos</h3>
-      <p>PDF o imagen · Varios archivos · Max. 100MB c/u</p>
+      <h3>Arrastrá o elegí tus archivos</h3>
+      <p>PDF o imagen · Varios archivos · Máx. 100MB c/u</p>
       <div class="btn-fake">☁️ Elegir archivos</div>
     </div>
     <div id="fileList" style="margin-top:8px;"></div>
-    <div class="drive-note" style="margin-top:8px;">✅ <strong>Los archivos se suben automaticamente</strong> a nuestro Google Drive cuando enviás el pedido.</div>
+    <div class="drive-note" style="margin-top:8px;">✅ <strong>Los archivos se suben automáticamente</strong> a nuestro Google Drive cuando enviás el pedido.</div>
   </div>
 
   <!-- CONFIGURAR -->
   <div class="sec-gap">
-    <div class="sec-label">② Configurar impresion</div>
+    <div class="sec-label">② Configurar impresión</div>
     <div class="config-grid">
 
       <div class="card">
@@ -233,7 +238,7 @@ footer a{color:var(--orange);text-decoration:none;}
           <label class="opt active" data-group="color" data-val="bn">
             <input type="radio" name="color" value="bn" checked>
             <div class="rdot"></div>
-            <div><div class="opt-main">Blanco y Negro</div><div class="opt-sub" id="bn-precio-sub">Mas economico</div></div>
+            <div><div class="opt-main">Blanco y Negro</div><div class="opt-sub" id="bn-precio-sub">Más económico</div></div>
           </label>
           <label class="opt" data-group="color" data-val="color">
             <input type="radio" name="color" value="color">
@@ -249,7 +254,7 @@ footer a{color:var(--orange);text-decoration:none;}
           <label class="opt active" data-group="paper" data-val="comun">
             <input type="radio" name="paper" value="comun" checked>
             <div class="rdot"></div>
-            <div><div class="opt-main">Comun</div><div class="opt-sub">75 g/m2</div></div>
+            <div><div class="opt-main">Común</div><div class="opt-sub">75 g/m2</div></div>
           </label>
           <label class="opt" data-group="paper" data-val="opalina">
             <input type="radio" name="paper" value="opalina">
@@ -264,12 +269,12 @@ footer a{color:var(--orange);text-decoration:none;}
           <label class="opt" data-group="paper" data-val="ilustracion200">
             <input type="radio" name="paper" value="ilustracion200">
             <div class="rdot"></div>
-            <div><div class="opt-main">Ilustracion 200g</div><div class="opt-sub">200 g/m2</div><div class="opt-consultar" id="sub-ilustracion200"></div></div>
+            <div><div class="opt-main">Ilustración 200g</div><div class="opt-sub">200 g/m2</div><div class="opt-consultar" id="sub-ilustracion200"></div></div>
           </label>
           <label class="opt" data-group="paper" data-val="ilustracion300">
             <input type="radio" name="paper" value="ilustracion300">
             <div class="rdot"></div>
-            <div><div class="opt-main">Ilustracion 300g</div><div class="opt-sub">300 g/m2</div><div class="opt-consultar" id="sub-ilustracion300"></div></div>
+            <div><div class="opt-main">Ilustración 300g</div><div class="opt-sub">300 g/m2</div><div class="opt-consultar" id="sub-ilustracion300"></div></div>
           </label>
         </div>
       </div>
@@ -280,7 +285,7 @@ footer a{color:var(--orange);text-decoration:none;}
           <label class="opt active" data-group="sides" data-val="simple">
             <input type="radio" name="sides" value="simple" checked>
             <div class="rdot"></div>
-            <div><div class="opt-main">Simple faz</div><div class="opt-sub">Un solo lado</div></div>
+            <div><div class="opt-main">Simple faz</div><div class="opt-sub">Una sola cara</div></div>
           </label>
           <label class="opt" data-group="sides" data-val="doble">
             <input type="radio" name="sides" value="doble">
@@ -291,12 +296,12 @@ footer a{color:var(--orange);text-decoration:none;}
       </div>
 
       <div class="card">
-        <div class="card-title">📏 Orientacion</div>
+        <div class="card-title">📏 Orientación</div>
         <div class="opts">
           <label class="opt active" data-group="orient" data-val="vertical">
             <input type="radio" name="orient" value="vertical" checked>
             <div class="rdot"></div>
-            <div><div class="opt-main">Vertical</div><div class="opt-sub">Lo mas comun</div></div>
+            <div><div class="opt-main">Vertical</div><div class="opt-sub">Lo más común</div></div>
           </label>
           <label class="opt" data-group="orient" data-val="horizontal">
             <input type="radio" name="orient" value="horizontal">
@@ -307,17 +312,17 @@ footer a{color:var(--orange);text-decoration:none;}
       </div>
 
       <div class="card">
-        <div class="card-title">🖇️ Terminacion</div>
+        <div class="card-title">🖇️ Terminación</div>
         <div class="opts">
           <label class="opt active" data-group="finish" data-val="ninguna">
             <input type="radio" name="finish" value="ninguna" checked>
             <div class="rdot"></div>
-            <div><div class="opt-main">Sin terminacion</div><div class="opt-sub">Solo impresion</div></div>
+            <div><div class="opt-main">Sin terminación</div><div class="opt-sub">Solo impresión</div></div>
           </label>
           <label class="opt" data-group="finish" data-val="anillado">
             <input type="radio" name="finish" value="anillado">
             <div class="rdot"></div>
-            <div><div class="opt-main">Anillado</div><div class="opt-sub" id="anillado-precio-sub">Precio segun cantidad de hojas</div></div>
+            <div><div class="opt-main">Anillado</div><div class="opt-sub" id="anillado-precio-sub">Precio según cantidad de hojas</div></div>
           </label>
           <label class="opt" data-group="finish" data-val="perforado">
             <input type="radio" name="finish" value="perforado">
@@ -327,7 +332,7 @@ footer a{color:var(--orange);text-decoration:none;}
           <label class="opt" data-group="finish" data-val="plastificado">
             <input type="radio" name="finish" value="plastificado">
             <div class="rdot"></div>
-            <div><div class="opt-main">Plastificado</div><div class="opt-sub" id="plastificado-precio-sub">Seleccionar tamaño abajo</div></div>
+            <div><div class="opt-main">Plastificado</div><div class="opt-sub" id="plastificado-precio-sub">Elegí el tamaño abajo</div></div>
           </label>
         </div>
         <!-- Opciones de plastificado -->
@@ -372,22 +377,22 @@ footer a{color:var(--orange);text-decoration:none;}
       </div>
 
       <div class="card">
-        <div class="card-title">🗂️ Distribucion de paginas por hoja</div>
+        <div class="card-title">🗂️ Distribución de páginas por hoja</div>
         <div class="opts">
           <label class="opt active" data-group="layout" data-val="1x1">
             <input type="radio" name="layout" value="1x1" checked>
             <div class="rdot"></div>
-            <div><div class="opt-main">Normal</div><div class="opt-sub">1 pagina por hoja</div></div>
+            <div><div class="opt-main">Normal</div><div class="opt-sub">1 página por hoja</div></div>
           </label>
           <label class="opt" data-group="layout" data-val="2x1">
             <input type="radio" name="layout" value="2x1">
             <div class="rdot"></div>
-            <div><div class="opt-main">2 paginas por hoja</div><div class="opt-sub">Reduce hojas fisicas a la mitad</div></div>
+            <div><div class="opt-main">2 páginas por hoja</div><div class="opt-sub">Reduce hojas físicas a la mitad</div></div>
           </label>
           <label class="opt" data-group="layout" data-val="2diapo">
             <input type="radio" name="layout" value="2diapo">
             <div class="rdot"></div>
-            <div><div class="opt-main">2 diapositivas por hoja</div><div class="opt-sub">Formato presentacion</div></div>
+            <div><div class="opt-main">2 diapositivas por hoja</div><div class="opt-sub">Formato presentación</div></div>
           </label>
           <label class="opt" data-group="layout" data-val="4diapo">
             <input type="radio" name="layout" value="4diapo">
@@ -415,7 +420,7 @@ footer a{color:var(--orange);text-decoration:none;}
   <!-- EXTRAS -->
   <div class="sec-gap">
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:16px;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:4px;">📦 Extras</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:4px;">③ 📦 Extras</div>
       <div style="font-size:13px;color:var(--muted);">Accesorios que podés agregar a tu pedido</div>
     </div>
     <div class="extras-grid" id="extrasGrid"></div>
@@ -424,8 +429,8 @@ footer a{color:var(--orange);text-decoration:none;}
   <!-- TRABAJOS DE IMPRENTA -->
   <div class="sec-gap">
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:16px;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:4px;">🖨️ Trabajos de imprenta</div>
-      <div style="font-size:13px;color:var(--muted);">Tarjetas, volantes y mas — precio orientativo, requiere confirmar detalles</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:4px;">④ 🖨️ Trabajos de imprenta</div>
+      <div style="font-size:13px;color:var(--muted);">Tarjetas, volantes y más — requiere confirmar detalles</div>
     </div>
     <div class="imprenta-notice" id="imprentaNotice">Este producto requiere confirmar detalles con el vendedor.</div>
     <div class="imprenta-grid" id="imprentaGrid"></div>
@@ -437,7 +442,7 @@ footer a{color:var(--orange);text-decoration:none;}
     <div class="delivery-tabs">
       <div class="dtab active" id="dtab-envio" onclick="setDelivery('envio')">
         <div class="dtab-icon">📦</div>
-        <div class="dtab-label">Envio a domicilio</div>
+        <div class="dtab-label">Envío a domicilio</div>
         <div class="dtab-sub">Gratis desde $10.000</div>
       </div>
       <div class="dtab" id="dtab-retiro" onclick="setDelivery('retiro')">
@@ -447,22 +452,33 @@ footer a{color:var(--orange);text-decoration:none;}
       </div>
     </div>
     <div class="delivery-panel show" id="panel-envio">
-      <div id="envio-banner" class="banner-cost">Enviamos a Brandsen y alrededores. Envio gratis con ticket mayor a $10.000.</div>
+      <div id="envio-banner" class="banner-cost">Enviamos a Brandsen y alrededores. Envío gratis con ticket mayor a $10.000.</div>
       <div class="card">
         <div class="form-grid">
-          <div class="fg"><label>Calle y numero *</label><input type="text" id="addr-street" placeholder="Av. San Martin 1234"></div>
+          <div class="fg full">
+            <label>Localidad *</label>
+            <select id="addr-city" onchange="updateAll()">
+              <option value="">Elegí tu localidad...</option>
+              <option value="brandsen">Brandsen</option>
+              <option value="jeppener">Jeppener</option>
+              <option value="altamirano">Altamirano</option>
+              <option value="gomez">Gómez</option>
+              <option value="lomaverde">Loma Verde</option>
+              <option value="countries">Countries Ruta 2</option>
+              <option value="otra">Otra localidad</option>
+            </select>
+          </div>
+          <div class="fg"><label>Calle y número *</label><input type="text" id="addr-street" placeholder="Av. San Martín 1234"></div>
           <div class="fg"><label>Piso / Depto</label><input type="text" id="addr-floor" placeholder="3 B (opcional)"></div>
-          <div class="fg"><label>Barrio / Localidad *</label><input type="text" id="addr-city" placeholder="Brandsen"></div>
-          <div class="fg"><label>Codigo Postal</label><input type="text" id="addr-cp" placeholder="1980"></div>
         </div>
       </div>
     </div>
     <div class="delivery-panel" id="panel-retiro">
       <div class="card" style="font-size:14px;color:var(--muted);line-height:1.9;">
-        Retiro sin cargo en nuestro local. Te avisamos por WhatsApp cuando este listo.<br>
+        Retiro sin cargo en nuestro local. Te avisamos por WhatsApp cuando esté listo.<br>
         <span style="font-size:12px;">Lun a Vie: 8.30 a 13hs y 16.30 a 19.30hs · Sab: 9 a 13hs y 17 a 20hs</span><br>
         <span style="font-size:12px;color:var(--orange);">Disponible SOLO durante 2026</span><br>
-        <span style="font-size:12px;margin-top:4px;display:block;">📚 <strong style="color:var(--text);">Retiro de libros o fotocopias a domicilio para copiar</strong> — Consulta por WhatsApp</span>
+        <span style="font-size:12px;margin-top:4px;display:block;">📚 <strong style="color:var(--text);">Retiro de libros o fotocopias a domicilio para copiar</strong> — Consultá por WhatsApp</span>
       </div>
     </div>
   </div>
@@ -498,7 +514,7 @@ footer a{color:var(--orange);text-decoration:none;}
   <!-- NOTAS -->
   <div class="sec-gap">
     <div class="sec-label">⑧ Aclaraciones (opcional)</div>
-    <div class="fg"><textarea id="notes" rows="3" placeholder="Anillado en tapa especifica, abrochado, paginas que no imprimir, instrucciones especiales..."></textarea></div>
+    <div class="fg"><textarea id="notes" rows="3" placeholder="Anillado, páginas que no imprimir, instrucciones especiales..."></textarea></div>
   </div>
 
   <!-- RESUMEN -->
@@ -517,22 +533,22 @@ footer a{color:var(--orange);text-decoration:none;}
       </div>
     </div>
     <div class="r-rows">
-      <div class="r-row"><span class="r-label">Paginas del archivo</span><span class="r-val" id="r-pages">Sin archivo</span></div>
+      <div class="r-row"><span class="r-label">Páginas del archivo</span><span class="r-val" id="r-pages">Sin archivo</span></div>
       <div class="r-row"><span class="r-label">Copias</span><span class="r-val" id="r-copies">1</span></div>
       <div class="r-div"></div>
       <div class="r-row"><span class="r-label">Tamaño</span><span class="r-val" id="r-size">A4</span></div>
       <div class="r-row"><span class="r-label">Color</span><span class="r-val" id="r-color">Blanco y Negro</span></div>
-      <div class="r-row"><span class="r-label">Papel</span><span class="r-val" id="r-paper">Comun</span></div>
+      <div class="r-row"><span class="r-label">Papel</span><span class="r-val" id="r-paper">Común</span></div>
       <div class="r-row"><span class="r-label">Caras</span><span class="r-val" id="r-sides">Simple faz</span></div>
-      <div class="r-row"><span class="r-label">Orientacion</span><span class="r-val" id="r-orient">Vertical</span></div>
-      <div class="r-row"><span class="r-label">Terminacion</span><span class="r-val" id="r-finish">Sin terminacion</span></div>
-      <div class="r-row"><span class="r-label">Layout</span><span class="r-val" id="r-layout">Normal</span></div>
+      <div class="r-row"><span class="r-label">Orientación</span><span class="r-val" id="r-orient">Vertical</span></div>
+      <div class="r-row"><span class="r-label">Terminación</span><span class="r-val" id="r-finish">Sin terminación</span></div>
+      <div class="r-row"><span class="r-label">Distribución</span><span class="r-val" id="r-layout">Normal</span></div>
       <div class="r-div"></div>
-      <div class="r-row"><span class="r-label">Precio por pagina</span><span class="r-val" id="r-unit">—</span></div>
+      <div class="r-row"><span class="r-label">Precio por página</span><span class="r-val" id="r-unit">—</span></div>
       <div class="r-row"><span class="r-label">Extras</span><span class="r-val" id="r-extras">Ninguno</span></div>
       <div class="r-row"><span class="r-label">Trabajos de imprenta</span><span class="r-val" id="r-imprenta">Ninguno</span></div>
       <div class="r-div"></div>
-      <div class="r-row"><span class="r-label">Entrega</span><span class="r-val" id="r-delivery">Envio a domicilio</span></div>
+      <div class="r-row"><span class="r-label">Entrega</span><span class="r-val" id="r-delivery">Envío a domicilio</span></div>
       <div class="r-row"><span class="r-label">Pago</span><span class="r-val" id="r-pago">Transferencia / CBU</span></div>
     </div>
     <a href="#" class="btn-wsp" onclick="sendWhatsApp(event)">
@@ -551,30 +567,30 @@ footer a{color:var(--orange);text-decoration:none;}
         <tbody id="priceTable"></tbody>
       </table>
     </div>
-    <p style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;">Precios en ARS · <span id="priceDate"></span> · Sujetos a actualizacion</p>
+    <p style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;">Precios en ARS · <span id="priceDate"></span> · Sujetos a actualización</p>
   </div>
 
   <!-- FAQ -->
   <div style="margin-top:52px;" id="faq">
     <div class="sec-label">Preguntas frecuentes</div>
     <div class="faq-item open">
-      <div class="faq-q" onclick="toggleFaq(this)">Como les llega mi archivo? <span class="faq-arr">▾</span></div>
-      <div class="faq-a">Cuando tocas "Enviar pedido", el archivo se sube automaticamente a nuestro Google Drive con calidad original. No necesitas hacer nada mas.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">¿Cómo les llega mi archivo? <span class="faq-arr">▾</span></div>
+      <div class="faq-a">Cuando tocás "Enviar pedido", el archivo se sube automáticamente a nuestro Google Drive con calidad original. No necesitás hacer nada más.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">El envio es siempre gratis? <span class="faq-arr">▾</span></div>
-      <div class="faq-a">El envio es gratis para pedidos con un ticket superior a $10.000 en Brandsen y alrededores. Ademas, tenemos envio bonificado para Jeppener, Altamirano, Gomez, Loma Verde y Countries de Ruta 2. Para pedidos menores coordinamos el costo por WhatsApp antes de confirmar.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">¿El envío es siempre gratis? <span class="faq-arr">▾</span></div>
+      <div class="faq-a">En <strong>Brandsen</strong> el envío es gratis para pedidos mayores a $10.000. Para pedidos menores lo coordinamos por WhatsApp. También llegamos a <strong>Jeppener, Altamirano, Gómez, Loma Verde y Countries de Ruta 2</strong> — en esas zonas el costo lo coordinamos por WhatsApp. Si tu localidad no está en la lista, consultanos igual y vemos si podemos llegar.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Cuanto tarda en llegar? <span class="faq-arr">▾</span></div>
-      <div class="faq-a">Pedidos estandar: generalmente en el dia o al dia siguiente. Con terminaciones especiales pueden tardar 24-48hs. Te confirmamos el tiempo exacto al aceptar el pedido.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">¿Cuánto tarda en llegar? <span class="faq-arr">▾</span></div>
+      <div class="faq-a">Pedidos estándar: generalmente en el día o al día siguiente. Con terminaciones especiales pueden tardar 24-48hs. Te confirmamos el tiempo exacto al aceptar el pedido.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Puedo pedir sin subir archivo? <span class="faq-arr">▾</span></div>
-      <div class="faq-a">Si. Completa el formulario sin archivo y coordinamos por WhatsApp. Ten en cuenta que sin el archivo la cotizacion puede ajustarse.</div>
+      <div class="faq-q" onclick="toggleFaq(this)">¿Puedo pedir sin subir archivo? <span class="faq-arr">▾</span></div>
+      <div class="faq-a">Sí. Completá el formulario sin archivo y coordinamos por WhatsApp. Tené en cuenta que sin el archivo la cotización puede ajustarse.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Como pago? <span class="faq-arr">▾</span></div>
+      <div class="faq-q" onclick="toggleFaq(this)">¿Cómo pago? <span class="faq-arr">▾</span></div>
       <div class="faq-a">Aceptamos transferencia bancaria (CBU/Alias) y Mercado Pago. Te enviamos los datos o link de pago por WhatsApp al confirmar el pedido.</div>
     </div>
   </div>
@@ -606,11 +622,21 @@ footer a{color:var(--orange);text-decoration:none;}
 // CONFIGURACION
 // ====================================================
 const WSP_NUMBER         = "542223500935";
-const ENVIO_GRATIS_DESDE_PESOS = 10000; // ticket minimo para envio gratis
-const ZONAS_BONIFICADAS = ['jeppener','altamirano','gomez','loma verde','countries ruta 2','country ruta 2']; // para detectar en la localidad
+const ENVIO_GRATIS_DESDE_PESOS = 10000; // ticket minimo para envio gratis en Brandsen
+
+// Localidades: 'brandsen' = envio estandar | 'bonificada' = a coordinar | 'otra' = consultar
+const LOCALIDADES = {
+  brandsen:   { nombre:'Brandsen',         tipo:'brandsen' },
+  jeppener:   { nombre:'Jeppener',         tipo:'bonificada' },
+  altamirano: { nombre:'Altamirano',       tipo:'bonificada' },
+  gomez:      { nombre:'Gómez',            tipo:'bonificada' },
+  lomaverde:  { nombre:'Loma Verde',       tipo:'bonificada' },
+  countries:  { nombre:'Countries Ruta 2', tipo:'bonificada' },
+  otra:       { nombre:'Otra localidad',   tipo:'otra' },
+};
 const APPS_SCRIPT_URL    = "https://script.google.com/macros/s/AKfycbznIxPGgb2P1VE8i2w1PXdvtfsplQKPSS6DVLVR3GvqSzeTBotQjBRl0IOlNzVz0P9F/exec";
 
-// Precio por pagina BN comun segun tramos
+// Precio por página BN comun segun tramos
 const BN_TRAMOS = [
   { hasta: 25,       precio: 100, label: '1 a 25 pag.' },
   { hasta: 50,       precio: 95,  label: '26 a 50 pag.' },
@@ -647,31 +673,31 @@ function getPrecioAnillado(hojas) {
 const PLAST_PRECIOS = { carnet: 650, medioa4: 900, a4: 1000, oficio: 2000, a3: 3000 };
 const PLAST_LABELS  = { carnet: 'Carnet', medioa4: 'Medio A4', a4: 'A4', oficio: 'Oficio', a3: 'A3' };
 
-// Extras
+// Extras — agregá la ruta de imagen en 'img' cuando las tengas (ej: 'img/carpeta-3-solapas.jpg')
 const EXTRAS_DEF = [
-  { id:'carp3',   nombre:'Carpeta 3 solapas',          precio:1350 },
-  { id:'carpTa4', nombre:'Carpeta Transparente A4',     precio:2100 },
-  { id:'carpTof', nombre:'Carpeta Transparente Oficio', precio:2100 },
-  { id:'carpEla', nombre:'Carpeta Oficio con Elastico', precio:5100 },
-  { id:'folioA4', nombre:'Folio A4',                    precio:400  },
-  { id:'folioOf', nombre:'Folio Oficio',                precio:500  },
-  { id:'folioA4R',nombre:'Folio A4 Reforzado',          precio:700  },
+  { id:'carp3',   nombre:'Carpeta 3 solapas',          precio:1350, img:'' },
+  { id:'carpTa4', nombre:'Carpeta Transparente A4',     precio:2100, img:'' },
+  { id:'carpTof', nombre:'Carpeta Transparente Oficio', precio:2100, img:'' },
+  { id:'carpEla', nombre:'Carpeta Oficio con Elastico', precio:5100, img:'' },
+  { id:'folioA4', nombre:'Folio A4',                    precio:400,  img:'' },
+  { id:'folioOf', nombre:'Folio Oficio',                precio:500,  img:'' },
+  { id:'folioA4R',nombre:'Folio A4 Reforzado',          precio:700,  img:'' },
 ];
 
-// Trabajos de imprenta
+// Trabajos de imprenta — agregá la ruta de imagen en 'img' cuando las tengas
 const IMPRENTA_DEF = [
-  { id:'tj100',    nombre:'Tarjetas Personales x 100',                     precio:19500  },
-  { id:'tj100df',  nombre:'Tarjetas Personales Doble Faz x 100',           precio:22500  },
-  { id:'tj500',    nombre:'Tarjetas Personales x 500 + 50 regalo',         precio:75000  },
-  { id:'tj500df',  nombre:'Tarjetas Personales Doble Faz x 500 + 50',      precio:112500 },
-  { id:'tj1000',   nombre:'Tarjetas Personales x 1000 + 100 regalo',       precio:150000 },
-  { id:'tj1000df', nombre:'Tarjetas Personales Doble Faz x 1000 + 100',    precio:225000 },
-  { id:'vol500bco',nombre:'Volantes Papel Blanco 10x15 - 500 u.',          precio:18000  },
-  { id:'vol1kbco', nombre:'Volantes Papel Blanco 10x15 - 1000 u.',         precio:23800  },
-  { id:'vol500col',nombre:'Volantes Papel Color 11x17 - 500 u.',           precio:18000  },
-  { id:'vol1kcol', nombre:'Volantes Papel Color 11x17 - 1000 u.',          precio:36000  },
-  { id:'vol500emb',nombre:'Volantes Emblocados 10x15 - 500 u.',            precio:18000  },
-  { id:'vol1kemb', nombre:'Volantes Emblocados 10x15 - 1000 u.',           precio:36000  },
+  { id:'tj100',    nombre:'Tarjetas Personales x 100',                     precio:19500,  img:'' },
+  { id:'tj100df',  nombre:'Tarjetas Personales Doble Faz x 100',           precio:22500,  img:'' },
+  { id:'tj500',    nombre:'Tarjetas Personales x 500 + 50 regalo',         precio:75000,  img:'' },
+  { id:'tj500df',  nombre:'Tarjetas Personales Doble Faz x 500 + 50',      precio:112500, img:'' },
+  { id:'tj1000',   nombre:'Tarjetas Personales x 1000 + 100 regalo',       precio:150000, img:'' },
+  { id:'tj1000df', nombre:'Tarjetas Personales Doble Faz x 1000 + 100',    precio:225000, img:'' },
+  { id:'vol500bco',nombre:'Volantes Papel Blanco 10x15 - 500 u.',          precio:18000,  img:'' },
+  { id:'vol1kbco', nombre:'Volantes Papel Blanco 10x15 - 1000 u.',         precio:23800,  img:'' },
+  { id:'vol500col',nombre:'Volantes Papel Color 11x17 - 500 u.',           precio:18000,  img:'' },
+  { id:'vol1kcol', nombre:'Volantes Papel Color 11x17 - 1000 u.',          precio:36000,  img:'' },
+  { id:'vol500emb',nombre:'Volantes Emblocados 10x15 - 500 u.',            precio:18000,  img:'' },
+  { id:'vol1kemb', nombre:'Volantes Emblocados 10x15 - 1000 u.',           precio:36000,  img:'' },
 ];
 
 // ====================================================
@@ -701,6 +727,7 @@ const LBL = {
 function buildExtras() {
   document.getElementById('extrasGrid').innerHTML = EXTRAS_DEF.map(ex=>`
     <div class="extra-item" id="extra-item-${ex.id}">
+      <div class="extra-thumb">${ex.img?`<img src="${ex.img}" alt="${ex.nombre}" loading="lazy" onerror="this.parentElement.innerHTML='📦'">`:'📦'}</div>
       <div class="extra-left">
         <div class="extra-name">${ex.nombre}</div>
         <div class="extra-price">$${ex.precio.toLocaleString('es-AR')} c/u</div>
@@ -716,6 +743,7 @@ function buildExtras() {
 function buildImprenta() {
   document.getElementById('imprentaGrid').innerHTML = IMPRENTA_DEF.map(im=>`
     <div class="extra-item" id="imp-item-${im.id}">
+      <div class="extra-thumb">${im.img?`<img src="${im.img}" alt="${im.nombre}" loading="lazy" onerror="this.parentElement.innerHTML='🖨️'">`:'🖨️'}</div>
       <div class="extra-left">
         <div class="extra-name">${im.nombre}</div>
         <div class="extra-price">$${im.precio.toLocaleString('es-AR')}</div>
@@ -885,16 +913,18 @@ function calc(){
   Object.entries(state.imprenta).forEach(([id,q])=>{ if(impMap[id]) subtotalImprenta+=impMap[id].precio*q; });
 
   const total=subtotalImpresion+subtotalAnillado+subtotalPlast+subtotalExtras+subtotalImprenta;
-  const ciudad = (document.getElementById('addr-city')?.value||'').toLowerCase();
-  const esZonaBonificada = ZONAS_BONIFICADAS.some(z=>ciudad.includes(z));
-  const freeShipping = state.delivery==='envio' && (total >= ENVIO_GRATIS_DESDE_PESOS || esZonaBonificada);
+  const locKey = document.getElementById('addr-city')?.value || '';
+  const loc = LOCALIDADES[locKey] || null;
+  const tipoZona = loc ? loc.tipo : null;
+  // Envio gratis solo en Brandsen con ticket minimo. Bonificadas y otras: a coordinar.
+  const freeShipping = state.delivery==='envio' && tipoZona==='brandsen' && total >= ENVIO_GRATIS_DESDE_PESOS;
 
-  return {unit,esConsultar,sinArchivo,pagesRaw,totalPages:sinArchivo?0:totalPages,physicalSheets:sinArchivo?0:physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping};
+  return {unit,esConsultar,sinArchivo,pagesRaw,totalPages:sinArchivo?0:totalPages,physicalSheets:sinArchivo?0:physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping,tipoZona,loc};
 }
 
 // ---- UPDATE UI ----
 function updateAll(){
-  const {unit,esConsultar,sinArchivo,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping}=calc();
+  const {unit,esConsultar,sinArchivo,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping,tipoZona,loc}=calc();
 
   // Actualizar subtítulos de papel segun color
   const sizeKey2 = state.sizedetail==='a3'?'a3':'a4oficio';
@@ -938,21 +968,30 @@ function updateAll(){
     : `${state.copies} copia${state.copies>1?'s':''} · ${totalPages} caras a imprimir`;
 
   const wrap=document.getElementById('envio-tag-wrap');
-  const ciudad2=(document.getElementById('addr-city')?.value||'').toLowerCase();
-  const esZonaB=ZONAS_BONIFICADAS.some(z=>ciudad2.includes(z));
   if(state.delivery==='envio'){
-    if(freeShipping) wrap.innerHTML='<span class="tag-green">Envio gratis incluido</span>';
-    else if(esZonaB) wrap.innerHTML='<span class="tag-green">Zona bonificada - envio gratis</span>';
-    else { const faltan=ENVIO_GRATIS_DESDE_PESOS-total; wrap.innerHTML=`<span class="tag-grey">Faltan $${Math.max(0,faltan).toLocaleString('es-AR')} para envio gratis</span>`; }
+    if(!tipoZona) wrap.innerHTML='<span class="tag-grey">Elegí tu localidad</span>';
+    else if(tipoZona==='otra') wrap.innerHTML='<span class="tag-grey">Envío a consultar</span>';
+    else if(tipoZona==='bonificada') wrap.innerHTML='<span class="tag-green">Zona bonificada</span>';
+    else if(freeShipping) wrap.innerHTML='<span class="tag-green">Envío gratis incluido</span>';
+    else { const faltan=ENVIO_GRATIS_DESDE_PESOS-total; wrap.innerHTML=`<span class="tag-grey">Faltan $${Math.max(0,faltan).toLocaleString('es-AR')} para envío gratis</span>`; }
   } else wrap.innerHTML='<span class="tag-grey">Retiro sin cargo</span>';
 
   const banner=document.getElementById('envio-banner');
-  if(freeShipping||esZonaB){
+  if(!tipoZona){
+    banner.className='banner-cost';
+    banner.textContent='Elegí tu localidad para ver el costo de envío.';
+  } else if(tipoZona==='otra'){
+    banner.className='banner-cost';
+    banner.innerHTML='📍 No llegamos habitualmente a tu zona. <strong style="color:var(--text)">Consultanos por WhatsApp</strong> y vemos si podemos coordinar el envío.';
+  } else if(tipoZona==='bonificada'){
     banner.className='banner-free';
-    banner.textContent= esZonaB && !freeShipping ? 'Zona bonificada: Jeppener, Altamirano, Gomez, Loma Verde, Countries Ruta 2 — envio gratis!' : 'Envio gratis! Tu pedido supera los $'+ENVIO_GRATIS_DESDE_PESOS.toLocaleString('es-AR')+'.';
+    banner.innerHTML='✅ <strong>Zona bonificada</strong> — el costo del envío lo coordinamos por WhatsApp.';
+  } else if(freeShipping){
+    banner.className='banner-free';
+    banner.innerHTML='✅ <strong>Envío gratis!</strong> Tu pedido supera los $'+ENVIO_GRATIS_DESDE_PESOS.toLocaleString('es-AR')+'.';
   } else {
     banner.className='banner-cost';
-    banner.textContent='Enviamos a Brandsen y alrededores. Envio gratis con ticket mayor a $'+ENVIO_GRATIS_DESDE_PESOS.toLocaleString('es-AR')+'.';
+    banner.textContent='Envío gratis en Brandsen con pedidos mayores a $'+ENVIO_GRATIS_DESDE_PESOS.toLocaleString('es-AR')+'. Menos de eso, lo coordinamos por WhatsApp.';
   }
 
   // Resumen
@@ -983,7 +1022,12 @@ function updateAll(){
   document.getElementById('r-imprenta').textContent=impActivos.length?impActivos.map(([id,q])=>impMap[id]?.nombre+' x'+q).join(', '):'Ninguno';
 
   document.getElementById('r-pago').textContent=LBL.pago[state.pago];
-  document.getElementById('r-delivery').textContent=state.delivery==='envio'?(freeShipping?'Envio a domicilio (gratis)':'Envio a domicilio (costo a confirmar)'):'Retiro en local';
+  document.getElementById('r-delivery').textContent = state.delivery==='envio'
+    ? (!tipoZona ? 'Envío — elegí localidad'
+      : tipoZona==='otra' ? 'Envío — a consultar'
+      : tipoZona==='bonificada' ? loc.nombre+' (bonificada, a coordinar)'
+      : freeShipping ? 'Brandsen (envío gratis)' : 'Brandsen (envío a coordinar)')
+    : 'Retiro en local';
 }
 
 // ---- DRIVE ----
@@ -1011,19 +1055,24 @@ async function sendWhatsApp(e){
   const notes=document.getElementById('notes').value.trim();
   if(!name||!phone){showToast('Completa tu nombre y WhatsApp','err');return;}
   if(state.delivery==='envio'){
-    if(!document.getElementById('addr-street').value.trim()||!document.getElementById('addr-city').value.trim()){
-      showToast('Completa la direccion de envio','err');return;
+    if(!document.getElementById('addr-city').value){
+      showToast('Elegí tu localidad','err');
+      document.getElementById('addr-city').focus();
+      return;
+    }
+    if(!document.getElementById('addr-street').value.trim()){
+      showToast('Completá la calle y número','err');
+      document.getElementById('addr-street').focus();
+      return;
     }
   }
 
-  const {unit,esConsultar,sinArchivo,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping}=calc();
+  const {unit,esConsultar,sinArchivo,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping,tipoZona,loc}=calc();
   let direccion='';
   if(state.delivery==='envio'){
     const s=document.getElementById('addr-street').value.trim();
     const f=document.getElementById('addr-floor').value.trim();
-    const c=document.getElementById('addr-city').value.trim();
-    const p=document.getElementById('addr-cp').value.trim();
-    direccion=[s,f,c,p].filter(Boolean).join(', ');
+    direccion=[s,f,loc?loc.nombre:''].filter(Boolean).join(', ');
   }
 
   const extMap=EXTRAS_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
@@ -1066,7 +1115,7 @@ async function sendWhatsApp(e){
     tamano:LBL.sizedetail[state.sizedetail],
     color:LBL.color[state.color],papel:LBL.paper[state.paper],
     caras:LBL.sides[state.sides],copias:state.copies,
-    entrega:state.delivery==='retiro'?'Retiro en local':(freeShipping?'Envio gratis':'Envio pago'),
+    entrega:state.delivery==='retiro'?'Retiro en local':(tipoZona==='otra'?'Otra zona - consultar':tipoZona==='bonificada'?(loc.nombre+' (bonificada)'):(freeShipping?'Brandsen - envio gratis':'Brandsen - envio a coordinar')),
     direccion:direccion||'-',pago:LBL.pago[state.pago],total:total,notas:notes||'-'
   })}).catch(()=>{});
 
@@ -1104,7 +1153,7 @@ async function sendWhatsApp(e){
     'Papel: '+LBL.paper[state.paper]+(esConsultar?' - A CONSULTAR':''),
     'Caras: '+LBL.sides[state.sides],
     'Orientacion: '+LBL.orient[state.orient],
-    'Layout: '+LBL.layout[state.layout],
+    'Distribucion: '+LBL.layout[state.layout],
     'Terminacion: '+terminacionLinea,
     '',
     '*Copias:* '+state.copies,
@@ -1113,7 +1162,7 @@ async function sendWhatsApp(e){
     '',
     impActivos.length?'*Trabajos de imprenta:*\n'+imprentaLineas+'\n':null,
     extActivos.length?'*Extras:*\n'+extrasLineas+'\n':null,
-    '*Entrega:* '+(state.delivery==='retiro'?'Retiro en local':freeShipping?'Envio a domicilio (GRATIS)':'Envio a domicilio'),
+    '*Entrega:* '+(state.delivery==='retiro'?'Retiro en local':tipoZona==='otra'?'Envio - CONSULTAR SI LLEGAMOS':tipoZona==='bonificada'?('Envio a '+loc.nombre+' (zona bonificada - coordinar costo)'):(freeShipping?'Envio a Brandsen (GRATIS)':'Envio a Brandsen (coordinar costo)')),
     state.delivery==='envio'&&direccion?'*Direccion:* '+direccion:null,
     '',
     '*Pago:* '+LBL.pago[state.pago],
