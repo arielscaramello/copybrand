@@ -145,6 +145,32 @@ main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
 .float-bar-btn:hover{filter:brightness(1.08);}
 .float-bar-btn svg{width:18px;height:18px;fill:#fff;}
 main{padding-bottom:110px;}
+/* SERVICIO DESTACADO */
+.servicio-destacado{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,rgba(249,115,22,.14),rgba(249,115,22,.05));border:1.5px solid var(--orange-dim);border-radius:16px;padding:18px 22px;margin-bottom:20px;text-decoration:none;color:var(--text);transition:border-color .2s,transform .15s;}
+.servicio-destacado:hover{border-color:var(--orange);transform:translateY(-2px);}
+.sd-icon{font-size:34px;flex-shrink:0;}
+.sd-text{flex:1;}
+.sd-title{font-size:15px;font-weight:700;margin-bottom:2px;}
+.sd-desc{font-size:13px;color:var(--muted);line-height:1.45;}
+.sd-cta{background:var(--orange);color:#000;font-weight:700;font-size:13px;padding:9px 18px;border-radius:100px;white-space:nowrap;flex-shrink:0;}
+@media(max-width:600px){.servicio-destacado{flex-wrap:wrap;gap:12px;padding:16px;}.sd-cta{width:100%;text-align:center;}}
+/* INDICE */
+.indice{display:flex;gap:8px;overflow-x:auto;padding:4px 0 14px;margin-bottom:22px;border-bottom:1px solid var(--border);scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.indice::-webkit-scrollbar{display:none;}
+.indice a{background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:8px 16px;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;white-space:nowrap;transition:all .15s;}
+.indice a:hover{border-color:var(--orange);color:var(--orange);}
+/* CONSULTA ITEMS (sin precio) */
+.consulta-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+@media(max-width:580px){.consulta-grid{grid-template-columns:1fr;}}
+.consulta-item{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .15s;}
+.consulta-item:hover{border-color:var(--orange-dim);}
+.consulta-item.active{border-color:var(--orange);background:var(--orange-glow);}
+.consulta-check{width:18px;height:18px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#000;transition:all .15s;}
+.consulta-item.active .consulta-check{background:var(--orange);border-color:var(--orange);}
+.consulta-item.active .consulta-check::after{content:'✓';font-weight:700;}
+.consulta-name{font-size:13px;font-weight:500;}
+.sub-titulo{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin:18px 0 10px;}
+.aviso-consulta{background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.55;}
 .price-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
 .price-table-wrap table{width:100%;border-collapse:collapse;font-size:13px;}
 .price-table-wrap thead th{padding:12px 18px;text-align:left;color:var(--muted);font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--border);}
@@ -192,8 +218,28 @@ footer a{color:var(--orange);text-decoration:none;}
 
 <main id="pedido">
 
+  <!-- SERVICIO DESTACADO: RETIRO DE LIBROS -->
+  <a href="https://wa.me/542223500935?text=Hola!%20Quiero%20consultar%20por%20el%20servicio%20de%20retiro%20de%20libros%20o%20fotocopias%20a%20domicilio" target="_blank" class="servicio-destacado">
+    <div class="sd-icon">📚</div>
+    <div class="sd-text">
+      <div class="sd-title">¿Tenés un libro o apuntes en papel?</div>
+      <div class="sd-desc">Lo pasamos a buscar por tu casa, lo copiamos y te lo devolvemos. Sin que salgas.</div>
+    </div>
+    <div class="sd-cta">Consultar →</div>
+  </a>
+
+  <!-- INDICE DE NAVEGACION -->
+  <nav class="indice" id="indice">
+    <a href="#sec-archivos">📄 Fotocopias</a>
+    <a href="#sec-extras">📦 Extras</a>
+    <a href="#sec-imprenta">🖨️ Imprenta</a>
+    <a href="#sec-diseno">🎨 Diseño y Ploteo</a>
+    <a href="#precios">💰 Precios</a>
+    <a href="#faq">❓ FAQ</a>
+  </nav>
+
   <!-- ARCHIVO -->
-  <div class="sec-gap">
+  <div class="sec-gap" id="sec-archivos">
     <div class="sec-label">① Archivos a imprimir</div>
     <div class="upload-area" id="uploadArea">
       <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" multiple>
@@ -418,7 +464,7 @@ footer a{color:var(--orange);text-decoration:none;}
   </div>
 
   <!-- EXTRAS -->
-  <div class="sec-gap">
+  <div class="sec-gap" id="sec-extras">
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:16px;">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:4px;">③ 📦 Extras</div>
       <div style="font-size:13px;color:var(--muted);">Accesorios que podés agregar a tu pedido</div>
@@ -427,13 +473,30 @@ footer a{color:var(--orange);text-decoration:none;}
   </div>
 
   <!-- TRABAJOS DE IMPRENTA -->
-  <div class="sec-gap">
+  <div class="sec-gap" id="sec-imprenta">
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:16px;">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:4px;">④ 🖨️ Trabajos de imprenta</div>
       <div style="font-size:13px;color:var(--muted);">Tarjetas, volantes y más — requiere confirmar detalles</div>
     </div>
     <div class="imprenta-notice" id="imprentaNotice">Este producto requiere confirmar detalles con el vendedor.</div>
     <div class="imprenta-grid" id="imprentaGrid"></div>
+  </div>
+
+  <!-- DISEÑO Y PLOTEO -->
+  <div class="sec-gap" id="sec-diseno">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:16px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:4px;">⑤ 🎨 Diseño y Gran Formato</div>
+      <div style="font-size:13px;color:var(--muted);">Planos, lonas, vinilos, cartelería y diseño gráfico</div>
+    </div>
+
+    <div class="sub-titulo">Impresión gran formato — con precio</div>
+    <div class="extras-grid" id="ploteoGrid"></div>
+
+    <div class="sub-titulo">Servicios a consultar — sin precio fijo</div>
+    <div class="aviso-consulta">
+      💬 Estos servicios se cotizan según el trabajo. Marcá lo que te interesa y un asesor te contacta por WhatsApp para darte el presupuesto exacto.
+    </div>
+    <div id="consultaGrids"></div>
   </div>
 
   <!-- ENTREGA -->
@@ -477,8 +540,7 @@ footer a{color:var(--orange);text-decoration:none;}
       <div class="card" style="font-size:14px;color:var(--muted);line-height:1.9;">
         Retiro sin cargo en nuestro local. Te avisamos por WhatsApp cuando esté listo.<br>
         <span style="font-size:12px;">Lun a Vie: 8.30 a 13hs y 16.30 a 19.30hs · Sab: 9 a 13hs y 17 a 20hs</span><br>
-        <span style="font-size:12px;color:var(--orange);">Disponible SOLO durante 2026</span><br>
-        <span style="font-size:12px;margin-top:4px;display:block;">📚 <strong style="color:var(--text);">Retiro de libros o fotocopias a domicilio para copiar</strong> — Consultá por WhatsApp</span>
+        <span style="font-size:12px;color:var(--orange);">Disponible SOLO durante 2026</span>
       </div>
     </div>
   </div>
@@ -547,6 +609,8 @@ footer a{color:var(--orange);text-decoration:none;}
       <div class="r-row"><span class="r-label">Precio por página</span><span class="r-val" id="r-unit">—</span></div>
       <div class="r-row"><span class="r-label">Extras</span><span class="r-val" id="r-extras">Ninguno</span></div>
       <div class="r-row"><span class="r-label">Trabajos de imprenta</span><span class="r-val" id="r-imprenta">Ninguno</span></div>
+      <div class="r-row"><span class="r-label">Gran formato</span><span class="r-val" id="r-ploteo">Ninguno</span></div>
+      <div class="r-row"><span class="r-label">Consultas</span><span class="r-val" id="r-consultas">Ninguna</span></div>
       <div class="r-div"></div>
       <div class="r-row"><span class="r-label">Entrega</span><span class="r-val" id="r-delivery">Envío a domicilio</span></div>
       <div class="r-row"><span class="r-label">Pago</span><span class="r-val" id="r-pago">Transferencia / CBU</span></div>
@@ -689,9 +753,9 @@ const IMPRENTA_DEF = [
   { id:'tj100',    nombre:'Tarjetas Personales x 100',                     precio:19500,  img:'' },
   { id:'tj100df',  nombre:'Tarjetas Personales Doble Faz x 100',           precio:22500,  img:'' },
   { id:'tj500',    nombre:'Tarjetas Personales x 500 + 50 regalo',         precio:75000,  img:'' },
-  { id:'tj500df',  nombre:'Tarjetas Personales Doble Faz x 500 + 50',      precio:112500, img:'' },
+  { id:'tj500df',  nombre:'Tarjetas Personales Doble Faz x 500 + 50 regalo',   precio:112500, img:'' },
   { id:'tj1000',   nombre:'Tarjetas Personales x 1000 + 100 regalo',       precio:150000, img:'' },
-  { id:'tj1000df', nombre:'Tarjetas Personales Doble Faz x 1000 + 100',    precio:225000, img:'' },
+  { id:'tj1000df', nombre:'Tarjetas Personales Doble Faz x 1000 + 100 regalo', precio:225000, img:'' },
   { id:'vol500bco',nombre:'Volantes Papel Blanco 10x15 - 500 u.',          precio:18000,  img:'' },
   { id:'vol1kbco', nombre:'Volantes Papel Blanco 10x15 - 1000 u.',         precio:23800,  img:'' },
   { id:'vol500col',nombre:'Volantes Papel Color 11x17 - 500 u.',           precio:18000,  img:'' },
@@ -699,6 +763,49 @@ const IMPRENTA_DEF = [
   { id:'vol500emb',nombre:'Volantes Emblocados 10x15 - 500 u.',            precio:18000,  img:'' },
   { id:'vol1kemb', nombre:'Volantes Emblocados 10x15 - 1000 u.',           precio:36000,  img:'' },
 ];
+
+// Gran formato / Ploteo — con precio
+const PLOTEO_DEF = [
+  { id:'lona1x1',      nombre:'Lona 1 x 1 m',                  precio:29030, img:'' },
+  { id:'lona1x160',    nombre:'Lona 1 x 1.60 m',               precio:46400, img:'' },
+  { id:'planobond',    nombre:'Plano papel bond',              precio:12500, img:'' },
+  { id:'planovegetal', nombre:'Plano papel vegetal',           precio:19120, img:'' },
+  { id:'gigacomun',    nombre:'Gigantografía papel común',     precio:12500, img:'' },
+  { id:'gigafoto',     nombre:'Gigantografía papel fotográfico',precio:20000, img:'' },
+  { id:'vinilo60',     nombre:'Vinilo 60 cm — impresión',      precio:13500, img:'' },
+  { id:'vinilo90',     nombre:'Vinilo 90 cm — impresión',      precio:21360, img:'' },
+  { id:'vinilo126',    nombre:'Vinilo 1.26 m — impresión',     precio:33380, img:'' },
+  { id:'vinilocorte',  nombre:'Vinilo de corte',               precio:28800, img:'' },
+  { id:'vinilo60mc',   nombre:'Vinilo 60 cm — medio corte',    precio:20250, img:'' },
+  { id:'vinilo90mc',   nombre:'Vinilo 90 cm — medio corte',    precio:32040, img:'' },
+  { id:'vinilo126mc',  nombre:'Vinilo 1.26 m — medio corte',   precio:50500, img:'' },
+];
+
+// Servicios a consultar — sin precio fijo
+const CONSULTA_DEF = {
+  planos: {
+    titulo: 'Planos',
+    items: [
+      { id:'cp_neg',  nombre:'Copias de plano en negro' },
+      { id:'cp_col',  nombre:'Copias de plano a color' },
+      { id:'ip_neg',  nombre:'Impresión de plano en negro' },
+      { id:'ip_col',  nombre:'Impresión de plano a color' },
+    ]
+  },
+  diseno: {
+    titulo: 'Diseño gráfico y cartelería',
+    items: [
+      { id:'d_vinimp',  nombre:'Impresión en vinilo impreso' },
+      { id:'d_vincorte',nombre:'Impresión en vinilo de corte' },
+      { id:'d_lona',    nombre:'Impresión en lona' },
+      { id:'d_vidriera',nombre:'Armado de vidriera' },
+      { id:'d_marq',    nombre:'Armado de marquesina' },
+      { id:'d_letras',  nombre:'Letras corpóreas' },
+      { id:'d_diseno',  nombre:'Diseño gráfico (simple o complejo)' },
+      { id:'d_asesor',  nombre:'No sé qué vinilo necesito — asesorame' },
+    ]
+  }
+}; 
 
 // ====================================================
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -709,7 +816,7 @@ const state = {
   sides:'simple', orient:'vertical', finish:'ninguna',
   plastsize:'carnet', plastqty:1,
   layout:'1x1', delivery:'envio', pago:'transferencia',
-  extras:{}, imprenta:{}
+  extras:{}, imprenta:{}, ploteo:{}, consultas:{}
 };
 
 const LBL = {
@@ -754,6 +861,60 @@ function buildImprenta() {
         <button class="extra-btn" onclick="changeImprenta('${im.id}',1)">+</button>
       </div>
     </div>`).join('');
+}
+
+function buildPloteo() {
+  document.getElementById('ploteoGrid').innerHTML = PLOTEO_DEF.map(pl=>`
+    <div class="extra-item" id="plot-item-${pl.id}">
+      <div class="extra-thumb">${pl.img?`<img src="${pl.img}" alt="${pl.nombre}" loading="lazy" onerror="this.parentElement.innerHTML='\u{1F5BC}'">`:'\u{1F5BC}'}</div>
+      <div class="extra-left">
+        <div class="extra-name">${pl.nombre}</div>
+        <div class="extra-price">$${pl.precio.toLocaleString('es-AR')}</div>
+      </div>
+      <div class="extra-qty">
+        <button class="extra-btn" onclick="changePloteo('${pl.id}',-1)">−</button>
+        <div class="extra-val" id="plot-val-${pl.id}">0</div>
+        <button class="extra-btn" onclick="changePloteo('${pl.id}',1)">+</button>
+      </div>
+    </div>`).join('');
+}
+
+function buildConsultas() {
+  let html = '';
+  Object.entries(CONSULTA_DEF).forEach(([key, grupo])=>{
+    html += `<div style="font-size:12px;font-weight:600;color:var(--muted);margin:14px 0 8px;">${grupo.titulo}</div>`;
+    html += '<div class="consulta-grid">';
+    html += grupo.items.map(it=>`
+      <div class="consulta-item" id="cons-${it.id}" onclick="toggleConsulta('${it.id}')">
+        <div class="consulta-check"></div>
+        <div class="consulta-name">${it.nombre}</div>
+      </div>`).join('');
+    html += '</div>';
+  });
+  document.getElementById('consultaGrids').innerHTML = html;
+}
+
+function changePloteo(id, delta) {
+  const next = Math.max(0, (state.ploteo[id]||0) + delta);
+  if(next===0) delete state.ploteo[id]; else state.ploteo[id]=next;
+  document.getElementById('plot-val-'+id).textContent = next;
+  document.getElementById('plot-item-'+id).classList.toggle('has-qty', next>0);
+  updateAll();
+}
+
+function toggleConsulta(id) {
+  if(state.consultas[id]) delete state.consultas[id];
+  else state.consultas[id]=true;
+  document.getElementById('cons-'+id).classList.toggle('active', !!state.consultas[id]);
+  updateAll();
+}
+
+function getConsultaNombre(id){
+  for(const g of Object.values(CONSULTA_DEF)){
+    const it = g.items.find(x=>x.id===id);
+    if(it) return it.nombre;
+  }
+  return id;
 }
 
 function changeExtra(id, delta) {
@@ -912,19 +1073,24 @@ function calc(){
   const impMap=IMPRENTA_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
   Object.entries(state.imprenta).forEach(([id,q])=>{ if(impMap[id]) subtotalImprenta+=impMap[id].precio*q; });
 
-  const total=subtotalImpresion+subtotalAnillado+subtotalPlast+subtotalExtras+subtotalImprenta;
+  // Ploteo / gran formato
+  let subtotalPloteo=0;
+  const plotMap=PLOTEO_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
+  Object.entries(state.ploteo).forEach(([id,q])=>{ if(plotMap[id]) subtotalPloteo+=plotMap[id].precio*q; });
+
+  const total=subtotalImpresion+subtotalAnillado+subtotalPlast+subtotalExtras+subtotalImprenta+subtotalPloteo;
   const locKey = document.getElementById('addr-city')?.value || '';
   const loc = LOCALIDADES[locKey] || null;
   const tipoZona = loc ? loc.tipo : null;
   // Envio gratis solo en Brandsen con ticket minimo. Bonificadas y otras: a coordinar.
   const freeShipping = state.delivery==='envio' && tipoZona==='brandsen' && total >= ENVIO_GRATIS_DESDE_PESOS;
 
-  return {unit,esConsultar,sinArchivo,pagesRaw,totalPages:sinArchivo?0:totalPages,physicalSheets:sinArchivo?0:physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping,tipoZona,loc};
+  return {unit,esConsultar,sinArchivo,pagesRaw,totalPages:sinArchivo?0:totalPages,physicalSheets:sinArchivo?0:physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,subtotalPloteo,total,freeShipping,tipoZona,loc};
 }
 
 // ---- UPDATE UI ----
 function updateAll(){
-  const {unit,esConsultar,sinArchivo,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping,tipoZona,loc}=calc();
+  const {unit,esConsultar,sinArchivo,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,subtotalPloteo,total,freeShipping,tipoZona,loc}=calc();
 
   // Actualizar subtítulos de papel segun color
   const sizeKey2 = state.sizedetail==='a3'?'a3':'a4oficio';
@@ -1021,6 +1187,15 @@ function updateAll(){
   const impActivos=Object.entries(state.imprenta).filter(([,q])=>q>0);
   document.getElementById('r-imprenta').textContent=impActivos.length?impActivos.map(([id,q])=>impMap[id]?.nombre+' x'+q).join(', '):'Ninguno';
 
+  // Ploteo
+  const plotMap2=PLOTEO_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
+  const plotActivos=Object.entries(state.ploteo).filter(([,q])=>q>0);
+  document.getElementById('r-ploteo').textContent=plotActivos.length?plotActivos.map(([id,q])=>plotMap2[id]?.nombre+' x'+q).join(', '):'Ninguno';
+
+  // Consultas
+  const consActivas=Object.keys(state.consultas);
+  document.getElementById('r-consultas').textContent=consActivas.length?consActivas.length+' servicio'+(consActivas.length>1?'s':'')+' a consultar':'Ninguna';
+
   document.getElementById('r-pago').textContent=LBL.pago[state.pago];
   document.getElementById('r-delivery').textContent = state.delivery==='envio'
     ? (!tipoZona ? 'Envío — elegí localidad'
@@ -1067,7 +1242,7 @@ async function sendWhatsApp(e){
     }
   }
 
-  const {unit,esConsultar,sinArchivo,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,total,freeShipping,tipoZona,loc}=calc();
+  const {unit,esConsultar,sinArchivo,pagesRaw,totalPages,physicalSheets,subtotalImpresion,subtotalAnillado,subtotalPlast,subtotalExtras,subtotalImprenta,subtotalPloteo,total,freeShipping,tipoZona,loc}=calc();
   let direccion='';
   if(state.delivery==='envio'){
     const s=document.getElementById('addr-street').value.trim();
@@ -1134,6 +1309,16 @@ async function sendWhatsApp(e){
     ?extActivos.map(([id,q])=>extMap[id]?.nombre+' x'+q+' - $'+(extMap[id]?.precio*q).toLocaleString('es-AR')+'.-').join('\n')
     :'Ninguno';
 
+  const plotMapW=PLOTEO_DEF.reduce((m,e)=>{m[e.id]=e;return m;},{});
+  const plotActivosW=Object.entries(state.ploteo).filter(([,q])=>q>0);
+  const ploteoLineas=plotActivosW.length
+    ?plotActivosW.map(([id,q])=>plotMapW[id]?.nombre+' x'+q+' - $'+(plotMapW[id]?.precio*q).toLocaleString('es-AR')+'.-').join('\n')
+    :'Ninguno';
+  const consActivasW=Object.keys(state.consultas);
+  const consultaLineas=consActivasW.length
+    ?consActivasW.map(id=>'- '+getConsultaNombre(id)).join('\n')
+    :'Ninguna';
+
   const imprentaLineas=impActivos.length
     ?impActivos.map(([id,q])=>impMap[id]?.nombre+' x'+q+' - $'+(impMap[id]?.precio*q).toLocaleString('es-AR')+'.-').join('\n')
     :'Ninguno';
@@ -1161,6 +1346,8 @@ async function sendWhatsApp(e){
     '(Hojas fisicas: '+physicalSheets+')',
     '',
     impActivos.length?'*Trabajos de imprenta:*\n'+imprentaLineas+'\n':null,
+    plotActivosW.length?'*Gran formato:*\n'+ploteoLineas+'\n':null,
+    consActivasW.length?'*Servicios a consultar:*\n'+consultaLineas+'\n':null,
     extActivos.length?'*Extras:*\n'+extrasLineas+'\n':null,
     '*Entrega:* '+(state.delivery==='retiro'?'Retiro en local':tipoZona==='otra'?'Envio - CONSULTAR SI LLEGAMOS':tipoZona==='bonificada'?('Envio a '+loc.nombre+' (zona bonificada - coordinar costo)'):(freeShipping?'Envio a Brandsen (GRATIS)':'Envio a Brandsen (coordinar costo)')),
     state.delivery==='envio'&&direccion?'*Direccion:* '+direccion:null,
@@ -1174,6 +1361,7 @@ async function sendWhatsApp(e){
     subtotalPlast>0?'*Plastificado:* $'+subtotalPlast.toLocaleString('es-AR')+'.-':null,
     subtotalExtras>0?'*Extras:* $'+subtotalExtras.toLocaleString('es-AR')+'.-':null,
     subtotalImprenta>0?'*Trabajos de imprenta:* $'+subtotalImprenta.toLocaleString('es-AR')+'.-':null,
+    subtotalPloteo>0?'*Gran formato:* $'+subtotalPloteo.toLocaleString('es-AR')+'.-':null,
     '',
     '*TOTAL: $'+total.toLocaleString('es-AR')+'.-*'+(state.delivery==='envio'&&!freeShipping?' (+ envio a confirmar)':''),
   ].filter(s=>s!==null&&s!==undefined).join('\n');
@@ -1215,6 +1403,13 @@ function buildPriceTable(){
     ...EXTRAS_DEF.map(e=>[e.nombre,e.precio]),
     ['seccion','Trabajos de imprenta'],
     ...IMPRENTA_DEF.map(e=>[e.nombre,e.precio]),
+    ['seccion','Gran formato y ploteo'],
+    ...PLOTEO_DEF.map(e=>[e.nombre,e.precio]),
+    ['seccion','Servicios a consultar'],
+    ['Copias e impresión de planos','A consultar'],
+    ['Diseño gráfico y cartelería','A consultar'],
+    ['Armado de vidriera y marquesina','A consultar'],
+    ['Letras corpóreas','A consultar'],
   ];
   document.getElementById('priceTable').innerHTML=rows.map(([l,p])=>{
     if(l==='seccion') return `<tr class="price-section-header"><td colspan="2">${p}</td></tr>`;
@@ -1229,6 +1424,8 @@ function showToast(msg,type='ok'){const t=document.getElementById('toast');t.tex
 
 buildExtras();
 buildImprenta();
+buildPloteo();
+buildConsultas();
 buildPriceTable();
 updateAll();
 
@@ -1314,6 +1511,27 @@ updateAll();
       const ex=EXTRAS_DEF.find(e=>e.id===id); if(ex) ex.precio=v;
     });
 
+    // --- Gran formato / Ploteo ---
+    const plotMatch={
+      'Lona de 1x1':'lona1x1',
+      'Lona de 1x1.60':'lona1x160',
+      'Plano papel bond':'planobond',
+      'Plano papel vegetal':'planovegetal',
+      'Gigantografia papel comun':'gigacomun',
+      'Gigantografia Fotografico':'gigafoto',
+      'Vinilo de 60 impresion':'vinilo60',
+      'Vinilo de 90 impresion':'vinilo90',
+      'Vinilo de 1.26 impresion':'vinilo126',
+      'Vinilo de corte':'vinilocorte',
+      'Vinilo 60 medio corte':'vinilo60mc',
+      'Vinilo 90 medio corte':'vinilo90mc',
+      'Vinilo 1.26 medio corte':'vinilo126mc'
+    };
+    Object.entries(plotMatch).forEach(([k,id])=>{
+      const v=get(k); if(v===null) return;
+      const pl=PLOTEO_DEF.find(e=>e.id===id); if(pl) pl.precio=v;
+    });
+
     // --- Trabajos de imprenta ---
     const impMatch={
       'Tarjetas_Personales_x_100':'tj100',
@@ -1334,7 +1552,7 @@ updateAll();
       const im=IMPRENTA_DEF.find(e=>e.id===id); if(im) im.precio=v;
     });
 
-    buildPriceTable(); buildExtras(); buildImprenta(); updateAll();
+    buildPriceTable(); buildExtras(); buildImprenta(); buildPloteo(); updateAll();
   }catch(e){ console.warn('No se pudieron cargar precios del Sheet:', e); }
 })();
 </script>
