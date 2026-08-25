@@ -26,7 +26,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 2
 .hero-cta{display:inline-flex;align-items:center;gap:8px;margin-top:28px;background:var(--orange);color:#000;font-weight:700;font-size:16px;padding:14px 36px;border-radius:100px;text-decoration:none;letter-spacing:.3px;transition:opacity .2s,transform .1s;box-shadow:0 0 32px rgba(249,115,22,.35);}
 .hero-cta:hover{opacity:.9;transform:translateY(-1px);}
 main{max-width:860px;margin:0 auto;padding:0 20px 100px;}
-.sec-label{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.sec-label{font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
 .sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
 .sec-gap{margin-bottom:36px;}
 .upload-area{border:2px dashed var(--border);border-radius:16px;padding:48px 28px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:var(--surface);position:relative;}
@@ -155,10 +155,11 @@ main{padding-bottom:110px;}
 .sd-cta{background:var(--orange);color:#000;font-weight:700;font-size:13px;padding:9px 18px;border-radius:100px;white-space:nowrap;flex-shrink:0;}
 @media(max-width:600px){.servicio-destacado{flex-wrap:wrap;gap:12px;padding:16px;}.sd-cta{width:100%;text-align:center;}}
 /* INDICE */
-.indice{display:flex;gap:8px;overflow-x:auto;padding:4px 0 14px;margin-bottom:22px;border-bottom:1px solid var(--border);scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.indice{display:flex;gap:8px;overflow-x:auto;padding:12px 0;margin-bottom:22px;border-bottom:1px solid var(--border);scrollbar-width:none;-webkit-overflow-scrolling:touch;position:sticky;top:63px;background:rgba(15,15,15,.96);backdrop-filter:blur(14px);z-index:90;}
 .indice::-webkit-scrollbar{display:none;}
 .indice a{background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:8px 16px;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;white-space:nowrap;transition:all .15s;}
 .indice a:hover{border-color:var(--orange);color:var(--orange);}
+.indice a.activo{background:var(--orange);border-color:var(--orange);color:#000;font-weight:600;}
 /* CONSULTA ITEMS (sin precio) */
 .consulta-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
 @media(max-width:580px){.consulta-grid{grid-template-columns:1fr;}}
@@ -171,6 +172,11 @@ main{padding-bottom:110px;}
 .consulta-name{font-size:13px;font-weight:500;}
 .sub-titulo{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin:18px 0 10px;}
 .aviso-consulta{background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.55;}
+
+/* VOLVER AL MENU */
+.volver-menu{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);text-decoration:none;padding:8px 14px;border:1px solid var(--border);border-radius:100px;margin-top:14px;transition:all .15s;background:var(--surface);}
+.volver-menu:hover{border-color:var(--orange);color:var(--orange);}
+.volver-wrap{display:flex;justify-content:center;margin-top:8px;}
 .price-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
 .price-table-wrap table{width:100%;border-collapse:collapse;font-size:13px;}
 .price-table-wrap thead th{padding:12px 18px;text-align:left;color:var(--muted);font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--border);}
@@ -179,7 +185,7 @@ main{padding-bottom:110px;}
 .price-table-wrap tbody tr:last-child{border-bottom:none;}
 .price-table-wrap tbody td{padding:11px 18px;}
 .price-table-wrap tbody td:last-child{text-align:right;font-weight:700;color:var(--orange);}
-.price-section-header td{background:var(--surface2);font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:8px 18px!important;color:var(--muted)!important;font-weight:700!important;}
+.price-section-header td{background:linear-gradient(90deg,rgba(249,115,22,.18),rgba(249,115,22,.06));font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:11px 18px!important;color:var(--orange)!important;font-weight:700!important;border-top:1px solid var(--orange-dim);border-bottom:1px solid var(--orange-dim);}
 .faq-item{border-bottom:1px solid var(--border);}
 .faq-q{display:flex;justify-content:space-between;align-items:center;padding:16px 2px;cursor:pointer;font-size:14px;font-weight:500;transition:color .15s;}
 .faq-q:hover{color:var(--orange);}
@@ -470,6 +476,7 @@ footer a{color:var(--orange);text-decoration:none;}
       <div style="font-size:13px;color:var(--muted);">Accesorios que podés agregar a tu pedido</div>
     </div>
     <div class="extras-grid" id="extrasGrid"></div>
+    <div class="volver-wrap"><a href="#indice" class="volver-menu">↑ Volver al menú</a></div>
   </div>
 
   <!-- TRABAJOS DE IMPRENTA -->
@@ -480,6 +487,7 @@ footer a{color:var(--orange);text-decoration:none;}
     </div>
     <div class="imprenta-notice" id="imprentaNotice">Este producto requiere confirmar detalles con el vendedor.</div>
     <div class="imprenta-grid" id="imprentaGrid"></div>
+    <div class="volver-wrap"><a href="#indice" class="volver-menu">↑ Volver al menú</a></div>
   </div>
 
   <!-- DISEÑO Y PLOTEO -->
@@ -497,6 +505,7 @@ footer a{color:var(--orange);text-decoration:none;}
       💬 Estos servicios se cotizan según el trabajo. Marcá lo que te interesa y un asesor te contacta por WhatsApp para darte el presupuesto exacto.
     </div>
     <div id="consultaGrids"></div>
+    <div class="volver-wrap"><a href="#indice" class="volver-menu">↑ Volver al menú</a></div>
   </div>
 
   <!-- ENTREGA -->
@@ -632,6 +641,7 @@ footer a{color:var(--orange);text-decoration:none;}
       </table>
     </div>
     <p style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;">Precios en ARS · <span id="priceDate"></span> · Sujetos a actualización</p>
+    <div class="volver-wrap"><a href="#indice" class="volver-menu">↑ Volver al menú</a></div>
   </div>
 
   <!-- FAQ -->
@@ -1428,6 +1438,20 @@ buildPloteo();
 buildConsultas();
 buildPriceTable();
 updateAll();
+
+// Resaltar la seccion activa en el indice mientras se scrollea
+(function(){
+  const links = document.querySelectorAll('.indice a');
+  const secciones = Array.from(links).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if(!secciones.length || !('IntersectionObserver' in window)) return;
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      links.forEach(a=>a.classList.toggle('activo', a.getAttribute('href')==='#'+e.target.id));
+    });
+  }, { rootMargin:'-120px 0px -60% 0px', threshold:0 });
+  secciones.forEach(sec=>obs.observe(sec));
+})();
 
 // Ocultar barra flotante cuando el resumen ya esta visible en pantalla
 (function(){
