@@ -476,7 +476,7 @@ footer a{color:var(--orange);text-decoration:none;}
       <div style="font-size:13px;color:var(--muted);">Accesorios que podés agregar a tu pedido</div>
     </div>
     <div class="extras-grid" id="extrasGrid"></div>
-    <div class="volver-wrap"><a href="#indice" class="volver-menu">↑ Volver al menú</a></div>
+    <div class="volver-wrap"><a href="#" class="volver-menu" onclick="volverArriba(event)">↑ Volver al menú</a></div>
   </div>
 
   <!-- TRABAJOS DE IMPRENTA -->
@@ -487,7 +487,7 @@ footer a{color:var(--orange);text-decoration:none;}
     </div>
     <div class="imprenta-notice" id="imprentaNotice">Este producto requiere confirmar detalles con el vendedor.</div>
     <div class="imprenta-grid" id="imprentaGrid"></div>
-    <div class="volver-wrap"><a href="#indice" class="volver-menu">↑ Volver al menú</a></div>
+    <div class="volver-wrap"><a href="#" class="volver-menu" onclick="volverArriba(event)">↑ Volver al menú</a></div>
   </div>
 
   <!-- DISEÑO Y PLOTEO -->
@@ -505,7 +505,7 @@ footer a{color:var(--orange);text-decoration:none;}
       💬 Estos servicios se cotizan según el trabajo. Marcá lo que te interesa y un asesor te contacta por WhatsApp para darte el presupuesto exacto.
     </div>
     <div id="consultaGrids"></div>
-    <div class="volver-wrap"><a href="#indice" class="volver-menu">↑ Volver al menú</a></div>
+    <div class="volver-wrap"><a href="#" class="volver-menu" onclick="volverArriba(event)">↑ Volver al menú</a></div>
   </div>
 
   <!-- ENTREGA -->
@@ -641,7 +641,7 @@ footer a{color:var(--orange);text-decoration:none;}
       </table>
     </div>
     <p style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;">Precios en ARS · <span id="priceDate"></span> · Sujetos a actualización</p>
-    <div class="volver-wrap"><a href="#indice" class="volver-menu">↑ Volver al menú</a></div>
+    <div class="volver-wrap"><a href="#" class="volver-menu" onclick="volverArriba(event)">↑ Volver al menú</a></div>
   </div>
 
   <!-- FAQ -->
@@ -778,7 +778,7 @@ const IMPRENTA_DEF = [
 const PLOTEO_DEF = [
   { id:'lona1x1',      nombre:'Lona 1 x 1 m',                  precio:29030, img:'' },
   { id:'lona1x160',    nombre:'Lona 1 x 1.60 m',               precio:46400, img:'' },
-  { id:'planobond',    nombre:'Plano papel bond',              precio:12500, img:'' },
+  { id:'planobond',    nombre:'Plano papel Normal',              precio:12500, img:'' },
   { id:'planovegetal', nombre:'Plano papel vegetal',           precio:19120, img:'' },
   { id:'gigacomun',    nombre:'Gigantografía papel común',     precio:12500, img:'' },
   { id:'gigafoto',     nombre:'Gigantografía papel fotográfico',precio:20000, img:'' },
@@ -1429,6 +1429,11 @@ function buildPriceTable(){
   document.getElementById('priceDate').textContent=new Date().toLocaleDateString('es-AR',{month:'long',year:'numeric'});
 }
 
+function volverArriba(e){
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function toggleFaq(el){el.parentElement.classList.toggle('open');}
 function showToast(msg,type='ok'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4000);}
 
@@ -1539,7 +1544,7 @@ updateAll();
     const plotMatch={
       'Lona de 1x1':'lona1x1',
       'Lona de 1x1.60':'lona1x160',
-      'Plano papel bond':'planobond',
+      'Plano papel Normal':'planobond',
       'Plano papel vegetal':'planovegetal',
       'Gigantografia papel comun':'gigacomun',
       'Gigantografia Fotografico':'gigafoto',
