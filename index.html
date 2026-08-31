@@ -956,16 +956,57 @@ fileInput.addEventListener('change', ()=>{if(fileInput.files.length)addFiles(Arr
 async function addFiles(newFiles) {
   for(const file of newFiles){
     if(state.files.find(f=>f.name===file.name)) continue;
-    if(file.size > 100*1024*1024){ showToast(file.name.substring(0,20)+'... supera 100MB. Mandalo por WhatsApp o pega el link en aclaraciones.','err'); continue; }
-    const entry={name:file.name,size:file.size,pages:null,raw:file};
+    if(file.size > 100*1024*1024){ showToast(file.name.substring(0,20)+'... supera 100MB. Mandalo por WhatsApp.','err'); continue; }
+
+    if(file.size > 20*1024*1024){
+      showToast('Archivo grande ('+(file.size/1048576).toFixed(0)+'MB) — puede tardar un poco','ok');
+    }
+    const entry={name:file.name,size:file.size,pages:null,raw:file,driveUrl:null,subiendo:false};
     state.files.push(entry); renderFileList();
+
+    // --- Contar paginas liberando memoria ---
     if(file.name.toLowerCase().endsWith('.pdf')){
-      try{ const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise; entry.pages=pdf.numPages; }
-      catch(e){ entry.pages=1; }
+      let pdfDoc=null, buf=null;
+      try{
+        buf = await file.arrayBuffer();
+        pdfDoc = await pdfjsLib.getDocument({
+          data: buf,
+          disableAutoFetch: true,   // no descarga todo el PDF
+          disableStream: true,
+          disableFontFace: true,    // no carga fuentes (ahorra memoria)
+          isEvalSupported: false
+        }).promise;
+        entry.pages = pdfDoc.numPages;
+      } catch(e){
+        entry.pages = 1;
+      } finally {
+        // Liberar memoria inmediatamente
+        if(pdfDoc){ try{ await pdfDoc.destroy(); }catch(e){} }
+        buf = null;
+      }
     } else { entry.pages=1; }
+
     state.pages=state.files.reduce((s,f)=>s+(f.pages||1),0);
     renderFileList(); updateAll();
+
+    // --- Subida anticipada en segundo plano ---
+    subirEnBackground(entry);
   }
+}
+
+// Sube el archivo apenas se selecciona, mientras el cliente completa el formulario
+async function subirEnBackground(entry){
+  if(entry.driveUrl || entry.subiendo) return;
+  entry.subiendo = true;
+  renderFileList();
+  try{
+    const url = await subirArchivoDrive(entry.raw, 'pre-carga');
+    entry.driveUrl = url;
+  }catch(e){
+    entry.driveUrl = null;
+  }
+  entry.subiendo = false;
+  renderFileList();
 }
 function removeFile(name){
   state.files=state.files.filter(f=>f.name!==name);
@@ -980,6 +1021,7 @@ function renderFileList(){
       <div class="file-ico2">${f.name.toLowerCase().endsWith('.pdf')?'📄':'🖼️'}</div>
       <div class="file-details"><strong style="font-size:13px;word-break:break-all;">${f.name}</strong><small>${fmtSz(f.size)}</small></div>
       ${f.pages!==null?`<span class="page-badge">${f.pages} pag.</span>`:`<span class="page-badge det"><span class="spinner"></span></span>`}
+      ${f.subiendo?`<span class="page-badge det" title="Subiendo al Drive"><span class="spinner"></span> subiendo</span>`:(f.driveUrl?`<span class="page-badge" style="background:var(--success);color:#000" title="Ya subido">✓ listo</span>`:'')}
       <button class="remove-btn" onclick="removeFile('${f.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">✕</button>
     </div>`).join('');
   const tot=state.files.reduce((s,f)=>s+(f.pages||0),0);
@@ -1216,20 +1258,58 @@ function updateAll(){
 }
 
 // ---- DRIVE ----
-async function subirArchivoDrive(file,clienteName){
+// Convierte a base64 por partes, cediendo el control al navegador
+// para que la pagina no se congele en celulares
+function fileToBase64(file, onProgress){
   return new Promise((resolve,reject)=>{
-    const reader=new FileReader();
-    reader.onload=async function(e){
-      try{
-        const base64=e.target.result.split(',')[1];
-        const res=await fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({fileName:file.name,mimeType:file.type||'application/octet-stream',file:base64,cliente:clienteName})});
-        const data=await res.json();
-        if(data.ok) resolve(data.fileUrl); else reject(data.error||'Error');
-      }catch(err){reject(err.toString());}
+    const CHUNK = 512 * 1024; // 512KB por vuelta
+    const reader = new FileReader();
+    let offset = 0;
+    let binary = '';
+
+    function leerSiguiente(){
+      const slice = file.slice(offset, offset + CHUNK);
+      reader.readAsArrayBuffer(slice);
+    }
+
+    reader.onload = function(e){
+      const bytes = new Uint8Array(e.target.result);
+      // Convertir en sub-bloques para no reventar el stack
+      const SUB = 8192;
+      for(let i=0; i<bytes.length; i+=SUB){
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, i+SUB));
+      }
+      offset += CHUNK;
+      if(onProgress) onProgress(Math.min(100, Math.round((offset/file.size)*100)));
+
+      if(offset < file.size){
+        // Cede el control al navegador antes de seguir (evita el cuelgue)
+        setTimeout(leerSiguiente, 0);
+      } else {
+        try{ resolve(btoa(binary)); }
+        catch(err){ reject('Error al procesar el archivo'); }
+        binary = null;
+      }
     };
-    reader.onerror=()=>reject('Error al leer');
-    reader.readAsDataURL(file);
+    reader.onerror = ()=>reject('Error al leer el archivo');
+    leerSiguiente();
   });
+}
+
+async function subirArchivoDrive(file, clienteName, onProgress){
+  const base64 = await fileToBase64(file, onProgress);
+  const res = await fetch(APPS_SCRIPT_URL, {
+    method:'POST',
+    body: JSON.stringify({
+      fileName: file.name,
+      mimeType: file.type||'application/octet-stream',
+      file: base64,
+      cliente: clienteName
+    })
+  });
+  const data = await res.json();
+  if(data.ok) return data.fileUrl;
+  throw new Error(data.error||'Error al subir');
 }
 
 // ---- WHATSAPP ----
@@ -1282,12 +1362,32 @@ async function sendWhatsApp(e){
   // Subir archivos
   let linksSubidos=[];
   if(state.files.length>0){
-    setLoading(10,'Preparando archivos...');
-    for(let i=0;i<state.files.length;i++){
-      const f=state.files[i];
-      setLoading(10+Math.round((i/state.files.length)*80),'Subiendo '+(i+1)+' de '+state.files.length+'...');
-      try{ const url=await subirArchivoDrive(f.raw,name); linksSubidos.push({name:f.name,pages:f.pages||1,url}); }
-      catch(err){ linksSubidos.push({name:f.name,pages:f.pages||1,url:null}); }
+    const pendientes = state.files.filter(f=>!f.driveUrl);
+
+    if(pendientes.length===0){
+      // Todo ya se subio en segundo plano — instantaneo
+      setLoading(90,'Preparando pedido...');
+      linksSubidos = state.files.map(f=>({name:f.name,pages:f.pages||1,url:f.driveUrl}));
+    } else {
+      setLoading(5,'Preparando archivos...');
+      for(let i=0;i<state.files.length;i++){
+        const f=state.files[i];
+        if(f.driveUrl){
+          linksSubidos.push({name:f.name,pages:f.pages||1,url:f.driveUrl});
+          continue;
+        }
+        const base = 5 + Math.round((i/state.files.length)*85);
+        try{
+          const url = await subirArchivoDrive(f.raw, name, pct=>{
+            setLoading(base + Math.round(pct*0.85/state.files.length),
+              'Subiendo '+(i+1)+' de '+state.files.length+' — '+pct+'%');
+          });
+          f.driveUrl = url;
+          linksSubidos.push({name:f.name,pages:f.pages||1,url});
+        } catch(err){
+          linksSubidos.push({name:f.name,pages:f.pages||1,url:null});
+        }
+      }
     }
     setLoading(95,'Preparando mensaje...');
   }
